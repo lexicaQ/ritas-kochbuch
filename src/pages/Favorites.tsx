@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { Heart } from "lucide-react";
 
 import { Header } from "@/components/header";
@@ -11,6 +12,7 @@ const Favorites = () => {
   // Only include recipes that have been manually favorited by the user
   const [favorites, setFavorites] = useState<typeof recipes>([]);
   const { toast } = useToast();
+  const toastShown = useRef(false);
   
   // Get favorites from localStorage to ensure we only show user-selected favorites
   useEffect(() => {
@@ -33,13 +35,14 @@ const Favorites = () => {
     
     setFavorites(userFavoritedRecipes);
     
-    // Show toast if no favorites
-    if (userFavoritedRecipes.length === 0) {
+    // Show toast if no favorites and toast hasn't been shown yet
+    if (userFavoritedRecipes.length === 0 && !toastShown.current) {
       toast({
         title: "Keine Favoriten",
         description: "Du hast noch keine Rezepte zu deinen Favoriten hinzugefügt.",
         variant: "default",
       });
+      toastShown.current = true;
     }
   }, [toast]);
   

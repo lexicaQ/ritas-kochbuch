@@ -34,7 +34,7 @@ export const SearchSuggestions = ({
   return (
     <div 
       className={cn(
-        "absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border-2 border-cookbook-800/40 overflow-hidden max-h-[65vh] overflow-y-auto backdrop-blur-sm shadow-lg shadow-black/20",
+        "absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border-2 border-cookbook-700/60 overflow-hidden max-h-[65vh] overflow-y-auto backdrop-blur-sm shadow-lg shadow-black/30",
         className
       )}
     >
