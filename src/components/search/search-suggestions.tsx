@@ -1,17 +1,15 @@
-
 import { SearchResult } from "@/types/search";
 import { Clock, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-// Define the missing interface
 interface SearchSuggestionsProps {
   results: SearchResult[];
   onSelect: (result: SearchResult) => void;
   searchTerm: string;
+  className?: string;
 }
 
-// Helper function to highlight matching text
 const highlightMatch = (text: string, searchTerm: string) => {
   if (!searchTerm.trim()) return text;
   
@@ -29,10 +27,16 @@ const highlightMatch = (text: string, searchTerm: string) => {
 export const SearchSuggestions = ({ 
   results, 
   onSelect, 
-  searchTerm 
+  searchTerm,
+  className
 }: SearchSuggestionsProps) => {
   return (
-    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-white/20 overflow-hidden max-h-[65vh] overflow-y-auto backdrop-blur-sm">
+    <div 
+      className={cn(
+        "absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-cookbook-800/20 overflow-hidden max-h-[65vh] overflow-y-auto backdrop-blur-sm shadow-xl shadow-cookbook-800/10",
+        className
+      )}
+    >
       <div className="divide-y divide-gray-100">
         {results.map((result, index) => (
           <motion.div 
