@@ -1,207 +1,166 @@
 
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Clock, Star } from "lucide-react";
-import { Button } from "./button";
-import { Progress } from "./progress";
+import { Check, ChefHat, Star, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface RecipeSuccessProps {
   show: boolean;
   onClose: () => void;
-  completionTime?: string;
+  completionTime: string;
   recipeId: string;
 }
 
-export function RecipeSuccess({ show, onClose, completionTime, recipeId }: RecipeSuccessProps) {
-  const [isVisible, setIsVisible] = useState(false);
-  const [rating, setRating] = useState<number | null>(null);
-  const [hasRated, setHasRated] = useState(false);
-  const [timeSpent, setTimeSpent] = useState<string>("");
-  
+export function RecipeSuccess({
+  show,
+  onClose,
+  completionTime,
+  recipeId,
+}: RecipeSuccessProps) {
+  const [rating, setRating] = useState<number>(0);
+  const [hoveredRating, setHoveredRating] = useState<number>(0);
+  const [congratsText, setCongratsText] = useState<string>("");
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const congratulations = [
+    "Großartig gemacht! Das sieht köstlich aus.",
+    "Ein kulinarischer Erfolg! Genieß deine Mahlzeit.",
+    "Du hast dich selbst übertroffen! Guten Appetit.",
+    "Meisterhaft zubereitet! Zeit zum Genießen.",
+    "Perfekt gekocht! Lass es dir schmecken.",
+  ];
+
   useEffect(() => {
     if (show) {
-      // Check if popup has been shown and closed for this recipe
-      const popupClosed = localStorage.getItem(`recipe-popup-closed-${recipeId}`);
-      if (popupClosed !== "true") {
-        setIsVisible(true);
+      // Track recipe completion in localStorage
+      try {
+        // Increment completion count
+        const completedCount = localStorage.getItem(`recipe-completed-count-${recipeId}`) || '0';
+        localStorage.setItem(
+          `recipe-completed-count-${recipeId}`, 
+          (parseInt(completedCount) + 1).toString()
+        );
         
-        // Calculate time spent
-        const startTimeStr = localStorage.getItem(`recipe-start-time-${recipeId}`);
-        if (startTimeStr) {
-          const startTime = new Date(startTimeStr).getTime();
-          const endTime = new Date().getTime();
-          const timeSpentMs = endTime - startTime;
-          
-          // Format time spent
-          const minutes = Math.floor(timeSpentMs / (1000 * 60));
-          if (minutes < 60) {
-            setTimeSpent(`${minutes} Minuten`);
-          } else {
-            const hours = Math.floor(minutes / 60);
-            const remainingMinutes = minutes % 60;
-            setTimeSpent(`${hours} Std ${remainingMinutes} Min`);
-          }
-        }
+        // Set random congratulation text
+        setCongratsText(congratulations[Math.floor(Math.random() * congratulations.length)]);
+      } catch (error) {
+        console.error("Error tracking recipe completion:", error);
       }
     }
-    
-    // Load saved rating when popup is shown
-    const savedRating = localStorage.getItem(`recipe-rating-${recipeId}`);
-    if (savedRating) {
-      setRating(parseInt(savedRating));
-      setHasRated(true);
-    }
   }, [show, recipeId]);
-  
-  const handleClose = () => {
-    setIsVisible(false);
-    // Mark this popup as closed for this recipe
-    localStorage.setItem(`recipe-popup-closed-${recipeId}`, "true");
-    setTimeout(() => onClose(), 300); // Allow exit animation to complete
-  };
-  
-  // Handle rating selection
+
   const handleRating = (value: number) => {
     setRating(value);
-    localStorage.setItem(`recipe-rating-${recipeId}`, value.toString());
-    setHasRated(true);
+    
+    // Save rating to localStorage
+    try {
+      // Get existing rating if any
+      const existingRatingString = localStorage.getItem(`recipe-rating-${recipeId}`);
+      const existingRating = existingRatingString ? parseFloat(existingRatingString) : 0;
+      const existingCountString = localStorage.getItem(`recipe-rating-count-${recipeId}`);
+      const existingCount = existingCountString ? parseInt(existingCountString) : 0;
+      
+      // Calculate new average rating
+      const newCount = existingCount + 1;
+      const newRating = ((existingRating * existingCount) + value) / newCount;
+      
+      // Save new rating and count
+      localStorage.setItem(`recipe-rating-${recipeId}`, newRating.toString());
+      localStorage.setItem(`recipe-rating-count-${recipeId}`, newCount.toString());
+      
+      toast({
+        title: "Bewertung gespeichert",
+        description: `Vielen Dank für deine ${value}-Sterne Bewertung!`,
+      });
+    } catch (error) {
+      console.error("Error saving rating:", error);
+    }
   };
-  
-  if (!isVisible) return null;
-  
+
   return (
     <AnimatePresence>
-      {isVisible && (
+      {show && (
         <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={handleClose}
         >
           <motion.div
+            className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ type: "spring", duration: 0.5 }}
-            className="relative max-w-md w-full mx-4 bg-white rounded-2xl shadow-xl p-6"
-            onClick={(e) => e.stopPropagation()}
+            transition={{ type: "spring", bounce: 0.3 }}
           >
+            <button
+              onClick={onClose}
+              className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+              aria-label="Schließen"
+            >
+              <X size={20} />
+            </button>
+
             <div className="flex flex-col items-center text-center">
-              <motion.div 
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 260, 
-                  damping: 20,
-                  delay: 0.2 
-                }}
-                className="flex items-center justify-center w-20 h-20 bg-cookbook-100 rounded-full mb-6"
-              >
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.4, type: "spring", stiffness: 260, damping: 15 }}
-                  className="flex items-center justify-center w-16 h-16 bg-cookbook-600 rounded-full text-white"
-                >
-                  <Check size={32} />
-                </motion.div>
-              </motion.div>
-              
-              <motion.h2 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="font-playfair text-2xl font-bold text-cookbook-800 mb-2"
-              >
+              <div className="mb-4 rounded-full bg-green-100 p-3">
+                <div className="rounded-full bg-green-600 p-3 text-white">
+                  <Check size={24} />
+                </div>
+              </div>
+              <h3 className="mb-2 text-2xl font-semibold text-cookbook-800">
                 Rezept abgeschlossen!
-              </motion.h2>
+              </h3>
+              <p className="mb-4 text-gray-600">{congratsText}</p>
+
+              <div className="mb-4 mt-2 flex items-center justify-center rounded-lg bg-cookbook-50 px-4 py-2">
+                <ChefHat className="mr-2 text-cookbook-700" size={20} />
+                <span className="text-gray-700">
+                  {completionTime
+                    ? `Kochzeit: ${completionTime}`
+                    : "Wunderbare Leistung!"}
+                </span>
+              </div>
               
-              <motion.p 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="text-gray-600 mb-6"
-              >
-                Du hast alle Schritte dieses Rezepts erfolgreich abgeschlossen.
-              </motion.p>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-                className="flex flex-col gap-2 w-full mb-6"
-              >
-                <div className="flex items-center gap-2 py-2 px-4 bg-cookbook-50 rounded-full text-cookbook-700 text-sm font-medium">
-                  <Clock size={16} />
-                  <span>Abgeschlossen in {completionTime}</span>
-                </div>
-                
-                {timeSpent && (
-                  <div className="flex items-center gap-2 py-2 px-4 bg-cookbook-50 rounded-full text-cookbook-700 text-sm font-medium">
-                    <Clock size={16} />
-                    <span>Zeit auf dieser Seite: {timeSpent}</span>
-                  </div>
-                )}
-              </motion.div>
-              
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="w-full mb-6"
-              >
-                <div className="flex justify-between text-sm font-medium mb-1">
-                  <span>Fortschritt</span>
-                  <span>100%</span>
-                </div>
-                <Progress className="h-2 bg-cookbook-100" value={100} />
-              </motion.div>
-              
-              {/* Rating Section */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.9 }}
-                className="w-full mb-6 bg-cookbook-50 rounded-xl p-4"
-              >
-                <h3 className="text-lg font-medium text-cookbook-800 mb-3">
-                  {hasRated ? "Deine Bewertung" : "Wie hat es geschmeckt?"}
-                </h3>
-                
-                <div className="flex items-center justify-center gap-2 mb-2">
+              {/* Rating stars */}
+              <div className="mb-6 mt-4">
+                <p className="mb-2 font-medium text-cookbook-800">Wie hat dir das Rezept geschmeckt?</p>
+                <div className="flex justify-center space-x-1">
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <motion.button
+                    <button
                       key={star}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="focus:outline-none"
-                      onClick={() => !hasRated && handleRating(star)}
-                      disabled={hasRated}
+                      type="button"
+                      className={cn(
+                        "transition-transform hover:scale-110",
+                        (hoveredRating >= star || rating >= star) ? "text-amber-400" : "text-gray-300"
+                      )}
+                      onMouseEnter={() => setHoveredRating(star)}
+                      onMouseLeave={() => setHoveredRating(0)}
+                      onClick={() => handleRating(star)}
                     >
-                      <Star
-                        size={32}
+                      <Star 
+                        size={28} 
                         className={cn(
-                          "transition-all",
-                          (rating !== null && star <= rating)
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-300"
-                        )}
+                          "transition-colors",
+                          (hoveredRating >= star || rating >= star) ? "fill-amber-400" : "fill-gray-100"
+                        )} 
                       />
-                    </motion.button>
+                    </button>
                   ))}
                 </div>
-                
-                {hasRated && (
-                  <div className="text-center mt-2 text-sm text-cookbook-700">
-                    Vielen Dank für deine Bewertung!
-                  </div>
-                )}
-              </motion.div>
-              
-              <Button onClick={handleClose}>Schließen</Button>
+                <p className="mt-2 text-sm text-gray-500">
+                  {rating ? `${rating} von 5 Sternen` : "Tippe, um zu bewerten"}
+                </p>
+              </div>
+
+              <div className="flex w-full justify-center space-x-3">
+                <Button onClick={onClose} className="w-full">
+                  Zurück zum Rezept
+                </Button>
+              </div>
             </div>
           </motion.div>
         </motion.div>

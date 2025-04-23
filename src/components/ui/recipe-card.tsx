@@ -5,6 +5,7 @@ import { Clock, ChefHat, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FavoriteButton } from "./favorite-button";
 import { useState, useEffect } from "react";
+import { RecipeRatingDisplay } from "./recipe-rating-display";
 
 interface RecipeCardProps {
   id: string;
@@ -39,8 +40,28 @@ export function RecipeCard({
   }, [initialIsFavorite]);
   
   const toggleFavorite = () => {
+    // Update local state
     setIsFavorite(!isFavorite);
-    // Here you would typically update this in your backend
+    
+    // Save to localStorage
+    try {
+      const favorites = JSON.parse(localStorage.getItem('user-favorite-recipes') || '[]');
+      if (!isFavorite) {
+        // Add to favorites if not already there
+        if (!favorites.includes(id)) {
+          favorites.push(id);
+        }
+      } else {
+        // Remove from favorites
+        const index = favorites.indexOf(id);
+        if (index !== -1) {
+          favorites.splice(index, 1);
+        }
+      }
+      localStorage.setItem('user-favorite-recipes', JSON.stringify(favorites));
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
   };
 
   return (
@@ -54,7 +75,15 @@ export function RecipeCard({
         className
       )}
     >
-      <Link to={`/rezept/${id}`}>
+      <Link to={`/rezept/${id}`} onClick={() => {
+        // Track visit count
+        try {
+          const visitCount = localStorage.getItem(`recipe-visit-count-${id}`) || '0';
+          localStorage.setItem(`recipe-visit-count-${id}`, (parseInt(visitCount) + 1).toString());
+        } catch (error) {
+          console.error("Error tracking visit:", error);
+        }
+      }}>
         <div className="relative aspect-[4/3] overflow-hidden">
           <img 
             src={image} 
@@ -79,6 +108,9 @@ export function RecipeCard({
           <h3 className="mb-2 line-clamp-1 font-playfair text-xl font-bold text-cookbook-800 rounded-lg">
             {title}
           </h3>
+          
+          {/* Rating display */}
+          <RecipeRatingDisplay recipeId={id} size="sm" className="mb-2" />
           
           <p className="mb-3 line-clamp-2 text-sm text-gray-600">{description}</p>
           

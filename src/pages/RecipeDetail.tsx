@@ -1,8 +1,7 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Clock, ChefHat, ArrowLeft, Tag, Check, BarChart, PlusCircle, Trash2, Pencil } from "lucide-react";
+import { Clock, ChefHat, ArrowLeft, Tag, Check, BarChart, PlusCircle, Trash2, Pencil, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +11,7 @@ import { Header } from "@/components/header";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { RecipeSuccess } from "@/components/ui/recipe-success";
 import { RecipeNotes } from "@/components/ui/recipe-notes";
+import { RecipeRatingDisplay } from "@/components/ui/recipe-rating-display";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import recipes from "@/data/recipes";
 import { cn } from "@/lib/utils";
@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState(recipes.find(r => r.id === id));
-  const [isFavorite, setIsFavorite] = useState(recipe?.isFavorite || false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const startTimeRef = useRef(new Date());
   
   const [completedSteps, setCompletedSteps] = useState<{[key: string]: boolean}>({});
@@ -39,8 +39,20 @@ const RecipeDetail = () => {
     setRecipe(recipes.find(r => r.id === id));
     window.scrollTo(0, 0);
     
-    // Record start time for this recipe
+    // Record visit to this recipe
     if (id) {
+      try {
+        const visitCount = localStorage.getItem(`recipe-visit-count-${id}`) || '0';
+        localStorage.setItem(`recipe-visit-count-${id}`, (parseInt(visitCount) + 1).toString());
+        
+        // Check if recipe is favorited
+        const favorites = JSON.parse(localStorage.getItem('user-favorite-recipes') || '[]');
+        setIsFavorite(favorites.includes(id));
+      } catch (error) {
+        console.error("Error tracking recipe visit:", error);
+      }
+      
+      // Record start time for this recipe
       startTimeRef.current = new Date();
       localStorage.setItem(`recipe-start-time-${id}`, startTimeRef.current.toString());
       
@@ -70,7 +82,13 @@ const RecipeDetail = () => {
   
   useEffect(() => {
     if (recipe) {
-      setIsFavorite(recipe.isFavorite || false);
+      // Check if recipe is favorited
+      try {
+        const favorites = JSON.parse(localStorage.getItem('user-favorite-recipes') || '[]');
+        setIsFavorite(favorites.includes(id));
+      } catch (error) {
+        console.error("Error checking favorites:", error);
+      }
       
       let totalSteps = 0;
       let completedCount = 0;
@@ -129,12 +147,28 @@ const RecipeDetail = () => {
   }
   
   const toggleFavorite = () => {
-    const recipeIndex = recipes.findIndex(r => r.id === recipe.id);
-    if (recipeIndex !== -1) {
-      recipes[recipeIndex].isFavorite = !isFavorite;
-    }
-    
+    // Update local state
     setIsFavorite(!isFavorite);
+    
+    // Save to localStorage
+    try {
+      const favorites = JSON.parse(localStorage.getItem('user-favorite-recipes') || '[]');
+      if (!isFavorite) {
+        // Add to favorites if not already there
+        if (!favorites.includes(recipe.id)) {
+          favorites.push(recipe.id);
+        }
+      } else {
+        // Remove from favorites
+        const index = favorites.indexOf(recipe.id);
+        if (index !== -1) {
+          favorites.splice(index, 1);
+        }
+      }
+      localStorage.setItem('user-favorite-recipes', JSON.stringify(favorites));
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
   };
   
   const toggleStep = (id: string) => {
@@ -197,11 +231,16 @@ const RecipeDetail = () => {
             </Button>
           </Link>
           
-          <FavoriteButton 
-            recipeId={recipe.id}
-            isFavorite={isFavorite} 
-            onToggle={toggleFavorite}
-          />
+          <div className="flex items-center gap-2">
+            {/* Recipe rating display */}
+            <RecipeRatingDisplay recipeId={recipe.id} showCount size="md" className="mr-2" />
+            
+            <FavoriteButton 
+              recipeId={recipe.id}
+              isFavorite={isFavorite} 
+              onToggle={toggleFavorite}
+            />
+          </div>
         </div>
         
         <motion.div
@@ -280,8 +319,6 @@ const RecipeDetail = () => {
               )}
             </div>
           </FadeIn>
-          
-          {/* Removed duplicate progress bar here */}
           
           <div className="mt-10 grid gap-8 md:grid-cols-12 md:gap-12">
             <FadeIn className="md:col-span-4" delay={0.1}>
@@ -419,7 +456,6 @@ const RecipeDetail = () => {
                 </div>
               )}
               
-              {/* Notes Container - Replacing Recipe Rating */}
               <div className="mt-8 rounded-xl bg-white p-6 shadow-lg border border-cookbook-100">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="font-playfair text-xl font-bold text-cookbook-800 flex items-center">
