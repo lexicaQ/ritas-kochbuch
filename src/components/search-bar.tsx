@@ -53,7 +53,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
         recipe.title.toLowerCase().includes(query.toLowerCase()) ||
         recipe.description.toLowerCase().includes(query.toLowerCase())
       )
-      .slice(0, 5);
+      .slice(0, 3);
   };
   
   const handleSearch = (e: React.FormEvent) => {
