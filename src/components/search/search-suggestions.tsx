@@ -4,12 +4,6 @@ import { Clock, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
-interface SearchSuggestionsProps {
-  results: SearchResult[];
-  onSelect: (result: SearchResult) => void;
-  searchTerm: string;
-}
-
 // Helper function to highlight matching text
 const highlightMatch = (text: string, searchTerm: string) => {
   if (!searchTerm.trim()) return text;
@@ -40,7 +34,7 @@ export const SearchSuggestions = ({
             animate={{ opacity: 1 }}
             transition={{ delay: index * 0.05 }}
             onClick={() => onSelect(result)}
-            className="p-3 hover:bg-cookbook-50 cursor-pointer transition-colors flex items-start gap-3"
+            className="p-3 hover:bg-cookbook-50 cursor-pointer transition-colors flex items-center gap-3"
           >
             <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
               <img 
@@ -57,13 +51,13 @@ export const SearchSuggestions = ({
               </h4>
               
               <div className="flex items-center text-xs text-cookbook-600 gap-3">
-                <span className="bg-cookbook-100/70 px-1.5 py-0.5 rounded text-cookbook-700">
-                  {result.category}
-                </span>
-                
                 <span className="flex items-center gap-1">
                   <Clock size={12} />
                   {result.prepTime}
+                </span>
+                
+                <span className="bg-cookbook-100/70 px-1.5 py-0.5 rounded text-cookbook-700">
+                  {result.category}
                 </span>
               </div>
               
