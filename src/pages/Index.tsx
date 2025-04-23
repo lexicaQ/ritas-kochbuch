@@ -156,7 +156,7 @@ const Index = () => {
         const completedCounts = {};
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key && key.startsWith('recipe-visit-count-')) {
+          if (key && key && key.startsWith('recipe-visit-count-')) {
             const recipeId = key.replace('recipe-visit-count-', '');
             visitCounts[recipeId] = parseInt(localStorage.getItem(key) || '0');
           }
@@ -321,7 +321,7 @@ const Index = () => {
               duration: 0.7,
               delay: 0.8
             }}>
-                <SearchBar onSearch={handleSearch} className="mx-auto max-w-2xl" />
+                
                 
                 <div className="mt-6 text-center">
                   
