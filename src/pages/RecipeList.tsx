@@ -20,7 +20,6 @@ import {
 import { cn } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
-// Extract all unique ingredients from all recipes
 const extractAllIngredients = () => {
   const allIngredients = new Set<string>();
   recipes.forEach(recipe => {
@@ -50,27 +49,24 @@ const RecipeList = () => {
   const [selectedServings, setSelectedServings] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Extract unique categories, difficulties and tags
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
   const difficulties = Array.from(new Set(recipes.map(recipe => recipe.difficulty)));
   const allTags = Array.from(new Set(recipes.flatMap(recipe => recipe.tags)));
   const timeRanges = ["< 30 Min", "30-60 Min", "> 60 Min"];
   const dietTypes = ["Vegetarisch", "Vegan", "Glutenfrei", "Laktosefrei", "Low Carb", "Paleo"];
   const servingsOptions = ["1-2", "3-4", "5-6", "7+"];
-  const commonIngredients = extractAllIngredients().slice(0, 20); // Limit to top 20 ingredients
-  
+  const commonIngredients = extractAllIngredients().slice(0, 20);
+
   useEffect(() => {
-    // Simulate loading for better UX
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 500);
     return () => clearTimeout(timer);
   }, []);
-  
+
   const matchesTimeRange = (prepTime: string, range: string | null) => {
     if (!range) return true;
     
-    // Extract minutes from prepTime string
     const minutes = parseInt(prepTime.match(/\d+/)?.[0] || "0");
     
     switch (range) {
@@ -84,11 +80,10 @@ const RecipeList = () => {
         return true;
     }
   };
-  
+
   const matchesServings = (portionSize: string | undefined, range: string | null) => {
     if (!range || !portionSize) return true;
     
-    // Try to extract a number from portion size
     const portionMatch = portionSize.match(/\d+/);
     if (!portionMatch) return true;
     
@@ -102,11 +97,10 @@ const RecipeList = () => {
       return portion >= min && portion <= max;
     }
   };
-  
+
   const matchesIngredients = (recipe: any) => {
     if (selectedIngredients.length === 0) return true;
     
-    // Get all ingredient names from the recipe
     const recipeIngredientNames: string[] = [];
     recipe.ingredients?.forEach((group: any) => {
       if (group.items) {
@@ -124,17 +118,16 @@ const RecipeList = () => {
       )
     );
   };
-  
+
   const matchesDietType = (recipe: any) => {
     if (selectedDietType.length === 0) return true;
     
-    // Simple logic - if recipe has the tag containing the diet type, it matches
     const recipeTags = recipe.tags || [];
     return selectedDietType.some(diet => 
       recipeTags.some((tag: string) => tag.toLowerCase().includes(diet.toLowerCase()))
     );
   };
-  
+
   const filteredRecipes = recipes.filter(recipe => {
     const matchesSearch = searchTerm === "" || 
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -162,7 +155,7 @@ const RecipeList = () => {
            matchesDietType(recipe) &&
            matchesServingsFilter;
   });
-  
+
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev => 
       prev.includes(category)
@@ -170,7 +163,7 @@ const RecipeList = () => {
         : [...prev, category]
     );
   };
-  
+
   const toggleDifficulty = (difficulty: string) => {
     setSelectedDifficulties(prev => 
       prev.includes(difficulty)
@@ -178,7 +171,7 @@ const RecipeList = () => {
         : [...prev, difficulty]
     );
   };
-  
+
   const toggleTag = (tag: string) => {
     setSelectedTags(prev => 
       prev.includes(tag)
@@ -186,7 +179,7 @@ const RecipeList = () => {
         : [...prev, tag]
     );
   };
-  
+
   const toggleIngredient = (ingredient: string) => {
     setSelectedIngredients(prev => 
       prev.includes(ingredient)
@@ -194,7 +187,7 @@ const RecipeList = () => {
         : [...prev, ingredient]
     );
   };
-  
+
   const toggleDietType = (diet: string) => {
     setSelectedDietType(prev => 
       prev.includes(diet)
@@ -202,15 +195,15 @@ const RecipeList = () => {
         : [...prev, diet]
     );
   };
-  
+
   const setTimeRange = (time: string) => {
     setSelectedTime(prev => prev === time ? null : time);
   };
-  
+
   const setServings = (servings: string) => {
     setSelectedServings(prev => prev === servings ? null : servings);
   };
-  
+
   const resetFilters = () => {
     setSearchTerm("");
     setSelectedCategories([]);
@@ -221,7 +214,7 @@ const RecipeList = () => {
     setSelectedTime(null);
     setSelectedServings(null);
   };
-  
+
   const totalFilters = 
     selectedCategories.length + 
     selectedDifficulties.length + 
@@ -233,7 +226,6 @@ const RecipeList = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      // Trigger search without changing input behavior
     }
   };
 
@@ -241,12 +233,10 @@ const RecipeList = () => {
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
       
-      {/* Hero section with decorative elements */}
-      <div className="relative bg-cookbook-700 py-20 overflow-hidden">
+      <div className="relative bg-cookbook-700 pt-32 pb-20 overflow-hidden mt-8">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-cookbook-900/30"></div>
           
-          {/* Decorative circles */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-cookbook-600 rounded-full -translate-y-1/2 translate-x-1/2 opacity-40 blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-cookbook-600 rounded-full translate-y-1/2 -translate-x-1/2 opacity-30 blur-3xl"></div>
         </div>
@@ -264,7 +254,6 @@ const RecipeList = () => {
       </div>
       
       <div className="container mx-auto px-4 py-12">
-        {/* Enhanced Filters */}
         <div className="sticky top-16 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="relative flex-1">
@@ -300,7 +289,6 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
-                  {/* Category filter */}
                   <DropdownMenuGroup className="mb-4">
                     <DropdownMenuLabel className="text-sm font-semibold flex items-center">
                       <Tag size={16} className="mr-2 text-cookbook-700" />
@@ -322,7 +310,6 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
-                  {/* Difficulty filter */}
                   <DropdownMenuGroup className="mb-4">
                     <DropdownMenuLabel className="text-sm font-semibold flex items-center">
                       <ChefHat size={16} className="mr-2 text-cookbook-700" />
@@ -350,7 +337,6 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
-                  {/* Time filter */}
                   <DropdownMenuGroup className="mb-4">
                     <DropdownMenuLabel className="text-sm font-semibold flex items-center">
                       <Clock size={16} className="mr-2 text-cookbook-700" />
@@ -379,7 +365,6 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
-                  {/* Servings filter - NEW */}
                   <DropdownMenuGroup className="mb-4">
                     <DropdownMenuLabel className="text-sm font-semibold flex items-center">
                       <User size={16} className="mr-2 text-cookbook-700" />
@@ -408,7 +393,6 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
-                  {/* Diet Type filter - NEW */}
                   <DropdownMenuGroup className="mb-4">
                     <DropdownMenuLabel className="text-sm font-semibold flex items-center">
                       <Leaf size={16} className="mr-2 text-cookbook-700" />
@@ -430,7 +414,6 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
-                  {/* Ingredients filter - NEW */}
                   <DropdownMenuGroup className="mb-4">
                     <DropdownMenuLabel className="text-sm font-semibold flex items-center">
                       <Utensils size={16} className="mr-2 text-cookbook-700" />
@@ -452,7 +435,6 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
-                  {/* Tags filter */}
                   <DropdownMenuGroup>
                     <DropdownMenuLabel className="text-sm font-semibold flex items-center">
                       <Tag size={16} className="mr-2 text-cookbook-700" />
@@ -500,7 +482,6 @@ const RecipeList = () => {
             </div>
           </div>
           
-          {/* Active filters display */}
           {totalFilters > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {selectedCategories.map(category => (
@@ -554,7 +535,6 @@ const RecipeList = () => {
           )}
         </div>
         
-        {/* Recipe grid */}
         <div className="mt-8">
           {isLoading ? (
             <div className="flex justify-center items-center py-20">

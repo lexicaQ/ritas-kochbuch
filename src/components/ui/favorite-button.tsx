@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
@@ -7,22 +7,64 @@ import { useToast } from "@/hooks/use-toast";
 
 interface FavoriteButtonProps {
   isFavorite: boolean;
-  onToggle: () => void;
+  recipeId: string;
+  onToggle?: () => void;
   className?: string;
 }
 
-export function FavoriteButton({ isFavorite, onToggle, className }: FavoriteButtonProps) {
+export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onToggle, className }: FavoriteButtonProps) {
+  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
   const { toast } = useToast();
+  
+  // Load initial state from localStorage
+  useEffect(() => {
+    const userFavorites = localStorage.getItem('userFavorites');
+    if (userFavorites) {
+      try {
+        const favoriteIds = JSON.parse(userFavorites);
+        setIsFavorite(favoriteIds.includes(recipeId));
+      } catch (e) {
+        console.error("Error parsing favorites:", e);
+      }
+    }
+  }, [recipeId]);
   
   const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onToggle();
+    
+    // Get current favorites
+    const userFavorites = localStorage.getItem('userFavorites');
+    let favoriteIds: string[] = [];
+    
+    if (userFavorites) {
+      try {
+        favoriteIds = JSON.parse(userFavorites);
+      } catch (e) {
+        console.error("Error parsing favorites:", e);
+      }
+    }
+    
+    // Toggle favorite state
+    const newIsFavorite = !isFavorite;
+    setIsFavorite(newIsFavorite);
+    
+    // Update localStorage
+    if (newIsFavorite) {
+      favoriteIds.push(recipeId);
+    } else {
+      favoriteIds = favoriteIds.filter(id => id !== recipeId);
+    }
+    
+    localStorage.setItem('userFavorites', JSON.stringify(favoriteIds));
+    
+    // Call onToggle callback if provided
+    if (onToggle) onToggle();
     
     toast({
-      title: isFavorite ? "Aus Favoriten entfernt" : "Zu Favoriten hinzugefügt",
-      description: isFavorite ? "Das Rezept wurde aus deinen Favoriten entfernt." : "Das Rezept wurde zu deinen Favoriten hinzugefügt.",
-      variant: isFavorite ? "default" : "default", // Changed from "cookbook" to "default"
+      title: newIsFavorite ? "Zu Favoriten hinzugefügt" : "Aus Favoriten entfernt",
+      description: newIsFavorite ? "Das Rezept wurde zu deinen Favoriten hinzugefügt." : "Das Rezept wurde aus deinen Favoriten entfernt.",
+      variant: "default",
       duration: 2000,
     });
   };

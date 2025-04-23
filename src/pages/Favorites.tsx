@@ -9,16 +9,33 @@ import recipes from "@/data/recipes";
 import { useToast } from "@/hooks/use-toast";
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState(recipes.filter(recipe => recipe.isFavorite));
+  // Only include recipes that have been manually favorited by the user
+  const [favorites, setFavorites] = useState<typeof recipes>([]);
   const { toast } = useToast();
   
-  // Update favorites when recipes change
+  // Get favorites from localStorage to ensure we only show user-selected favorites
   useEffect(() => {
-    const favoritedRecipes = recipes.filter(recipe => recipe.isFavorite);
-    setFavorites(favoritedRecipes);
+    // Retrieve user favorites from localStorage
+    const userFavorites = localStorage.getItem('userFavorites');
+    let favoriteIds: string[] = [];
+    
+    if (userFavorites) {
+      try {
+        favoriteIds = JSON.parse(userFavorites);
+      } catch (e) {
+        console.error("Error parsing favorites:", e);
+      }
+    }
+    
+    // Filter recipes that match user's manually favorited IDs
+    const userFavoritedRecipes = recipes.filter(recipe => 
+      favoriteIds.includes(recipe.id)
+    );
+    
+    setFavorites(userFavoritedRecipes);
     
     // Show toast if no favorites
-    if (favoritedRecipes.length === 0) {
+    if (userFavoritedRecipes.length === 0) {
       toast({
         title: "Keine Favoriten",
         description: "Du hast noch keine Rezepte zu deinen Favoriten hinzugefügt.",
@@ -58,7 +75,7 @@ const Favorites = () => {
                     difficulty={recipe.difficulty}
                     category={recipe.category}
                     tags={recipe.tags}
-                    isFavorite={recipe.isFavorite}
+                    isFavorite={true}
                   />
                 </FadeIn>
               ))}
