@@ -49,7 +49,7 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                   <p className="font-medium text-base truncate text-cookbook-800">
                     {suggestion.title}
                   </p>
-                  <p className="text-sm text-muted-foreground truncate mt-1">
+                  <p className="text-sm text-muted-foreground truncate mt-1 text-left">
                     {suggestion.category}
                   </p>
                   <div className="flex flex-wrap gap-2 mt-1">
