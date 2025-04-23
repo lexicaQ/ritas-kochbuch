@@ -1,10 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
-
 const Logo = ({
   isScrolled
 }: {
@@ -12,14 +10,9 @@ const Logo = ({
 }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  
-  // Determine the line color based on the current route
-  const lineColor = !isHomePage && (
-    location.pathname === "/rezepte" || 
-    location.pathname === "/kategorien" || 
-    location.pathname === "/favoriten"
-  ) ? "bg-cookbook-700" : isScrolled ? "bg-cookbook-700" : "bg-white";
 
+  // Determine the line color based on the current route
+  const lineColor = !isHomePage && (location.pathname === "/rezepte" || location.pathname === "/kategorien" || location.pathname === "/favoriten") ? "bg-cookbook-700" : isScrolled ? "bg-cookbook-700" : "bg-white";
   return <div className="flex flex-col items-center gap-1">
       <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
         <Utensils className="w-6 h-6 text-white" />
@@ -27,20 +20,14 @@ const Logo = ({
       <span className={cn("font-playfair font-bold text-lg md:text-xl transition-colors", isHomePage ? isScrolled ? "text-cookbook-700" : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "text-cookbook-700 font-extrabold")}>
         Ritas Kochbuch
       </span>
-      <div className="flex space-x-2 mt-1">
-        <div className={`h-1 w-4 rounded-full ${lineColor}`}></div>
-        <div className={`h-1 w-4 rounded-full ${lineColor}`}></div>
-        <div className={`h-1 w-4 rounded-full ${lineColor}`}></div>
-      </div>
+      
     </div>;
 };
-
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -51,11 +38,9 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
-
   const navigationItems = [{
     name: "Home",
     path: "/",
@@ -73,7 +58,6 @@ export function Header() {
     path: "/favoriten",
     icon: Heart
   }];
-
   return <header className={cn("fixed left-0 top-0 z-40 w-full transition-all duration-300", isScrolled ? "bg-white shadow-md" : "bg-transparent")}>
       <div className="w-full flex justify-center pt-6 pb-1">
         <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
@@ -96,41 +80,14 @@ export function Header() {
           <nav className="hidden md:block">
             <ul className="flex space-x-8 items-center justify-center">
               {navigationItems.map(item => <li key={item.name}>
-                  <Link 
-                    to={item.path} 
-                    className={cn(
-                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4", 
-                      location.pathname === item.path 
-                        ? isHomePage 
-                          ? isScrolled 
-                            ? "text-cookbook-700" 
-                            : "text-white" 
-                          : "text-cookbook-700" 
-                        : isHomePage 
-                          ? isScrolled 
-                            ? "text-cookbook-800/80 hover:text-cookbook-700" 
-                            : "text-white hover:text-white" 
-                          : "text-cookbook-800/80 hover:text-cookbook-700"
-                    )}
-                  >
+                  <Link to={item.path} className={cn("group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4", location.pathname === item.path ? isHomePage ? isScrolled ? "text-cookbook-700" : "text-white" : "text-cookbook-700" : isHomePage ? isScrolled ? "text-cookbook-800/80 hover:text-cookbook-700" : "text-white hover:text-white" : "text-cookbook-800/80 hover:text-cookbook-700")}>
                     <span className="flex items-center gap-1">
                       <item.icon size={18} className="opacity-80" />
                       {item.name}
                     </span>
-                    {location.pathname === item.path && <motion.div 
-                      layoutId="navigation-underline" 
-                      className={cn(
-                        "absolute -bottom-1 left-0 h-0.5 w-full rounded", 
-                        isHomePage 
-                          ? isScrolled 
-                            ? "bg-cookbook-700" 
-                            : "bg-white" 
-                          : "bg-cookbook-700"
-                      )} 
-                      transition={{
-                        duration: 0.3
-                      }} 
-                    />}
+                    {location.pathname === item.path && <motion.div layoutId="navigation-underline" className={cn("absolute -bottom-1 left-0 h-0.5 w-full rounded", isHomePage ? isScrolled ? "bg-cookbook-700" : "bg-white" : "bg-cookbook-700")} transition={{
+                  duration: 0.3
+                }} />}
                   </Link>
                 </li>)}
             </ul>
@@ -140,29 +97,29 @@ export function Header() {
 
       <AnimatePresence>
         {isOpen && <>
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }} 
-              transition={{ duration: 0.3 }} 
-              className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" 
-              onClick={() => setIsOpen(false)} 
-            />
+            <motion.div initial={{
+          opacity: 0
+        }} animate={{
+          opacity: 1
+        }} exit={{
+          opacity: 0
+        }} transition={{
+          duration: 0.3
+        }} className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" onClick={() => setIsOpen(false)} />
             
-            <motion.div 
-              initial={{ x: "100%" }} 
-              animate={{ x: 0 }} 
-              exit={{ x: "100%" }} 
-              transition={{ type: "spring", damping: 25 }} 
-              className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col"
-            >
+            <motion.div initial={{
+          x: "100%"
+        }} animate={{
+          x: 0
+        }} exit={{
+          x: "100%"
+        }} transition={{
+          type: "spring",
+          damping: 25
+        }} className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col">
               <div className="h-full bg-white px-4 pb-6 pt-24">
                 <div className="absolute top-4 right-4">
-                  <button 
-                    onClick={() => setIsOpen(false)} 
-                    className="p-2 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" 
-                    aria-label="Close menu"
-                  >
+                  <button onClick={() => setIsOpen(false)} className="p-2 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" aria-label="Close menu">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -171,17 +128,7 @@ export function Header() {
                   Ritas Kochbuch
                 </div>
                 
-                {navigationItems.map(item => <Link 
-                  key={item.name} 
-                  to={item.path} 
-                  className={cn(
-                    "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors", 
-                    location.pathname === item.path 
-                      ? "bg-cookbook-100 text-cookbook-800" 
-                      : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800"
-                  )} 
-                  onClick={() => setIsOpen(false)}
-                >
+                {navigationItems.map(item => <Link key={item.name} to={item.path} className={cn("flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors", location.pathname === item.path ? "bg-cookbook-100 text-cookbook-800" : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800")} onClick={() => setIsOpen(false)}>
                   <item.icon size={20} />
                   <span>{item.name}</span>
                 </Link>)}
