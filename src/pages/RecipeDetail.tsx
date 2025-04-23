@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -16,17 +17,20 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import recipes from "@/data/recipes";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState(recipes.find(r => r.id === id));
   const [isFavorite, setIsFavorite] = useState(false);
   const startTimeRef = useRef(new Date());
+  const [dialogOpen, setDialogOpen] = useState(false);
   
   const [completedSteps, setCompletedSteps] = useState<{[key: string]: boolean}>({});
   const [completedIngredients, setCompletedIngredients] = useState<{[key: string]: boolean}>({});
   
   const [progress, setProgress] = useState(0);
+  const [ingredientsProgress, setIngredientsProgress] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [completionTime, setCompletionTime] = useState<string>("");
   
@@ -104,6 +108,24 @@ const RecipeDetail = () => {
       const newProgress = totalSteps > 0 ? (completedCount / totalSteps) * 100 : 0;
       setProgress(newProgress);
       
+      // Calculate ingredients progress
+      if (recipe.ingredients) {
+        let totalIngredients = 0;
+        let completedIngredientCount = 0;
+        
+        recipe.ingredients.forEach((group, gIndex) => {
+          group.items.forEach((_, iIndex) => {
+            const ingredientId = `ingredient-${gIndex}-${iIndex}`;
+            totalIngredients++;
+            if (completedIngredients[ingredientId]) completedIngredientCount++;
+          });
+        });
+        
+        const newIngredientsProgress = totalIngredients > 0 ? 
+          (completedIngredientCount / totalIngredients) * 100 : 0;
+        setIngredientsProgress(newIngredientsProgress);
+      }
+      
       if (newProgress === 100 && totalSteps > 0 && !showSuccess) {
         const endTime = new Date();
         const timeDiff = Math.floor((endTime.getTime() - startTimeRef.current.getTime()) / 1000 / 60);
@@ -126,7 +148,7 @@ const RecipeDetail = () => {
         localStorage.setItem(`recipe-ingredients-${id}`, JSON.stringify(completedIngredients));
       }
     }
-  }, [recipe, completedSteps, id, showSuccess]);
+  }, [recipe, completedSteps, completedIngredients, id, showSuccess]);
   
   // Save notes when they change
   useEffect(() => {
@@ -202,12 +224,15 @@ const RecipeDetail = () => {
         setNotes(prev => [...prev, { id: Date.now().toString(), text: newNote }]);
       }
       setNewNote("");
+      setDialogOpen(false);
+      toast.success("Notiz wurde gespeichert");
     }
   };
   
   const handleEditNote = (note: { id: string; text: string }) => {
     setNewNote(note.text);
     setEditingNoteId(note.id);
+    setDialogOpen(true);
   };
   
   const handleDeleteNote = (id: string) => {
@@ -216,6 +241,7 @@ const RecipeDetail = () => {
       setEditingNoteId(null);
       setNewNote("");
     }
+    toast.success("Notiz wurde gelöscht");
   };
   
   return (
@@ -278,20 +304,38 @@ const RecipeDetail = () => {
             </div>
           </div>
           
-          <div className="mt-6 bg-white rounded-xl p-6 shadow-sm border border-cookbook-100">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 text-cookbook-800">
-                <BarChart size={18} />
-                <span className="font-medium">Fortschritt</span>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-cookbook-100">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2 text-cookbook-800">
+                  <BarChart size={18} />
+                  <span className="font-medium">Fortschritt Zubereitung</span>
+                </div>
+                <span className="text-sm font-medium text-cookbook-600">{Math.round(progress)}%</span>
               </div>
-              <span className="text-sm font-medium text-cookbook-600">{Math.round(progress)}%</span>
+              <Progress value={progress} className="h-2" color="green" />
+              <p className="mt-2 text-sm text-gray-600">
+                {progress === 0 ? "Beginne mit der Zubereitung" :
+                 progress === 100 ? "Rezept abgeschlossen!" :
+                 `${Math.round(progress)}% der Schritte abgeschlossen`}
+              </p>
             </div>
-            <Progress value={progress} className="h-2" />
-            <p className="mt-2 text-sm text-gray-600">
-              {progress === 0 ? "Beginne mit der Zubereitung" :
-               progress === 100 ? "Rezept abgeschlossen!" :
-               `${Math.round(progress)}% der Schritte abgeschlossen`}
-            </p>
+            
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-cookbook-100">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2 text-cookbook-800">
+                  <Check size={18} />
+                  <span className="font-medium">Einkaufsliste</span>
+                </div>
+                <span className="text-sm font-medium text-cookbook-600">{Math.round(ingredientsProgress)}%</span>
+              </div>
+              <Progress value={ingredientsProgress} className="h-2" color="green" />
+              <p className="mt-2 text-sm text-gray-600">
+                {ingredientsProgress === 0 ? "Beginne mit dem Einkauf" :
+                 ingredientsProgress === 100 ? "Alle Zutaten vorhanden!" :
+                 `${Math.round(ingredientsProgress)}% der Zutaten abgehakt`}
+              </p>
+            </div>
           </div>
         </motion.div>
         
@@ -465,7 +509,7 @@ const RecipeDetail = () => {
                     Meine Notizen
                   </h2>
                   
-                  <Dialog>
+                  <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <DialogTrigger asChild>
                       <Button variant="outline" className="flex items-center gap-2">
                         <PlusCircle size={16} />
