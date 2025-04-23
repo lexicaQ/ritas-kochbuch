@@ -1,15 +1,15 @@
+
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
-import { useMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { NavLink } from './nav-link';
 
 const Header = () => {
-  const { isMobile } = useMobile();
+  const { isMobile } = useIsMobile();
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
