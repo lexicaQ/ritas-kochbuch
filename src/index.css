@@ -11,43 +11,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 223 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 140 46% 26%;
-    --primary-foreground: 140 46% 98%;
-
-    --secondary: 140 30% 92%;
-    --secondary-foreground: 140 46% 26%;
-
-    --muted: 140 20% 96%;
-    --muted-foreground: 140 10% 40%;
-
-    --accent: 140 40% 90%;
-    --accent-foreground: 140 46% 26%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 140 20% 90%;
-    --input: 140 20% 90%;
-    --ring: 140 46% 26%;
-
-    --radius: 1rem;
-
-    --sidebar-background: 140 46% 26%;
-    --sidebar-foreground: 140 20% 98%;
-    --sidebar-primary: 140 20% 98%;
-    --sidebar-primary-foreground: 140 46% 26%;
-    --sidebar-accent: 140 40% 30%;
-    --sidebar-accent-foreground: 140 20% 98%;
-    --sidebar-border: 140 30% 30%;
-    --sidebar-ring: 140 20% 90%;
+    --foreground: 140 46% 26%;
   }
 
   .dark {
@@ -95,6 +59,15 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-cookbook-700;
   }
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner-animation {
+  animation: spinner 1s linear infinite;
 }
