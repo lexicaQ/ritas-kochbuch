@@ -1,11 +1,10 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Card } from "@/components/ui/card";
-import { Clock, ChefHat, ChevronRight } from "lucide-react";
+import { Clock, ChefHat } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 interface SearchSuggestionsProps {
   query: string;
@@ -24,17 +23,7 @@ interface SearchSuggestionsProps {
 }
 
 export function SearchSuggestions({ query, suggestions, onSelect, className }: SearchSuggestionsProps) {
-  const navigate = useNavigate();
-  
   if (!query) return null;
-  
-  const handleSuggestionClick = (id: string) => {
-    // Call the onSelect prop for any additional logic it might contain
-    onSelect(id);
-    
-    // Navigate to the recipe detail page
-    navigate(`/rezept/${id}`);
-  };
 
   return (
     <Card className={cn(
@@ -49,10 +38,17 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
               <CommandItem
                 key={suggestion.id}
                 value={suggestion.title}
+                onSelect={() => onSelect(suggestion.id)}
                 className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50/80"
-                onSelect={() => handleSuggestionClick(suggestion.id)}
               >
-                <div className="flex items-center gap-4 flex-1">
+                <Link
+                  to={`/rezept/${suggestion.id}`}
+                  className="flex items-center gap-4 flex-1"
+                  onClick={(e) => {
+                    // Prevent default to avoid onSelect being triggered
+                    e.stopPropagation();
+                  }}
+                >
                   <img
                     src={suggestion.image}
                     alt={suggestion.title}
@@ -76,26 +72,12 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </CommandItem>
             ))}
           </CommandGroup>
         </CommandList>
       </Command>
-      
-      <div className="p-3 border-t border-cookbook-100 bg-cookbook-50/50">
-        <Button
-          variant="outline"
-          className="w-full justify-between"
-          onClick={() => {
-            onSelect('');  // Clear selection
-            navigate('/rezepte');  // Navigate to recipes page
-          }}
-        >
-          Alle Rezepte anzeigen
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
     </Card>
   );
 }
