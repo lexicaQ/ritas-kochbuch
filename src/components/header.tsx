@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { NavLink } from './nav-link';
 
-const Header = () => {
+export const Header = () => {
   const { isMobile } = useIsMobile();
   const navigate = useNavigate();
   const location = useLocation();

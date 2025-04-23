@@ -14,6 +14,7 @@ interface RecipeCardProps {
   category: string;
   tags?: string[];
   className?: string;
+  isFavorite?: boolean;
 }
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({
@@ -26,6 +27,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({
   category,
   tags,
   className,
+  isFavorite,
 }) => {
   return (
     <Link
