@@ -293,8 +293,7 @@ const Index = () => {
                   <motion.span className="absolute inset-x-0 bottom-0 h-3 bg-cookbook-500/30 rounded-full -z-10" initial={{
                   width: 0
                 }} animate={{
-                  width: "100%"
-                }} transition={{
+                  width: "100%" }} transition={{
                   duration: 0.5,
                   delay: 0.8
                 }} />
