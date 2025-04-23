@@ -1,9 +1,10 @@
+
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Clock, ChefHat, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { FavoriteButton } from "./favorite-button";
+import { useState, useEffect } from "react";
 
 interface RecipeCardProps {
   id: string;
@@ -15,6 +16,7 @@ interface RecipeCardProps {
   category: string;
   tags: string[];
   className?: string;
+  isFavorite?: boolean;
 }
 
 export function RecipeCard({ 
@@ -26,9 +28,15 @@ export function RecipeCard({
   difficulty,
   category,
   tags,
-  className 
+  className,
+  isFavorite: initialIsFavorite = false
 }: RecipeCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+  
+  // Update internal state when the prop changes
+  useEffect(() => {
+    setIsFavorite(initialIsFavorite);
+  }, [initialIsFavorite]);
   
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
