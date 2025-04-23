@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Filter, Search, ChevronDown, X, Clock, ChefHat } from "lucide-react";
+import { Filter, Search, ChevronDown, X, Clock, ChefHat, Tag, Plus, User, Utensils, Leaf } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/ui/recipe-card";
@@ -21,12 +21,32 @@ import {
 import { cn } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
+// Extract all unique ingredients from all recipes
+const extractAllIngredients = () => {
+  const allIngredients = new Set<string>();
+  recipes.forEach(recipe => {
+    if (recipe.ingredients) {
+      recipe.ingredients.forEach(ingredient => {
+        if (typeof ingredient === 'string') {
+          allIngredients.add(ingredient);
+        } else if (ingredient.name) {
+          allIngredients.add(ingredient.name);
+        }
+      });
+    }
+  });
+  return Array.from(allIngredients).sort();
+};
+
 const RecipeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedDietType, setSelectedDietType] = useState<string[]>([]);
+  const [selectedServings, setSelectedServings] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   // Extract unique categories, difficulties and tags
@@ -34,6 +54,9 @@ const RecipeList = () => {
   const difficulties = Array.from(new Set(recipes.map(recipe => recipe.difficulty)));
   const allTags = Array.from(new Set(recipes.flatMap(recipe => recipe.tags)));
   const timeRanges = ["< 30 Min", "30-60 Min", "> 60 Min"];
+  const dietTypes = ["Vegetarisch", "Vegan", "Glutenfrei", "Laktosefrei", "Low Carb", "Paleo"];
+  const servingsOptions = ["1-2", "3-4", "5-6", "7+"];
+  const commonIngredients = extractAllIngredients().slice(0, 20); // Limit to top 20 ingredients
   
   useEffect(() => {
     // Simulate loading for better UX
@@ -61,6 +84,41 @@ const RecipeList = () => {
     }
   };
   
+  const matchesServings = (servings: number | undefined, range: string | null) => {
+    if (!range || !servings) return true;
+    
+    const [min, max] = range.split('-').map(Number);
+    if (range.includes('+')) {
+      return servings >= parseInt(range);
+    }
+    return servings >= min && (max ? servings <= max : true);
+  };
+  
+  const matchesIngredients = (recipe: any) => {
+    if (selectedIngredients.length === 0) return true;
+    
+    // Check if recipe contains any of the selected ingredients
+    const recipeIngredients = recipe.ingredients?.map((ing: any) => 
+      typeof ing === 'string' ? ing : ing.name
+    ) || [];
+    
+    return selectedIngredients.some(ingredient => 
+      recipeIngredients.some((recipeIng: string) => 
+        recipeIng.toLowerCase().includes(ingredient.toLowerCase())
+      )
+    );
+  };
+  
+  const matchesDietType = (recipe: any) => {
+    if (selectedDietType.length === 0) return true;
+    
+    // Simple logic - if recipe has the tag containing the diet type, it matches
+    const recipeTags = recipe.tags || [];
+    return selectedDietType.some(diet => 
+      recipeTags.some(tag => tag.toLowerCase().includes(diet.toLowerCase()))
+    );
+  };
+  
   const filteredRecipes = recipes.filter(recipe => {
     const matchesSearch = searchTerm === "" || 
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -76,8 +134,17 @@ const RecipeList = () => {
       selectedTags.some(tag => recipe.tags.includes(tag));
     
     const matchesTimeFilter = matchesTimeRange(recipe.prepTime, selectedTime);
-      
-    return matchesSearch && matchesCategory && matchesDifficulty && matchesTags && matchesTimeFilter;
+    
+    const matchesServingsFilter = matchesServings(recipe.servings, selectedServings);
+    
+    return matchesSearch && 
+           matchesCategory && 
+           matchesDifficulty && 
+           matchesTags && 
+           matchesTimeFilter && 
+           matchesIngredients(recipe) &&
+           matchesDietType(recipe) &&
+           matchesServingsFilter;
   });
   
   const toggleCategory = (category: string) => {
@@ -104,8 +171,28 @@ const RecipeList = () => {
     );
   };
   
+  const toggleIngredient = (ingredient: string) => {
+    setSelectedIngredients(prev => 
+      prev.includes(ingredient)
+        ? prev.filter(i => i !== ingredient)
+        : [...prev, ingredient]
+    );
+  };
+  
+  const toggleDietType = (diet: string) => {
+    setSelectedDietType(prev => 
+      prev.includes(diet)
+        ? prev.filter(d => d !== diet)
+        : [...prev, diet]
+    );
+  };
+  
   const setTimeRange = (time: string) => {
     setSelectedTime(prev => prev === time ? null : time);
+  };
+  
+  const setServings = (servings: string) => {
+    setSelectedServings(prev => prev === servings ? null : servings);
   };
   
   const resetFilters = () => {
@@ -113,10 +200,26 @@ const RecipeList = () => {
     setSelectedCategories([]);
     setSelectedDifficulties([]);
     setSelectedTags([]);
+    setSelectedIngredients([]);
+    setSelectedDietType([]);
     setSelectedTime(null);
+    setSelectedServings(null);
   };
   
-  const totalFilters = selectedCategories.length + selectedDifficulties.length + selectedTags.length + (selectedTime ? 1 : 0);
+  const totalFilters = 
+    selectedCategories.length + 
+    selectedDifficulties.length + 
+    selectedTags.length + 
+    selectedIngredients.length +
+    selectedDietType.length +
+    (selectedTime ? 1 : 0) +
+    (selectedServings ? 1 : 0);
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      // Trigger search without changing input behavior
+    }
+  };
 
   return (
     <div className="min-h-screen bg-cookbook-50/20">
@@ -145,7 +248,7 @@ const RecipeList = () => {
       </div>
       
       <div className="container mx-auto px-4 py-12">
-        {/* Filters */}
+        {/* Enhanced Filters */}
         <div className="sticky top-16 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="relative flex-1">
@@ -155,6 +258,7 @@ const RecipeList = () => {
                 placeholder="Nach Rezepten suchen..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleKeyPress}
                 className="w-full pl-9"
               />
             </div>
@@ -173,7 +277,7 @@ const RecipeList = () => {
                     <ChevronDown size={14} className="ml-2 opacity-70" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-72 p-4">
+                <DropdownMenuContent align="end" className="w-80 p-4 max-h-[80vh] overflow-auto border border-cookbook-200">
                   <DropdownMenuLabel className="font-playfair text-lg text-cookbook-800">
                     Filter
                   </DropdownMenuLabel>
@@ -182,14 +286,17 @@ const RecipeList = () => {
                   
                   {/* Category filter */}
                   <DropdownMenuGroup className="mb-4">
-                    <DropdownMenuLabel className="text-sm font-semibold">Kategorien</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-sm font-semibold flex items-center">
+                      <Tag size={16} className="mr-2 text-cookbook-700" />
+                      Kategorien
+                    </DropdownMenuLabel>
                     <div className="grid grid-cols-2 gap-2 mt-2">
                       {categories.map((category) => (
                         <DropdownMenuCheckboxItem
                           key={category}
                           checked={selectedCategories.includes(category)}
                           onCheckedChange={() => toggleCategory(category)}
-                          className="rounded-lg hover:bg-cookbook-50"
+                          className="rounded-lg hover:bg-cookbook-50 border border-transparent hover:border-cookbook-100"
                         >
                           {category}
                         </DropdownMenuCheckboxItem>
@@ -201,7 +308,10 @@ const RecipeList = () => {
                   
                   {/* Difficulty filter */}
                   <DropdownMenuGroup className="mb-4">
-                    <DropdownMenuLabel className="text-sm font-semibold">Schwierigkeit</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-sm font-semibold flex items-center">
+                      <ChefHat size={16} className="mr-2 text-cookbook-700" />
+                      Schwierigkeit
+                    </DropdownMenuLabel>
                     <div className="flex gap-2 mt-2">
                       {difficulties.map((difficulty) => (
                         <Button
@@ -226,7 +336,10 @@ const RecipeList = () => {
                   
                   {/* Time filter */}
                   <DropdownMenuGroup className="mb-4">
-                    <DropdownMenuLabel className="text-sm font-semibold">Zubereitungszeit</DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-sm font-semibold flex items-center">
+                      <Clock size={16} className="mr-2 text-cookbook-700" />
+                      Zubereitungszeit
+                    </DropdownMenuLabel>
                     <div className="flex gap-2 mt-2 flex-wrap">
                       {timeRanges.map((time) => (
                         <Button
@@ -250,10 +363,86 @@ const RecipeList = () => {
                   
                   <DropdownMenuSeparator />
                   
+                  {/* Servings filter - NEW */}
+                  <DropdownMenuGroup className="mb-4">
+                    <DropdownMenuLabel className="text-sm font-semibold flex items-center">
+                      <User size={16} className="mr-2 text-cookbook-700" />
+                      Portionen
+                    </DropdownMenuLabel>
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      {servingsOptions.map((serving) => (
+                        <Button
+                          key={serving}
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setServings(serving)}
+                          className={cn(
+                            "rounded-lg border flex items-center gap-1",
+                            selectedServings === serving 
+                              ? "bg-cookbook-700 text-white border-cookbook-700" 
+                              : "hover:bg-cookbook-50"
+                          )}
+                        >
+                          <User size={12} />
+                          {serving}
+                        </Button>
+                      ))}
+                    </div>
+                  </DropdownMenuGroup>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* Diet Type filter - NEW */}
+                  <DropdownMenuGroup className="mb-4">
+                    <DropdownMenuLabel className="text-sm font-semibold flex items-center">
+                      <Leaf size={16} className="mr-2 text-cookbook-700" />
+                      Ernährungsform
+                    </DropdownMenuLabel>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      {dietTypes.map((diet) => (
+                        <DropdownMenuCheckboxItem
+                          key={diet}
+                          checked={selectedDietType.includes(diet)}
+                          onCheckedChange={() => toggleDietType(diet)}
+                          className="rounded-lg hover:bg-cookbook-50 border border-transparent hover:border-cookbook-100"
+                        >
+                          {diet}
+                        </DropdownMenuCheckboxItem>
+                      ))}
+                    </div>
+                  </DropdownMenuGroup>
+                  
+                  <DropdownMenuSeparator />
+                  
+                  {/* Ingredients filter - NEW */}
+                  <DropdownMenuGroup className="mb-4">
+                    <DropdownMenuLabel className="text-sm font-semibold flex items-center">
+                      <Utensils size={16} className="mr-2 text-cookbook-700" />
+                      Häufige Zutaten
+                    </DropdownMenuLabel>
+                    <div className="grid grid-cols-2 gap-2 mt-2 max-h-36 overflow-y-auto">
+                      {commonIngredients.map((ingredient) => (
+                        <DropdownMenuCheckboxItem
+                          key={ingredient}
+                          checked={selectedIngredients.includes(ingredient)}
+                          onCheckedChange={() => toggleIngredient(ingredient)}
+                          className="rounded-lg hover:bg-cookbook-50 border border-transparent hover:border-cookbook-100"
+                        >
+                          {ingredient}
+                        </DropdownMenuCheckboxItem>
+                      ))}
+                    </div>
+                  </DropdownMenuGroup>
+                  
+                  <DropdownMenuSeparator />
+                  
                   {/* Tags filter */}
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel className="text-sm font-semibold">Tags</DropdownMenuLabel>
-                    <div className="flex gap-2 mt-2 flex-wrap max-h-32 overflow-y-auto">
+                    <DropdownMenuLabel className="text-sm font-semibold flex items-center">
+                      <Tag size={16} className="mr-2 text-cookbook-700" />
+                      Tags
+                    </DropdownMenuLabel>
+                    <div className="flex gap-2 mt-2 flex-wrap max-h-36 overflow-y-auto">
                       {allTags.map((tag) => (
                         <Button
                           key={tag}
@@ -299,29 +488,50 @@ const RecipeList = () => {
           {totalFilters > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {selectedCategories.map(category => (
-                <div key={category} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs">
+                <div key={category} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs border border-cookbook-200">
                   <span>{category}</span>
                   <X size={14} onClick={() => toggleCategory(category)} className="cursor-pointer hover:text-cookbook-700" />
                 </div>
               ))}
               {selectedDifficulties.map(difficulty => (
-                <div key={difficulty} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs">
+                <div key={difficulty} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs border border-cookbook-200">
                   <ChefHat size={12} />
                   <span>{difficulty}</span>
                   <X size={14} onClick={() => toggleDifficulty(difficulty)} className="cursor-pointer hover:text-cookbook-700" />
                 </div>
               ))}
               {selectedTags.map(tag => (
-                <div key={tag} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs">
+                <div key={tag} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs border border-cookbook-200">
                   <span>{tag}</span>
                   <X size={14} onClick={() => toggleTag(tag)} className="cursor-pointer hover:text-cookbook-700" />
                 </div>
               ))}
+              {selectedIngredients.map(ingredient => (
+                <div key={ingredient} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs border border-cookbook-200">
+                  <Utensils size={12} />
+                  <span>{ingredient}</span>
+                  <X size={14} onClick={() => toggleIngredient(ingredient)} className="cursor-pointer hover:text-cookbook-700" />
+                </div>
+              ))}
+              {selectedDietType.map(diet => (
+                <div key={diet} className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs border border-cookbook-200">
+                  <Leaf size={12} />
+                  <span>{diet}</span>
+                  <X size={14} onClick={() => toggleDietType(diet)} className="cursor-pointer hover:text-cookbook-700" />
+                </div>
+              ))}
               {selectedTime && (
-                <div className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs">
+                <div className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs border border-cookbook-200">
                   <Clock size={12} />
                   <span>{selectedTime}</span>
                   <X size={14} onClick={() => setSelectedTime(null)} className="cursor-pointer hover:text-cookbook-700" />
+                </div>
+              )}
+              {selectedServings && (
+                <div className="flex items-center gap-1 rounded-full bg-cookbook-100 px-3 py-1 text-xs border border-cookbook-200">
+                  <User size={12} />
+                  <span>{selectedServings} Portionen</span>
+                  <X size={14} onClick={() => setSelectedServings(null)} className="cursor-pointer hover:text-cookbook-700" />
                 </div>
               )}
             </div>

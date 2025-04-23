@@ -2,16 +2,16 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Search } from "lucide-react";
+import { Menu, X, Heart, Home, BookOpen, FolderOpenDot } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Logo component
+// Enhanced Logo component
 const Logo = () => (
-  <div className="flex items-center gap-2">
-    <div className="rounded-full bg-cookbook-700 h-8 w-8 flex items-center justify-center shadow">
-      <span className="text-white font-playfair font-bold text-lg">R</span>
+  <div className="flex flex-col items-center gap-1">
+    <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white">
+      <span className="text-white font-playfair font-bold text-2xl">R</span>
     </div>
-    <span className="font-playfair font-bold text-cookbook-800 text-xl">Ritas Kochbuch</span>
+    <span className="font-playfair font-bold text-cookbook-800 text-lg md:text-xl">Ritas Kochbuch</span>
   </div>
 );
 
@@ -49,8 +49,16 @@ export function Header() {
         isScrolled ? "bg-white shadow-md" : "bg-white/0"
       )}
     >
+      {/* Centered Logo above navigation */}
+      <div className="w-full flex justify-center pt-2 pb-1">
+        <Link to="/" aria-label="Ritas Kochbuch">
+          <Logo />
+        </Link>
+      </div>
+      
+      {/* Navigation bar */}
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-center">
+        <div className="flex h-14 items-center justify-center border-t border-cookbook-100/50">
           {/* Mobile menu button (left side) */}
           <div className="absolute left-4 md:hidden">
             <button
@@ -62,26 +70,24 @@ export function Header() {
             </button>
           </div>
 
-          {/* Centered Logo */}
-          <Link to="/" className="flex items-center z-10">
-            <Logo />
-          </Link>
-
-          {/* Desktop navigation (centered around logo) */}
-          <nav className="hidden absolute inset-x-0 mx-auto w-max md:block">
+          {/* Desktop navigation */}
+          <nav className="hidden md:block">
             <ul className="flex space-x-8 items-center justify-center">
               {navigationItems.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.path}
                     className={cn(
-                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-5",
+                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
                       location.pathname === item.path
                         ? "text-cookbook-800"
                         : "text-gray-600 hover:text-cookbook-800"
                     )}
                   >
-                    <span>{item.name}</span>
+                    <span className="flex items-center gap-1">
+                      <item.icon size={18} className="opacity-80" />
+                      {item.name}
+                    </span>
                     {location.pathname === item.path && (
                       <motion.div
                         layoutId="navigation-underline"
@@ -94,9 +100,6 @@ export function Header() {
               ))}
             </ul>
           </nav>
-
-          {/* Right side empty for balance (same width as menu button) */}
-          <div className="absolute right-4 w-10"></div>
         </div>
       </div>
 

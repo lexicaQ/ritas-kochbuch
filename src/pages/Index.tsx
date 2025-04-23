@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Search, Clock, ChefHat, Heart, ChevronsRight } from "lucide-react";
@@ -17,6 +16,8 @@ const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof recipes | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCategories, setVisibleCategories] = useState<string[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<typeof recipes>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
@@ -26,22 +27,17 @@ const Index = () => {
     acc[category] = recipes.filter(r => r.category === category).slice(0, 4);
     return acc;
   }, {} as Record<string, typeof recipes>);
-
-  // Logo component
-  const Logo = () => (
-    <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg">
-      <span className="text-white font-playfair font-bold text-xl">R</span>
-    </div>
-  );
   
   useEffect(() => {
     if (categories.length > 0) {
-      // Start with first 3 categories
+      // Start with first 2 categories
       setVisibleCategories(categories.slice(0, 2));
     }
   }, []);
 
   const handleSearch = (query: string, filters: string[]) => {
+    setShowSuggestions(false);
+    
     if (!query && filters.length === 0) {
       setSearchResults(null);
       setIsLoading(false);
@@ -73,48 +69,197 @@ const Index = () => {
     }, 500);
   };
 
+  const handleSearchInputChange = (query: string) => {
+    if (query.length > 1) {
+      // Find matching recipes for suggestions
+      const matches = recipes
+        .filter(recipe => 
+          recipe.title.toLowerCase().includes(query.toLowerCase()) ||
+          recipe.description.toLowerCase().includes(query.toLowerCase())
+        )
+        .slice(0, 5); // Limit to 5 suggestions
+      
+      setSearchSuggestions(matches);
+      setShowSuggestions(true);
+    } else {
+      setSearchSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (recipe: any) => {
+    setShowSuggestions(false);
+    // Navigate to recipe or trigger search
+  };
+
+  // Enhanced animated decorative elements for hero section
+  const decorativeElements = [
+    { delay: 0, x: "20%", y: "20%", size: "xl" },
+    { delay: 0.2, x: "80%", y: "60%", size: "lg" },
+    { delay: 0.4, x: "50%", y: "30%", size: "md" },
+    { delay: 0.6, x: "10%", y: "70%", size: "sm" },
+    { delay: 0.8, x: "90%", y: "10%", size: "xs" },
+  ];
+
+  // Animated utensil icons
+  const DecorativeElement = ({ delay, x, y, size }: any) => {
+    const sizes = {
+      xs: "w-6 h-6",
+      sm: "w-12 h-12",
+      md: "w-16 h-16",
+      lg: "w-20 h-20",
+      xl: "w-24 h-24",
+    };
+    
+    return (
+      <motion.div
+        className={cn(
+          "absolute text-white/5 pointer-events-none",
+          sizes[size as keyof typeof sizes]
+        )}
+        style={{ left: x, top: y }}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 1,
+          delay,
+          ease: "easeOut"
+        }}
+      >
+        {/* Simple circular decorative element */}
+        <div className="w-full h-full rounded-full border-2 border-white/10 backdrop-blur-sm" />
+      </motion.div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero section with animated background */}
+      {/* Modern Hero section with animated background */}
       <section className="relative bg-cookbook-700 pt-32 pb-16">
         <div className="absolute inset-0 overflow-hidden">
-          {/* Decorative elements */}
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cookbook-600 rounded-full blur-3xl opacity-20"></div>
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cookbook-600 rounded-full blur-3xl opacity-30"></div>
-          <div className="absolute top-1/2 right-1/3 w-40 h-40 bg-cookbook-800 rounded-full blur-2xl opacity-20"></div>
+          {/* Animated gradient background */}
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-br from-cookbook-800 via-cookbook-700 to-cookbook-600"
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%'],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear"
+            }}
+          />
           
-          {/* Offset grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#10261180_1px,transparent_1px),linear-gradient(to_bottom,#10261180_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+          {/* Decorative elements */}
+          {decorativeElements.map((elem, i) => (
+            <DecorativeElement key={i} {...elem} />
+          ))}
+          
+          {/* Animated particles */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 rounded-full bg-white/10"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, Math.random() * -50],
+                  opacity: [0, 0.7, 0],
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 3,
+                  repeat: Infinity,
+                  delay: Math.random() * 5,
+                }}
+              />
+            ))}
+          </div>
         </div>
         
         <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
           <div className="mx-auto max-w-4xl text-center">
-            <motion.div 
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="flex justify-center mb-8"
-            >
-              <Logo />
-            </motion.div>
-            
             <FadeIn className="mx-auto max-w-3xl text-center">
-              <h1 className="font-playfair text-4xl font-bold text-white md:text-5xl lg:text-6xl">
+              <motion.h1 
+                className="font-playfair text-4xl font-bold text-white md:text-5xl lg:text-6xl"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+              >
                 Willkommen bei{" "}
-                <span className="text-white">Ritas Kochbuch</span>
-              </h1>
-              <p className="mt-6 text-lg text-white/80">
-                Entdecke köstliche Rezepte, erstellt mit Leidenschaft und Sorgfalt. Von herzhaften Hauptgerichten bis zu süßen Leckerbissen – hier findest du alles für jeden Geschmack und jede Gelegenheit.
-              </p>
+                <motion.span 
+                  className="relative inline-block"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <span className="relative z-10">Ritas Kochbuch</span>
+                  <motion.span 
+                    className="absolute inset-x-0 bottom-0 h-3 bg-cookbook-500/30 rounded-full -z-10"
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                  />
+                </motion.span>
+              </motion.h1>
               
-              <div className="mt-10">
+              <motion.p 
+                className="mt-6 text-lg text-white/80"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+              >
+                Entdecke köstliche Rezepte, erstellt mit Leidenschaft und Sorgfalt. Von herzhaften Hauptgerichten bis zu süßen Leckerbissen – hier findest du alles für jeden Geschmack und jede Gelegenheit.
+              </motion.p>
+              
+              <motion.div 
+                className="mt-10 relative"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.8 }}
+              >
                 <SearchBar 
-                  onSearch={handleSearch} 
+                  onSearch={handleSearch}
+                  onInputChange={handleSearchInputChange}
                   className="mx-auto max-w-2xl"
                 />
-              </div>
+                
+                {/* Search suggestions */}
+                {showSuggestions && searchSuggestions.length > 0 && (
+                  <motion.div 
+                    className="absolute z-20 mt-2 w-full max-w-2xl mx-auto bg-white rounded-xl shadow-xl border border-cookbook-100 overflow-hidden"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="p-2">
+                      {searchSuggestions.map((recipe) => (
+                        <Link
+                          key={recipe.id}
+                          to={`/rezept/${recipe.id}`}
+                          onClick={() => setShowSuggestions(false)}
+                          className="flex items-center p-2 hover:bg-cookbook-50 rounded-lg transition-colors"
+                        >
+                          <img 
+                            src={recipe.image} 
+                            alt={recipe.title}
+                            className="h-10 w-10 rounded-md object-cover mr-3"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-cookbook-800 truncate">{recipe.title}</p>
+                            <p className="text-xs text-gray-500 truncate">{recipe.category}</p>
+                          </div>
+                          <ArrowRight size={16} className="text-cookbook-600 ml-2" />
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
             </FadeIn>
           </div>
 
@@ -226,57 +371,7 @@ const Index = () => {
         </section>
       )}
       
-      {/* Categories preview with recipes */}
-      {!searchResults && !isLoading && visibleCategories.map((category, categoryIndex) => (
-        <section 
-          key={category}
-          className={cn(
-            "py-16",
-            categoryIndex % 2 === 0 ? "bg-cookbook-50/30" : "bg-white"
-          )}
-        >
-          <div className="container mx-auto px-4">
-            <div className="mb-10 flex items-center justify-between">
-              <FadeIn>
-                <div className="flex items-center gap-3">
-                  <div className="h-8 w-2 bg-cookbook-700 rounded-full"></div>
-                  <h2 className="font-playfair text-3xl font-bold text-cookbook-800">
-                    {category}
-                  </h2>
-                </div>
-              </FadeIn>
-              
-              <FadeIn direction="left">
-                <Link to={`/kategorien`}>
-                  <Button variant="outline" className="group flex items-center gap-2">
-                    <span>Kategorie anzeigen</span>
-                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-              </FadeIn>
-            </div>
-            
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {categoryRecipes[category]?.map((recipe, index) => (
-                <FadeIn key={recipe.id} delay={index * 0.1}>
-                  <RecipeCard 
-                    id={recipe.id}
-                    title={recipe.title}
-                    description={recipe.description}
-                    image={recipe.image}
-                    duration={recipe.prepTime}
-                    difficulty={recipe.difficulty}
-                    category={recipe.category}
-                    tags={recipe.tags}
-                  />
-                </FadeIn>
-              ))}
-            </div>
-          </div>
-        </section>
-      ))}
-      
-      {/* All categories navigation section */}
+      {/* Categories preview with improved layout */}
       {!searchResults && !isLoading && (
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
@@ -284,8 +379,8 @@ const Index = () => {
               <h2 className="font-playfair text-3xl font-bold text-cookbook-800">
                 Entdecke nach Kategorien
               </h2>
-              <p className="mt-2 text-gray-600">
-                Finde Inspiration für deine nächste kulinarische Kreation
+              <p className="mt-2 text-gray-600 mx-auto max-w-2xl">
+                Finde Inspiration für deine nächste kulinarische Kreation in unseren übersichtlichen Kategorien
               </p>
             </FadeIn>
             
@@ -296,7 +391,7 @@ const Index = () => {
                   delay={index * 0.1} 
                 >
                   <Link to={`/kategorien`} 
-                    className="group block overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl"
+                    className="group relative block overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl border border-cookbook-100"
                   >
                     <div className="aspect-[16/9] relative overflow-hidden">
                       {/* Display first recipe image from category */}
@@ -307,12 +402,12 @@ const Index = () => {
                             alt={category}
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
-                          <div className="absolute inset-0 bg-cookbook-900/30 group-hover:bg-cookbook-900/20 transition-colors"></div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-cookbook-900/60 to-cookbook-900/10 group-hover:from-cookbook-900/40 transition-colors"></div>
                         </>
                       )}
                       
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <h3 className="font-playfair text-2xl font-bold text-white bg-cookbook-800/80 px-4 py-2 rounded-lg">
+                        <h3 className="font-playfair text-2xl font-bold text-white bg-cookbook-800/70 px-4 py-2 rounded-lg backdrop-blur-sm shadow-lg transform transition-transform group-hover:scale-105">
                           {category}
                         </h3>
                       </div>
@@ -323,7 +418,12 @@ const Index = () => {
                         <span className="text-sm text-cookbook-700">
                           {recipes.filter(r => r.category === category).length} Rezepte
                         </span>
-                        <ArrowRight size={16} className="text-cookbook-700 transition-transform group-hover:translate-x-1" />
+                        <motion.div
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <ArrowRight size={16} className="text-cookbook-700" />
+                        </motion.div>
                       </div>
                     </div>
                   </Link>

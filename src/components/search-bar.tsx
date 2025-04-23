@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,12 +17,14 @@ import { cn } from "@/lib/utils";
 
 interface SearchBarProps {
   onSearch: (query: string, filters: string[]) => void;
+  onInputChange?: (query: string) => void;
   className?: string;
 }
 
-export function SearchBar({ onSearch, className }: SearchBarProps) {
+export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   
   const categories = [
     "Dessert",
@@ -45,10 +47,31 @@ export function SearchBar({ onSearch, className }: SearchBarProps) {
     onSearch(searchQuery, selectedFilters);
   };
   
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    if (onInputChange) {
+      onInputChange(value);
+    }
+  };
+  
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSearch(searchQuery, selectedFilters);
+    }
+  };
+  
   const clearSearch = () => {
     setSearchQuery("");
     setSelectedFilters([]);
     onSearch("", []);
+    if (onInputChange) {
+      onInputChange("");
+    }
+    // Focus back on search input
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
   };
   
   const toggleFilter = (filter: string) => {
@@ -67,16 +90,21 @@ export function SearchBar({ onSearch, className }: SearchBarProps) {
             <Search className="h-5 w-5" />
           </div>
           <Input
+            ref={searchInputRef}
             type="search"
             placeholder="Nach Rezepten suchen..."
             className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
           />
           {searchQuery && (
             <button
               type="button"
-              onClick={() => setSearchQuery("")}
+              onClick={() => {
+                setSearchQuery("");
+                if (onInputChange) onInputChange("");
+              }}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
             >
               <X size={16} />

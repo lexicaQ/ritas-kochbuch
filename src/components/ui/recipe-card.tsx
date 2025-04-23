@@ -1,8 +1,9 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Clock, ChefHat, Tag } from "lucide-react";
+import { Clock, ChefHat, Tag, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface RecipeCardProps {
   id: string;
@@ -27,6 +28,14 @@ export function RecipeCard({
   tags,
   className 
 }: RecipeCardProps) {
+  const [isFavorite, setIsFavorite] = useState(false);
+  
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsFavorite(!isFavorite);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -49,6 +58,20 @@ export function RecipeCard({
           <div className="absolute top-3 right-3 rounded-full bg-cookbook-700/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm shadow-sm">
             {category}
           </div>
+          
+          {/* Favorite Button */}
+          <button
+            onClick={toggleFavorite}
+            className="absolute top-3 left-3 p-2 rounded-full bg-white/80 hover:bg-white transition-colors backdrop-blur-sm z-10"
+          >
+            <Heart 
+              size={16} 
+              className={cn(
+                "transition-colors", 
+                isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
+              )} 
+            />
+          </button>
         </div>
         
         <div className="p-5 bg-gradient-to-b from-cookbook-50/30 to-white">
