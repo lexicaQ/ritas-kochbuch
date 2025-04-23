@@ -129,7 +129,7 @@ export function CookieConsent() {
                         <Switch 
                           checked 
                           disabled 
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50" 
+                          className="data-[state=checked]:bg-cookbook-800 data-[state=unchecked]:bg-cookbook-100" 
                         />
                       </div>
 
@@ -146,7 +146,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, functional: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
+                          className="data-[state=checked]:bg-cookbook-800 data-[state=unchecked]:bg-cookbook-100"
                         />
                       </div>
 
@@ -163,7 +163,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, analytics: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
+                          className="data-[state=checked]:bg-cookbook-800 data-[state=unchecked]:bg-cookbook-100"
                         />
                       </div>
 
@@ -180,7 +180,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, marketing: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
+                          className="data-[state=checked]:bg-cookbook-800 data-[state=unchecked]:bg-cookbook-100"
                         />
                       </div>
 
@@ -197,13 +197,19 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, personalization: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
+                          className="data-[state=checked]:bg-cookbook-800 data-[state=unchecked]:bg-cookbook-100"
                         />
                       </div>
                     </div>
                     <div className="flex justify-end gap-3 pt-4 border-t border-cookbook-100">
                       <Button variant="outline" onClick={() => setShowPreferences(false)} className="text-cookbook-700">
                         Abbrechen
+                      </Button>
+                      <Button 
+                        onClick={acceptAll}
+                        className="bg-cookbook-800 text-white hover:bg-cookbook-900"
+                      >
+                        Alle akzeptieren
                       </Button>
                       <Button 
                         onClick={() => savePreferences(preferences)}
@@ -216,7 +222,7 @@ export function CookieConsent() {
                 </Dialog>
                 <Button 
                   onClick={acceptAll} 
-                  className="bg-cookbook-700 text-white hover:bg-cookbook-800 whitespace-nowrap"
+                  className="bg-cookbook-800 text-white hover:bg-cookbook-900 whitespace-nowrap"
                 >
                   <Shield className="w-4 h-4 mr-2" />
                   Alle akzeptieren
