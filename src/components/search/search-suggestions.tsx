@@ -41,7 +41,7 @@ export const SearchSuggestions = ({
             animate={{ opacity: 1 }}
             transition={{ delay: index * 0.05 }}
             onClick={() => onSelect(result)}
-            className="p-3 hover:bg-cookbook-50 cursor-pointer transition-colors flex items-center gap-3"
+            className="p-3 hover:bg-cookbook-50 cursor-pointer transition-colors flex items-start gap-3"
           >
             <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
               <img 
@@ -53,11 +53,11 @@ export const SearchSuggestions = ({
             </div>
             
             <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-cookbook-800 mb-1.5">
+              <h4 className="font-medium text-cookbook-800 text-left">
                 {highlightMatch(result.title, searchTerm)}
               </h4>
               
-              <div className="flex items-center text-xs text-cookbook-600 gap-3">
+              <div className="flex items-center text-xs text-cookbook-600 gap-3 mt-1.5">
                 <span className="flex items-center gap-1">
                   <Clock size={12} />
                   {result.prepTime}

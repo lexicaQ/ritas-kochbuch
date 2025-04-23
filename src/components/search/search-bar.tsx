@@ -173,7 +173,7 @@ export const SearchBar = ({
     <div className={cn("relative z-30", variantClasses[variant], className)} ref={searchRef}>
       <form onSubmit={handleSubmit}>
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-cookbook-700" />
           
           <Input
             ref={inputRef}
@@ -193,7 +193,7 @@ export const SearchBar = ({
             <button
               type="button"
               onClick={handleClear}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-cookbook-700 hover:text-cookbook-800"
             >
               <X className="h-4 w-4" />
             </button>
