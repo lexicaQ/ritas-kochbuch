@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Cookie, Settings, Shield, Info } from 'lucide-react';
@@ -47,19 +46,15 @@ export function CookieConsent() {
 
   const applyTrackingPreferences = (prefs: CookiePreferences) => {
     if (prefs.analytics) {
-      // Initialize analytics tracking
       console.log('Analytics tracking enabled');
     }
     if (prefs.marketing) {
-      // Initialize marketing cookies
       console.log('Marketing cookies enabled');
     }
     if (prefs.functional) {
-      // Initialize functional cookies
       console.log('Functional cookies enabled');
     }
     if (prefs.personalization) {
-      // Initialize personalization features
       console.log('Personalization enabled');
     }
   };
@@ -131,7 +126,11 @@ export function CookieConsent() {
                             Sie speichern keine persönlichen Daten.
                           </div>
                         </div>
-                        <Switch checked disabled className="data-[state=checked]:bg-cookbook-700" />
+                        <Switch 
+                          checked 
+                          disabled 
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]" 
+                        />
                       </div>
 
                       <div className="flex items-start justify-between gap-4 p-4 rounded-lg hover:bg-cookbook-50/30">
@@ -147,7 +146,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, functional: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
                         />
                       </div>
 
@@ -164,7 +163,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, analytics: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
                         />
                       </div>
 
@@ -181,7 +180,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, marketing: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
                         />
                       </div>
 
@@ -198,7 +197,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, personalization: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
                         />
                       </div>
                     </div>
