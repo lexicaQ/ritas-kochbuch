@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Filter, Search, ChevronDown, X, Clock, ChefHat, Tag, Plus, User, Utensils, Leaf } from "lucide-react";
@@ -26,11 +25,13 @@ const extractAllIngredients = () => {
   const allIngredients = new Set<string>();
   recipes.forEach(recipe => {
     if (recipe.ingredients) {
-      recipe.ingredients.forEach(ingredient => {
-        if (typeof ingredient === 'string') {
-          allIngredients.add(ingredient);
-        } else if (ingredient.name) {
-          allIngredients.add(ingredient.name);
+      recipe.ingredients.forEach(ingredientGroup => {
+        if (ingredientGroup.items) {
+          ingredientGroup.items.forEach(item => {
+            if (item.name) {
+              allIngredients.add(item.name);
+            }
+          });
         }
       });
     }
@@ -84,26 +85,41 @@ const RecipeList = () => {
     }
   };
   
-  const matchesServings = (servings: number | undefined, range: string | null) => {
-    if (!range || !servings) return true;
+  const matchesServings = (portionSize: string | undefined, range: string | null) => {
+    if (!range || !portionSize) return true;
     
-    const [min, max] = range.split('-').map(Number);
+    // Try to extract a number from portion size
+    const portionMatch = portionSize.match(/\d+/);
+    if (!portionMatch) return true;
+    
+    const portion = parseInt(portionMatch[0]);
+    
     if (range.includes('+')) {
-      return servings >= parseInt(range);
+      const minValue = parseInt(range.replace('+', ''));
+      return portion >= minValue;
+    } else {
+      const [min, max] = range.split('-').map(Number);
+      return portion >= min && portion <= max;
     }
-    return servings >= min && (max ? servings <= max : true);
   };
   
   const matchesIngredients = (recipe: any) => {
     if (selectedIngredients.length === 0) return true;
     
-    // Check if recipe contains any of the selected ingredients
-    const recipeIngredients = recipe.ingredients?.map((ing: any) => 
-      typeof ing === 'string' ? ing : ing.name
-    ) || [];
+    // Get all ingredient names from the recipe
+    const recipeIngredientNames: string[] = [];
+    recipe.ingredients?.forEach((group: any) => {
+      if (group.items) {
+        group.items.forEach((item: any) => {
+          if (item.name) {
+            recipeIngredientNames.push(item.name);
+          }
+        });
+      }
+    });
     
     return selectedIngredients.some(ingredient => 
-      recipeIngredients.some((recipeIng: string) => 
+      recipeIngredientNames.some((recipeIng: string) => 
         recipeIng.toLowerCase().includes(ingredient.toLowerCase())
       )
     );
@@ -115,7 +131,7 @@ const RecipeList = () => {
     // Simple logic - if recipe has the tag containing the diet type, it matches
     const recipeTags = recipe.tags || [];
     return selectedDietType.some(diet => 
-      recipeTags.some(tag => tag.toLowerCase().includes(diet.toLowerCase()))
+      recipeTags.some((tag: string) => tag.toLowerCase().includes(diet.toLowerCase()))
     );
   };
   
@@ -135,7 +151,7 @@ const RecipeList = () => {
     
     const matchesTimeFilter = matchesTimeRange(recipe.prepTime, selectedTime);
     
-    const matchesServingsFilter = matchesServings(recipe.servings, selectedServings);
+    const matchesServingsFilter = matchesServings(recipe.portionSize, selectedServings);
     
     return matchesSearch && 
            matchesCategory && 
