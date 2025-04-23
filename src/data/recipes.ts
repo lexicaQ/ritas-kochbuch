@@ -1,31 +1,13 @@
-export interface Recipe {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  portionSize: string;
-  prepTime: string;
-  cookTime?: string;
-  totalTime?: string;
-  difficulty: "leicht" | "normal" | "schwer";
-  category: string;
-  tags: string[];
-  ingredients: {
-    group?: string;
-    items: {
-      name: string;
-      amount?: string;
-    }[];
-  }[];
-  steps: {
-    group?: string;
-    items: string[];
-  }[];
-  tips?: string[];
-  isFavorite?: boolean;
-}
+import { Recipe } from "./types";
+import { mainDishes } from "./categories/main-dishes";
+import { desserts } from "./categories/desserts";
+import { pastries } from "./categories/pastries";
 
+// Combine all recipes from different categories
 const recipes: Recipe[] = [
+  ...mainDishes,
+  ...desserts,
+  ...pastries,
   {
     id: "haferflockenbutter-kracker",
     title: "Haferflocken‑Butter‑Kracker mit Blauschimmelkäse & Birnen",
