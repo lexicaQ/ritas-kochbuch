@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
@@ -43,6 +44,10 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                 <Link
                   to={`/rezept/${suggestion.id}`}
                   className="flex items-center gap-4 flex-1"
+                  onClick={(e) => {
+                    // Prevent default to avoid onSelect being triggered
+                    e.stopPropagation();
+                  }}
                 >
                   <img
                     src={suggestion.image}
