@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,10 +11,7 @@ const Logo = ({ isScrolled }: { isScrolled: boolean }) => (
       <Utensils className="w-6 h-6 text-white" />
     </div>
     <span className={cn(
-      "font-playfair font-bold text-lg md:text-xl transition-colors",
-      isScrolled 
-        ? "text-cookbook-700" 
-        : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+      "font-playfair font-bold text-lg md:text-xl transition-colors text-cookbook-700"
     )}>
       Ritas Kochbuch
     </span>
