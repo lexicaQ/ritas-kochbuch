@@ -24,6 +24,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +32,7 @@ export function Header() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial scroll position
+    handleScroll();
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -63,7 +64,7 @@ export function Header() {
       
       <div className="container mx-auto px-4">
         <div className="flex h-14 items-center justify-center border-t border-cookbook-100/50">
-          {/* Mobile menu button (right side) */}
+          {/* Mobile menu button */}
           <div className="absolute right-4 md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -89,8 +90,14 @@ export function Header() {
                     className={cn(
                       "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
                       location.pathname === item.path
-                        ? isScrolled ? "text-cookbook-700" : "text-cookbook-700"
-                        : isScrolled ? "text-cookbook-800/80 hover:text-cookbook-700" : "text-cookbook-700/80 hover:text-cookbook-700"
+                        ? isHomePage 
+                          ? "text-white" 
+                          : "text-cookbook-700"
+                        : isHomePage
+                          ? isScrolled 
+                            ? "text-cookbook-800/80 hover:text-cookbook-700"
+                            : "text-white/90 hover:text-white"
+                          : "text-cookbook-800/80 hover:text-cookbook-700"
                     )}
                   >
                     <span className="flex items-center gap-1">
@@ -102,7 +109,7 @@ export function Header() {
                         layoutId="navigation-underline"
                         className={cn(
                           "absolute -bottom-1 left-0 h-0.5 w-full rounded",
-                          isScrolled ? "bg-cookbook-700" : "bg-cookbook-700"
+                          isHomePage ? "bg-white" : "bg-cookbook-700"
                         )}
                         transition={{ duration: 0.3 }}
                       />

@@ -233,7 +233,7 @@ const RecipeList = () => {
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
       
-      <div className="relative bg-cookbook-700 pt-36 pb-20 overflow-hidden">
+      <div className="relative bg-cookbook-700 pt-48 pb-20 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-cookbook-900/30"></div>
           
@@ -254,7 +254,7 @@ const RecipeList = () => {
       </div>
       
       <div className="container mx-auto px-4 py-12">
-        <div className="sticky top-16 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
+        <div className="sticky top-24 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
