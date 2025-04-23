@@ -1,11 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Logo component with updated text color
 const Logo = ({ isScrolled }: { isScrolled: boolean }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -69,27 +67,22 @@ export function Header() {
         <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
           <Logo isScrolled={isScrolled} />
         </Link>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={cn(
+            "absolute right-4 md:hidden inline-flex items-center justify-center rounded-md p-2 transition-colors",
+            isScrolled 
+              ? "text-cookbook-800 hover:bg-cookbook-100" 
+              : "text-cookbook-700 hover:bg-white/20"
+          )}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
       
       <div className="container mx-auto px-4">
         <div className="flex h-14 items-center justify-center border-t border-cookbook-100/50">
-          {/* Mobile menu button */}
-          <div className="absolute right-4 md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={cn(
-                "inline-flex items-center justify-center rounded-md p-2 transition-colors",
-                isScrolled 
-                  ? "text-cookbook-800 hover:bg-cookbook-100" 
-                  : "text-cookbook-700 hover:bg-white/20"
-              )}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {/* Desktop navigation */}
           <nav className="hidden md:block">
             <ul className="flex space-x-8 items-center justify-center">
               {navigationItems.map((item) => (
@@ -137,7 +130,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
