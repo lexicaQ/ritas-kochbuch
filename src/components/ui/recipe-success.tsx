@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Clock, Star } from "lucide-react";
