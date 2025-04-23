@@ -12,6 +12,14 @@ const Logo = ({
 }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  
+  // Determine the line color based on the current route
+  const lineColor = !isHomePage && (
+    location.pathname === "/rezepte" || 
+    location.pathname === "/kategorien" || 
+    location.pathname === "/favoriten"
+  ) ? "bg-cookbook-700" : isScrolled ? "bg-cookbook-700" : "bg-white";
+
   return <div className="flex flex-col items-center gap-1">
       <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
         <Utensils className="w-6 h-6 text-white" />
@@ -19,6 +27,11 @@ const Logo = ({
       <span className={cn("font-playfair font-bold text-lg md:text-xl transition-colors", isHomePage ? isScrolled ? "text-cookbook-700" : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "text-cookbook-700 font-extrabold")}>
         Ritas Kochbuch
       </span>
+      <div className="flex space-x-2 mt-1">
+        <div className={`h-1 w-4 rounded-full ${lineColor}`}></div>
+        <div className={`h-1 w-4 rounded-full ${lineColor}`}></div>
+        <div className={`h-1 w-4 rounded-full ${lineColor}`}></div>
+      </div>
     </div>;
 };
 
