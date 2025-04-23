@@ -1,116 +1,92 @@
 
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, ChefHat, Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { Clock, ChefHat, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { toast } from "@/hooks/use-toast";
 
 interface RecipeCardProps {
   id: string;
   title: string;
   description: string;
   image: string;
-  tags?: string[];
-  category: string;
-  difficulty: string;
   duration: string;
-  isFavorite?: boolean;
+  difficulty: string;
+  category: string;
+  tags: string[];
   className?: string;
 }
 
-export function RecipeCard({
+export function RecipeCard({ 
   id,
-  title,
-  description,
+  title, 
+  description, 
   image,
-  tags,
-  category,
-  difficulty,
   duration,
-  isFavorite: initialFavorite = false,
-  className
+  difficulty,
+  category,
+  tags,
+  className 
 }: RecipeCardProps) {
-  const [isFavorite, setIsFavorite] = useState(initialFavorite);
-  
-  const toggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsFavorite(!isFavorite);
-    
-    // Show toast notification
-    toast({
-      title: isFavorite ? "Aus Favoriten entfernt" : "Zu Favoriten hinzugefügt",
-      description: `${title} wurde ${isFavorite ? "aus deinen Favoriten entfernt" : "zu deinen Favoriten hinzugefügt"}.`,
-      variant: isFavorite ? "destructive" : "default",
-    });
-  };
-
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 300 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
       className={cn(
-        "group overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all",
+        "group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl", 
         className
       )}
     >
-      <Link to={`/rezept/${id}`} className="block">
+      <Link to={`/rezept/${id}`}>
         <div className="relative aspect-[4/3] overflow-hidden">
-          <img
-            src={image}
-            alt={title}
+          <img 
+            src={image} 
+            alt={title} 
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80"></div>
-          
-          {/* Favorite button */}
-          <button 
-            className="absolute top-3 right-3 z-10 p-1.5 bg-white/80 hover:bg-white rounded-full shadow-md transition-colors"
-            onClick={toggleFavorite}
-          >
-            <Heart 
-              size={18} 
-              className={cn(
-                "transition-colors",
-                isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
-              )} 
-            />
-          </button>
-          
-          <div className="absolute bottom-0 w-full p-4 text-white">
-            <h3 className="font-medium text-white truncate">{title}</h3>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/50 to-transparent opacity-50"></div>
+          <div className="absolute top-3 right-3 rounded-full bg-cookbook-700/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm shadow-sm">
+            {category}
           </div>
         </div>
         
-        <div className="p-4">
-          <div className="flex gap-2 mb-3">
-            <span className="inline-flex items-center rounded-full bg-cookbook-100/80 px-2.5 py-0.5 text-xs font-medium text-cookbook-800">
-              {category}
-            </span>
-            <span className="flex items-center gap-1 rounded-full bg-cookbook-100/60 px-2 py-0.5 text-xs font-medium text-cookbook-700">
-              <Clock size={10} />
-              {duration}
-            </span>
-            <span className="flex items-center gap-1 rounded-full bg-cookbook-100/60 px-2 py-0.5 text-xs font-medium text-cookbook-700">
-              <ChefHat size={10} />
-              {difficulty}
-            </span>
+        <div className="p-5 bg-gradient-to-b from-cookbook-50/30 to-white">
+          <h3 className="mb-2 line-clamp-1 font-playfair text-xl font-bold text-cookbook-800 rounded-lg">
+            {title}
+          </h3>
+          
+          <p className="mb-3 line-clamp-2 text-sm text-gray-600">{description}</p>
+          
+          <div className="flex flex-wrap items-center gap-3 text-xs">
+            <div className="flex items-center gap-1 text-cookbook-700 bg-cookbook-100/60 px-2 py-1 rounded-full">
+              <Clock size={14} />
+              <span>{duration}</span>
+            </div>
+            <div className="flex items-center gap-1 text-cookbook-700 bg-cookbook-100/60 px-2 py-1 rounded-full">
+              <ChefHat size={14} />
+              <span>{difficulty}</span>
+            </div>
           </div>
           
-          <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
-          
-          <div className="mt-3 flex flex-wrap gap-1">
-            {tags?.slice(0, 3).map(tag => (
-              <span key={tag} className="text-xs text-cookbook-600 bg-cookbook-50 px-2 py-0.5 rounded-sm">
-                #{tag}
-              </span>
-            ))}
-            {tags && tags.length > 3 && (
-              <span className="text-xs text-cookbook-600">+{tags.length - 3}</span>
-            )}
-          </div>
+          {tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1">
+              {tags.slice(0, 3).map((tag) => (
+                <span 
+                  key={tag}
+                  className="inline-flex items-center rounded-full bg-cookbook-100 px-2 py-0.5 text-xs font-medium text-cookbook-800"
+                >
+                  <Tag size={10} className="mr-1" />
+                  {tag}
+                </span>
+              ))}
+              {tags.length > 3 && (
+                <span className="inline-flex items-center rounded-full bg-cookbook-50 px-2 py-0.5 text-xs font-medium text-cookbook-700">
+                  +{tags.length - 3}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </Link>
     </motion.div>
