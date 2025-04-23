@@ -99,10 +99,12 @@ export function Header() {
                     className={cn(
                       "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
                       location.pathname === item.path
-                        ? isHomePage 
-                          ? "text-white" 
+                        ? isHomePage && item.path === "/" 
+                          ? isScrolled 
+                            ? "text-cookbook-700" 
+                            : "text-white" 
                           : "text-cookbook-700"
-                        : isHomePage
+                        : isHomePage && item.path === "/"
                           ? isScrolled 
                             ? "text-cookbook-800/80 hover:text-cookbook-700"
                             : "text-white/90 hover:text-white"
@@ -118,7 +120,11 @@ export function Header() {
                         layoutId="navigation-underline"
                         className={cn(
                           "absolute -bottom-1 left-0 h-0.5 w-full rounded",
-                          isHomePage ? "bg-white" : "bg-cookbook-700"
+                          isHomePage && location.pathname === "/"
+                            ? isScrolled 
+                              ? "bg-cookbook-700" 
+                              : "bg-white"
+                            : "bg-cookbook-700"
                         )}
                         transition={{ duration: 0.3 }}
                       />

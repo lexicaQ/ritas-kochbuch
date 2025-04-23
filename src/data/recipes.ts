@@ -583,7 +583,720 @@ const recipes: Recipe[] = [
       }
     ],
     isFavorite: false
+  },
+  {
+    id: "kraeuter-tabbouleh",
+    title: "Kräuter-Tabbouleh",
+    description: "Eine frische Bulgur-Salat-Variation mit vielen Kräutern, Tomaten und einer Zitronennote - perfekt als leichte Beilage oder vegetarisches Hauptgericht.",
+    image: "https://images.unsplash.com/photo-1662472709675-f0ef44b4b29e?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "25 Min (inkl. 15 Min Quellzeit)",
+    difficulty: "leicht",
+    category: "Salat",
+    tags: ["Vegetarisch", "Orientalisch", "Bulgur", "Kräuter", "Frisch"],
+    ingredients: [
+      {
+        items: [
+          { name: "Bulgur (Feinkörnig)", amount: "200 g" },
+          { name: "Kochendes Wasser", amount: "400 ml" },
+          { name: "Tomaten, reif", amount: "4" },
+          { name: "Frühlingszwiebeln", amount: "4" },
+          { name: "Petersilie, frisch", amount: "2 Bund" },
+          { name: "Minze, frisch", amount: "½ Bund" },
+          { name: "Zitronen, Bio", amount: "2" },
+          { name: "Natives Olivenöl", amount: "6 EL" },
+          { name: "Salz", amount: "1 TL" },
+          { name: "Schwarzer Pfeffer, frisch gemahlen", amount: "½ TL" },
+          { name: "Granatapfelkerne zum Garnieren (optional)" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Bulgur in eine Schüssel geben und mit kochendem Wasser übergießen. 15 Minuten quellen lassen, bis die Flüssigkeit vollständig aufgenommen ist.",
+          "In der Zwischenzeit Tomaten waschen, entkernen und in kleine Würfel schneiden.",
+          "Frühlingszwiebeln waschen und in feine Ringe schneiden.",
+          "Petersilie und Minze waschen, trockenschütteln und fein hacken.",
+          "Die Schale der Zitronen fein abreiben und den Saft auspressen.",
+          "Den gequollenen Bulgur mit einer Gabel auflockern.",
+          "Tomatenwürfel, Frühlingszwiebeln, Kräuter, Zitronenabrieb, Zitronensaft und Olivenöl zum Bulgur geben.",
+          "Mit Salz und Pfeffer würzen und gut durchmischen.",
+          "Vor dem Servieren 10 Minuten ziehen lassen und nach Belieben mit Granatapfelkernen garnieren."
+        ]
+      }
+    ],
+    tips: [
+      "Tabbouleh schmeckt am besten frisch zubereitet. Für eine kräftigere Variante können Sie auch etwas fein gehackten Knoblauch hinzufügen.",
+      "Traditionell enthält Tabbouleh mehr Kräuter als Bulgur - zögern Sie also nicht, großzügig mit der Petersilie und Minze zu sein."
+    ],
+    isFavorite: true
+  },
+  {
+    id: "suesses-hefebrot",
+    title: "Süßes Hefebrot",
+    description: "Ein fluffiges, leicht süßes Hefebrot mit Rosinen und Mandeln - perfekt zum Frühstück oder Nachmittagskaffee.",
+    image: "https://images.unsplash.com/photo-1586444248879-bc604bc77eb8?q=80&w=2071&auto=format&fit=crop",
+    portionSize: "1 Kastenform",
+    prepTime: "30 Min (plus 1,5 Std Gehzeit)",
+    cookTime: "40 Min",
+    difficulty: "normal",
+    category: "Brot & Gebäck",
+    tags: ["Süß", "Hefeteig", "Rosinen", "Mandeln", "Frühstück"],
+    ingredients: [
+      {
+        items: [
+          { name: "Mehl (Type 550)", amount: "500 g" },
+          { name: "Frische Hefe", amount: "1 Würfel (42 g)" },
+          { name: "Lauwarme Milch", amount: "250 ml" },
+          { name: "Zucker", amount: "80 g" },
+          { name: "Salz", amount: "1 TL" },
+          { name: "Butter, weich", amount: "80 g" },
+          { name: "Ei", amount: "1" },
+          { name: "Abgeriebene Schale einer Bio-Zitrone", amount: "1 TL" },
+          { name: "Rosinen", amount: "100 g" },
+          { name: "Gehobelte Mandeln", amount: "50 g (plus extra zum Bestreuen)" },
+          { name: "Eigelb zum Bestreichen", amount: "1" },
+          { name: "Hagelzucker zum Bestreuen (optional)" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Rosinen in warmem Wasser einweichen.",
+          "Hefe in lauwarmer Milch auflösen, 1 TL Zucker hinzufügen und 10 Min ruhen lassen.",
+          "Mehl, restlichen Zucker und Salz in einer Schüssel mischen.",
+          "Hefemilch, weiche Butter, Ei und Zitronenschale dazugeben. Zu einem glatten Teig kneten (ca. 10 Min).",
+          "Rosinen abgießen, abtropfen lassen und mit den Mandeln unter den Teig kneten.",
+          "Teig zugedeckt an einem warmen Ort ca. 1 Stunde gehen lassen, bis sich das Volumen verdoppelt hat.",
+          "Teig nochmal durchkneten, zu einem Zopf flechten oder in eine gefettete Kastenform geben.",
+          "Weitere 30 Min zugedeckt gehen lassen.",
+          "Ofen auf 180 °C (Ober-/Unterhitze) vorheizen.",
+          "Brot mit verquirltem Eigelb bestreichen und mit Mandeln und nach Belieben Hagelzucker bestreuen.",
+          "Im vorgeheizten Ofen ca. 40 Min goldbraun backen.",
+          "Aus dem Ofen nehmen und auf einem Gitter abkühlen lassen."
+        ]
+      }
+    ],
+    tips: [
+      "Für ein besonders aromatisches Brot können Sie dem Teig auch 1 TL Vanilleextrakt beifügen.",
+      "Wenn das Brot während des Backens zu dunkel wird, mit Alufolie abdecken."
+    ],
+    isFavorite: false
+  },
+  {
+    id: "zitronencreme-kuchen",
+    title: "Zitronencreme-Kuchen vom Blech",
+    description: "Ein saftiger Blechkuchen mit erfrischender Zitronencreme und knusprigen Streuseln - ideal für größere Feiern und Kaffeekränzchen.",
+    image: "https://images.unsplash.com/photo-1514910870330-8e744fae77f0?q=80&w=2071&auto=format&fit=crop",
+    portionSize: "1 Backblech (ca. 20 Stücke)",
+    prepTime: "40 Min",
+    cookTime: "25 Min (plus Kühlzeit)",
+    difficulty: "mittel",
+    category: "Dessert",
+    tags: ["Blechkuchen", "Zitrone", "Streusel", "Creme", "Süß"],
+    ingredients: [
+      {
+        group: "Teig",
+        items: [
+          { name: "Mehl", amount: "400 g" },
+          { name: "Zucker", amount: "150 g" },
+          { name: "Vanillezucker", amount: "1 Päckchen" },
+          { name: "Butter, kalt", amount: "250 g" },
+          { name: "Ei", amount: "1" },
+          { name: "Backpulver", amount: "1 TL" },
+          { name: "Salz", amount: "1 Prise" }
+        ]
+      },
+      {
+        group: "Zitronencreme",
+        items: [
+          { name: "Zitronen, Bio", amount: "3" },
+          { name: "Zucker", amount: "200 g" },
+          { name: "Vanillezucker", amount: "1 Päckchen" },
+          { name: "Speisestärke", amount: "40 g" },
+          { name: "Eier", amount: "2" },
+          { name: "Butter", amount: "100 g" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Teig & Streusel",
+        items: [
+          "Für den Teig Mehl, Zucker, Vanillezucker, Backpulver und Salz mischen.",
+          "Kalte Butter in Stücken und Ei hinzufügen, zu einem krümeligen Teig verarbeiten.",
+          "2/3 des Teigs auf ein mit Backpapier ausgelegtes Blech drücken.",
+          "Restlichen Teig für Streusel beiseite stellen und kalt stellen.",
+          "Ofen auf 180 °C (Ober-/Unterhitze) vorheizen."
+        ]
+      },
+      {
+        group: "Zitronencreme",
+        items: [
+          "Zitronen heiß waschen, abtrocknen und Schale fein abreiben.",
+          "Zitronen auspressen, Saft mit Zucker, Vanillezucker, Speisestärke und Eiern verrühren.",
+          "Mischung erhitzen und unter ständigem Rühren aufkochen lassen, bis sie eindickt.",
+          "Von der Hitze nehmen, Butter und Zitronenabrieb unterrühren.",
+          "Creme auf den vorbereiteten Teigboden streichen.",
+          "Streusel gleichmäßig auf der Creme verteilen.",
+          "Im vorgeheizten Ofen ca. 25 Min backen, bis die Streusel goldbraun sind.",
+          "Vollständig auskühlen lassen, dann in Stücke schneiden."
+        ]
+      }
+    ],
+    tips: [
+      "Für eine intensivere Zitronennote können Sie den Saft einer zusätzlichen Zitrone verwenden.",
+      "Der Kuchen schmeckt am nächsten Tag noch besser, wenn die Aromen sich entfalten konnten.",
+      "Im Sommer ist eine Variante mit etwas Limettensaft besonders erfrischend."
+    ],
+    isFavorite: true
+  },
+  {
+    id: "himbeer-joghurt-torte",
+    title: "Himbeer-Joghurt-Torte",
+    description: "Eine leichte Torte mit frischen Himbeeren, cremiger Joghurtfüllung und knusprigem Biskuitboden - ein Genuss für warme Sommertage.",
+    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=2065&auto=format&fit=crop",
+    portionSize: "1 Springform (Ø 26 cm)",
+    prepTime: "45 Min (plus 4 Std Kühlzeit)",
+    difficulty: "mittel",
+    category: "Dessert",
+    tags: ["Torte", "Himbeeren", "Joghurt", "Sommerkuchen", "Fruchtig"],
+    ingredients: [
+      {
+        group: "Biskuitboden",
+        items: [
+          { name: "Eier", amount: "4" },
+          { name: "Zucker", amount: "120 g" },
+          { name: "Vanillezucker", amount: "1 Päckchen" },
+          { name: "Mehl", amount: "120 g" },
+          { name: "Backpulver", amount: "1 TL" },
+          { name: "Salz", amount: "1 Prise" }
+        ]
+      },
+      {
+        group: "Füllung",
+        items: [
+          { name: "Griechischer Joghurt", amount: "500 g" },
+          { name: "Sahne", amount: "400 ml" },
+          { name: "Zucker", amount: "100 g" },
+          { name: "Vanilleextrakt", amount: "1 TL" },
+          { name: "Gelatine", amount: "9 Blatt" },
+          { name: "Himbeeren, frisch", amount: "400 g" },
+          { name: "Zitronensaft", amount: "2 EL" }
+        ]
+      },
+      {
+        group: "Topping",
+        items: [
+          { name: "Himbeeren, frisch", amount: "300 g" },
+          { name: "Tortenguss, klar", amount: "1 Päckchen" },
+          { name: "Minzblätter zur Dekoration" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Biskuitboden",
+        items: [
+          "Ofen auf 180 °C vorheizen, Springform (Ø 26 cm) fetten und mit Backpapier auslegen.",
+          "Eier mit Zucker und Vanillezucker ca. 10 Min schaumig schlagen, bis die Masse hell und cremig ist.",
+          "Mehl mit Backpulver und Salz mischen, vorsichtig unter die Eimasse heben.",
+          "Teig in die Form füllen, glatt streichen und ca. 25 Min backen (Stäbchenprobe).",
+          "Aus dem Ofen nehmen, kurz abkühlen lassen, dann aus der Form lösen und vollständig auskühlen lassen.",
+          "Biskuit horizontal in zwei gleich dicke Böden schneiden."
+        ]
+      },
+      {
+        group: "Füllung & Zusammenbau",
+        items: [
+          "Gelatine nach Packungsanweisung einweichen.",
+          "250 g Himbeeren mit Zitronensaft pürieren und durch ein Sieb streichen.",
+          "Restliche ganze Himbeeren beiseite stellen.",
+          "Sahne steif schlagen, beiseite stellen.",
+          "Joghurt mit Zucker und Vanilleextrakt verrühren.",
+          "Ausgedrückte Gelatine in etwas erhitztem Himbeerpüree auflösen, dann unter das restliche Püree rühren.",
+          "Himbeermischung unter die Joghurtmasse ziehen, kurz anziehen lassen.",
+          "Sahne unterheben, wenn die Masse leicht zu gelieren beginnt.",
+          "Unteren Biskuitboden in eine Springform legen, Himbeerjoghurtcreme darauf verteilen.",
+          "Ganze Himbeeren einstreuen, oberen Biskuitboden auflegen.",
+          "Mindestens 4 Stunden, am besten über Nacht, kühlen."
+        ]
+      },
+      {
+        group: "Fertigstellung",
+        items: [
+          "Torte aus der Form lösen und auf eine Servierplatte setzen.",
+          "Frische Himbeeren dekorativ auf der Torte verteilen.",
+          "Tortenguss nach Packungsanweisung zubereiten und vorsichtig über die Himbeeren gießen.",
+          "Nochmals kurz kühlen, mit Minzblättern garnieren und servieren."
+        ]
+      }
+    ],
+    tips: [
+      "Im Winter können auch aufgetaute TK-Himbeeren verwendet werden.",
+      "Die Torte schmeckt am besten, wenn sie einen Tag vor dem Servieren zubereitet wird.",
+      "Für eine noch elegantere Variante können Sie den Tortenrand mit gehackten Pistazien verzieren."
+    ],
+    isFavorite: true
+  },
+  {
+    id: "lauwarmer-kartoffelsalat",
+    title: "Lauwarmer Kartoffelsalat mit Ziegenkäse",
+    description: "Ein raffinierter Kartoffelsalat mit cremigem Ziegenkäse, knackigen Walnüssen und frischen Kräutern - perfekt als Beilage oder leichtes Hauptgericht.",
+    image: "https://images.unsplash.com/photo-1635321593217-40050ad13c74?q=80&w=2048&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "30 Min",
+    difficulty: "leicht",
+    category: "Salat",
+    tags: ["Vegetarisch", "Kartoffeln", "Ziegenkäse", "Walnüsse", "Lauwarm"],
+    ingredients: [
+      {
+        items: [
+          { name: "Festkochende Kartoffeln", amount: "800 g" },
+          { name: "Rote Zwiebel", amount: "1" },
+          { name: "Ziegenkäserolle", amount: "150 g" },
+          { name: "Walnusskerne", amount: "60 g" },
+          { name: "Rucola", amount: "1 Handvoll" },
+          { name: "Frische Petersilie", amount: "½ Bund" },
+          { name: "Frischer Thymian", amount: "2 Zweige" },
+          { name: "Natives Olivenöl extra", amount: "4 EL" },
+          { name: "Weißweinessig", amount: "2 EL" },
+          { name: "Dijonsenf", amount: "1 TL" },
+          { name: "Honig", amount: "1 TL" },
+          { name: "Salz und Pfeffer" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Kartoffeln gründlich waschen und in Salzwasser etwa 20 Minuten kochen, bis sie gar, aber noch fest sind.",
+          "In der Zwischenzeit Walnüsse in einer Pfanne ohne Fett leicht rösten, beiseite stellen und abkühlen lassen.",
+          "Für das Dressing Olivenöl, Weißweinessig, Senf und Honig verrühren, mit Salz und Pfeffer abschmecken.",
+          "Rote Zwiebel schälen und in feine Ringe schneiden.",
+          "Kartoffeln abgießen, kurz abkühlen lassen und noch warm pellen.",
+          "Kartoffeln in Scheiben schneiden und in eine Schüssel geben.",
+          "Das Dressing über die warmen Kartoffeln gießen und vorsichtig mischen.",
+          "Zwiebeln, gehackte Petersilie und Thymianblätter unterheben.",
+          "Ziegenkäse in Scheiben schneiden.",
+          "Kartoffelsalat auf Tellern anrichten, Rucola darauf verteilen.",
+          "Ziegenkäsescheiben darauf legen und mit gehackten Walnüssen bestreuen.",
+          "Lauwarm servieren."
+        ]
+      }
+    ],
+    tips: [
+      "Der Salat kann mit gerösteten Pinienkernen statt Walnüssen zubereitet werden.",
+      "Für eine intensivere Note etwas fein gehackte Knoblauchzehe ins Dressing geben.",
+      "Im Sommer schmecken auch ein paar halbierte Kirschtomaten herrlich dazu."
+    ],
+    isFavorite: false
+  },
+  {
+    id: "kirsch-schoko-kuchen",
+    title: "Kirsch-Schoko-Kuchen",
+    description: "Ein saftiger Schokoladenkuchen mit süßen Kirschen und zartbitterer Schokoglasur - ein Traum für alle Schokoholics.",
+    image: "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?q=80&w=2047&auto=format&fit=crop",
+    portionSize: "1 Springform (Ø 26 cm)",
+    prepTime: "30 Min",
+    cookTime: "50 Min",
+    difficulty: "normal",
+    category: "Dessert",
+    tags: ["Kuchen", "Schokolade", "Kirschen", "Backen", "Süß"],
+    ingredients: [
+      {
+        group: "Teig",
+        items: [
+          { name: "Butter", amount: "200 g" },
+          { name: "Zucker", amount: "200 g" },
+          { name: "Vanillezucker", amount: "1 Päckchen" },
+          { name: "Eier", amount: "4" },
+          { name: "Mehl", amount: "300 g" },
+          { name: "Backpulver", amount: "2 TL" },
+          { name: "Kakaopulver", amount: "3 EL" },
+          { name: "Milch", amount: "100 ml" },
+          { name: "Kirschen (frisch oder TK, entsteint)", amount: "400 g" },
+          { name: "Stärke", amount: "2 EL" }
+        ]
+      },
+      {
+        group: "Glasur",
+        items: [
+          { name: "Zartbitterschokolade", amount: "200 g" },
+          { name: "Butter", amount: "100 g" },
+          { name: "Schokoblätter oder -späne zur Dekoration", amount: "nach Belieben" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Ofen auf 180 °C vorheizen. Springform (Ø 26 cm) fetten und mit Backpapier auslegen.",
+          "Butter mit Zucker und Vanillezucker schaumig schlagen.",
+          "Eier einzeln unterrühren, bis eine cremige Masse entsteht.",
+          "Mehl mit Backpulver und Kakaopulver mischen, abwechselnd mit der Milch unter die Buttermasse rühren.",
+          "Falls frische Kirschen verwendet werden, diese waschen und entsteinen. TK-Kirschen auftauen lassen.",
+          "Kirschen gut abtropfen lassen und mit Stärke bestäuben, damit sie im Teig nicht zu stark absinken.",
+          "Kirschen vorsichtig unter den Teig heben.",
+          "Teig in die vorbereitete Form gießen und glatt streichen.",
+          "Im vorgeheizten Ofen etwa 50 Minuten backen (Stäbchenprobe).",
+          "Kuchen abkühlen lassen und aus der Form lösen.",
+          "Für die Glasur Schokolade und Butter über einem Wasserbad schmelzen, glattrühren und über den Kuchen gießen.",
+          "Mit Schokoblättern oder -spänen dekorieren und vor dem Servieren vollständig fest werden lassen."
+        ]
+      }
+    ],
+    tips: [
+      "Bei Verwendung von TK-Kirschen diese nicht komplett auftauen lassen, dann bleiben sie beim Backen besser in Form.",
+      "Für ein intensiveres Schokoladenaroma können Sie einen EL Instant-Espressopulver zum Teig geben."
+    ],
+    isFavorite: false
+  },
+  {
+    id: "provenzalischer-auflauf",
+    title: "Provenzalischer Auflauf",
+    description: "Ein mediterraner Gemüseauflauf mit Zucchini, Aubergine und Tomaten, verfeinert mit Kräutern der Provence - ein Stück Südfrankreich auf dem Teller.",
+    image: "https://images.unsplash.com/photo-1511994714008-b6d68a8b32a2?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "30 Min",
+    cookTime: "45 Min",
+    difficulty: "normal",
+    category: "Hauptgericht",
+    tags: ["Vegetarisch", "Auflauf", "Französisch", "Gemüse", "Mediterran"],
+    ingredients: [
+      {
+        items: [
+          { name: "Zucchini", amount: "2" },
+          { name: "Aubergine", amount: "1" },
+          { name: "Rote Paprika", amount: "1" },
+          { name: "Zwiebeln", amount: "2" },
+          { name: "Knoblauchzehen", amount: "3" },
+          { name: "Reife Tomaten", amount: "4" },
+          { name: "Tomatenmark", amount: "2 EL" },
+          { name: "Olivenöl", amount: "5 EL" },
+          { name: "Kräuter der Provence", amount: "2 TL" },
+          { name: "Frischer Thymian", amount: "3 Zweige" },
+          { name: "Lorbeerblatt", amount: "1" },
+          { name: "Salz und Pfeffer" },
+          { name: "Ziegenkäse (optional)", amount: "150 g" },
+          { name: "Frisches Baguette zum Servieren" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Ofen auf 200 °C vorheizen.",
+          "Zucchini und Aubergine waschen und in ca. 1 cm dicke Scheiben schneiden.",
+          "Paprika entkernen und in Streifen schneiden.",
+          "Zwiebeln und Knoblauch schälen und fein würfeln.",
+          "Tomaten überbrühen, häuten, entkernen und würfeln.",
+          "Eine Auflaufform mit etwas Olivenöl einpinseln.",
+          "2 EL Olivenöl in einer großen Pfanne erhitzen, Zwiebeln und Knoblauch darin glasig dünsten.",
+          "Tomatenmark kurz mitrösten, dann die gewürfelten Tomaten zugeben.",
+          "Mit Kräutern der Provence, Thymian, Lorbeerblatt, Salz und Pfeffer würzen. 5 Min köcheln lassen.",
+          "Auberginenscheiben in einer separaten Pfanne mit etwas Olivenöl von beiden Seiten anbraten, salzen.",
+          "Zucchinischeiben und Paprikastreifen ebenso kurz anbraten.",
+          "Lorbeerblatt entfernen. Ein Drittel der Tomatensauce in die Auflaufform geben.",
+          "Gemüsescheiben dachziegelartig in die Form schichten, zwischen die Schichten immer wieder etwas Tomatensauce geben.",
+          "Mit Tomatensauce abschließen, nach Belieben Ziegenkäsescheiben darauf verteilen.",
+          "Im vorgeheizten Ofen 30-35 Min backen, bis das Gemüse weich und die Oberfläche leicht gebräunt ist.",
+          "Vor dem Servieren 10 Min ruhen lassen, mit frischem Thymian garnieren.",
+          "Mit Baguette servieren."
+        ]
+      }
+    ],
+    tips: [
+      "Für eine proteinreichere Variante können Sie eine Schicht gekochte Linsen oder gewürfelte Feta hinzufügen.",
+      "Im Sommer können Sie den Auflauf auch auf dem Grill in einer gusseisernen Pfanne zubereiten.",
+      "Übrig gebliebener Auflauf schmeckt am nächsten Tag kalt als Antipasti hervorragend."
+    ],
+    isFavorite: true
+  },
+  {
+    id: "nussecken",
+    title: "Nussecken",
+    description: "Klassische deutsche Nussecken mit knusprigem Mürbeteig, karamellisierter Nussmasse und zartbitterer Schokolade - ein Gebäckklassiker, der nie aus der Mode kommt.",
+    image: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=2071&auto=format&fit=crop",
+    portionSize: "ca. 20 Stück",
+    prepTime: "40 Min",
+    cookTime: "30 Min",
+    difficulty: "mittel",
+    category: "Gebäck",
+    tags: ["Kekse", "Nüsse", "Schokolade", "Backen", "Klassiker"],
+    ingredients: [
+      {
+        group: "Mürbeteig",
+        items: [
+          { name: "Mehl", amount: "300 g" },
+          { name: "Zucker", amount: "100 g" },
+          { name: "Vanillezucker", amount: "1 Päckchen" },
+          { name: "Butter, kalt", amount: "200 g" },
+          { name: "Ei", amount: "1" },
+          { name: "Prise Salz" }
+        ]
+      },
+      {
+        group: "Nussmasse",
+        items: [
+          { name: "Butter", amount: "200 g" },
+          { name: "Zucker", amount: "200 g" },
+          { name: "Honig", amount: "2 EL" },
+          { name: "Gemahlene Haselnüsse", amount: "200 g" },
+          { name: "Gemahlene Mandeln", amount: "200 g" },
+          { name: "Aprikosenmarmelade", amount: "5 EL" },
+          { name: "Sahne", amount: "4 EL" },
+          { name: "Vanilleextrakt", amount: "1 TL" }
+        ]
+      },
+      {
+        group: "Glasur",
+        items: [
+          { name: "Zartbitterkuvertüre", amount: "200 g" },
+          { name: "Kokosfett", amount: "1 TL" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Mürbeteig",
+        items: [
+          "Mehl, Zucker, Vanillezucker und Salz mischen.",
+          "Kalte Butter in Stücken und Ei hinzufügen, schnell zu einem glatten Teig verkneten.",
+          "Teig in Frischhaltefolie wickeln und 30 Min kalt stellen.",
+          "Ofen auf 180 °C vorheizen. Ein Backblech (ca. 30 x 40 cm) mit Backpapier auslegen.",
+          "Teig auf dem Backpapier dünn ausrollen, sodass er das Blech bedeckt.",
+          "Mit einer Gabel mehrmals einstechen."
+        ]
+      },
+      {
+        group: "Nussmasse & Fertigstellung",
+        items: [
+          "Butter, Zucker, Honig und Sahne in einem Topf schmelzen und 2 Min köcheln lassen.",
+          "Vom Herd nehmen, Nüsse und Vanilleextrakt unterrühren.",
+          "Aprikosenmarmelade auf dem Mürbeteig verstreichen.",
+          "Nussmasse gleichmäßig darauf verteilen.",
+          "Im vorgeheizten Ofen ca. 25-30 Min backen, bis die Nussmasse goldbraun ist.",
+          "Kuchen aus dem Ofen nehmen und noch heiß in Rauten oder Dreiecke schneiden.",
+          "Vollständig abkühlen lassen.",
+          "Für die Glasur Kuvertüre mit Kokosfett über einem Wasserbad schmelzen.",
+          "Ecken der Nussecken in die Schokolade tauchen.",
+          "Auf einem mit Backpapier belegten Blech trocknen lassen."
+        ]
+      }
+    ],
+    tips: [
+      "Die Nussecken halten sich in einer luftdichten Dose etwa 2 Wochen frisch.",
+      "Für besonders karamellisierte Nussecken den Zucker in der Nussmasse vorher leicht anbräunen.",
+      "Wer mag, kann unter die Glasur etwas Orangenabrieb mischen für eine fruchtige Note."
+    ],
+    isFavorite: true
+  },
+  {
+    id: "poulardenbrust",
+    title: "Poulardenbrust mit Salat und mariniertem Lauch",
+    description: "Zartes Poulardenfleisch auf einem Bett aus frischem Salat und sanft mariniertem Lauch - ein elegantes, leichtes Gericht für besondere Anlässe.",
+    image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=2013&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "30 Min (plus 1 Std Marinierzeit)",
+    cookTime: "25 Min",
+    difficulty: "mittel",
+    category: "Hauptgericht",
+    tags: ["Geflügel", "Poularde", "Lauch", "Salat", "Leicht"],
+    ingredients: [
+      {
+        group: "Poulardenbrust",
+        items: [
+          { name: "Poulardenbrüste (mit Haut)", amount: "2 (je ca. 250 g)" },
+          { name: "Butter", amount: "2 EL" },
+          { name: "Olivenöl", amount: "1 EL" },
+          { name: "Frischer Thymian", amount: "4 Zweige" },
+          { name: "Knoblauchzehe", amount: "1" },
+          { name: "Salz und frisch gemahlener Pfeffer" }
+        ]
+      },
+      {
+        group: "Marinierter Lauch",
+        items: [
+          { name: "Lauchstangen", amount: "3" },
+          { name: "Schalotte", amount: "1" },
+          { name: "Weißweinessig", amount: "3 EL" },
+          { name: "Dijonsenf", amount: "1 TL" },
+          { name: "Honig", amount: "1 TL" },
+          { name: "Natives Olivenöl extra", amount: "5 EL" },
+          { name: "Frischer Dill", amount: "2 EL, gehackt" },
+          { name: "Salz und Pfeffer" }
+        ]
+      },
+      {
+        group: "Salat",
+        items: [
+          { name: "Gemischte Blattsalate", amount: "200 g" },
+          { name: "Radieschen", amount: "1 Bund" },
+          { name: "Gurke", amount: "½" },
+          { name: "Zitronensaft", amount: "1 EL" },
+          { name: "Olivenöl", amount: "2 EL" },
+          { name: "Salz und Pfeffer" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Marinierter Lauch",
+        items: [
+          "Lauchstangen gründlich waschen, nur den weißen und hellgrünen Teil in feine Ringe schneiden.",
+          "Lauch in kochendem Salzwasser 2 Min blanchieren, in Eiswasser abschrecken und gut abtropfen lassen.",
+          "Schalotte fein würfeln.",
+          "Für die Marinade Essig, Senf und Honig verrühren, dann langsam Olivenöl einrühren.",
+          "Schalotte und gehackten Dill unterrühren, mit Salz und Pfeffer abschmecken.",
+          "Lauch mit der Marinade mischen und mindestens 1 Std ziehen lassen."
+        ]
+      },
+      {
+        group: "Poulardenbrust",
+        items: [
+          "Poulardenbrüste trocken tupfen, mit Salz und Pfeffer würzen.",
+          "In einer Pfanne Butter und Öl erhitzen.",
+          "Poulardenbrüste mit der Hautseite nach unten in die Pfanne legen.",
+          "Thymian und angedrückte Knoblauchzehe dazugeben.",
+          "Bei mittlerer Hitze ca. 5 Min braten, bis die Haut goldbraun und knusprig ist.",
+          "Wenden und weitere 10-15 Min braten, bis das Fleisch durchgegart, aber noch saftig ist.",
+          "Aus der Pfanne nehmen und kurz ruhen lassen."
+        ]
+      },
+      {
+        group: "Salat & Anrichten",
+        items: [
+          "Blattsalate waschen und trockenschleudern.",
+          "Radieschen in dünne Scheiben schneiden, Gurke entkernen und in feine Streifen schneiden.",
+          "Salat mit Zitronensaft, Olivenöl, Salz und Pfeffer anmachen.",
+          "Salat auf Tellern anrichten, marinierten Lauch darauf verteilen.",
+          "Poulardenbrüste in Scheiben schneiden und auf dem Salat anrichten.",
+          "Mit etwas Bratfond beträufeln und sofort servieren."
+        ]
+      }
+    ],
+    tips: [
+      "Für eine intensivere Marinade können Sie etwas fein geriebene Zitronenschale hinzufügen.",
+      "Die Poularde kann auch durch Maishähnchenbrust ersetzt werden.",
+      "Servieren Sie dazu frisches Baguette oder kleine Kartoffeln."
+    ],
+    isFavorite: false
+  },
+  {
+    id: "rinderfilet-schmorzwiebelsauce",
+    title: "Rinderfilet mit Schmorzwiebelsauce und Pfefferkruste auf Paprikawürfel",
+    description: "Zartes Rinderfilet mit einer aromatischen Pfefferkruste, dazu eine reichhaltige Schmorzwiebelsauce und frische Paprikawürfel - ein Gericht für besondere Anlässe.",
+    image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "45 Min",
+    cookTime: "30 Min",
+    difficulty: "anspruchsvoll",
+    category: "Hauptgericht",
+    tags: ["Rindfleisch", "Filet", "Festlich", "Schmorzwiebelsauce", "Pfefferkruste"],
+    ingredients: [
+      {
+        group: "Rinderfilet",
+        items: [
+          { name: "Rinderfilet (am Stück)", amount: "800 g" },
+          { name: "Schwarzer Pfeffer, grob gemörsert", amount: "2 EL" },
+          { name: "Grüner Pfeffer, grob gemörsert", amount: "1 EL" },
+          { name: "Rosa Beeren, grob gemörsert", amount: "1 EL" },
+          { name: "Senf, mittelscharfer", amount: "2 EL" },
+          { name: "Salz" },
+          { name: "Olivenöl", amount: "2 EL" },
+          { name: "Butter", amount: "2 EL" },
+          { name: "Frische Thymianzweige", amount: "4" }
+        ]
+      },
+      {
+        group: "Schmorzwiebelsauce",
+        items: [
+          { name: "Zwiebeln", amount: "4 große" },
+          { name: "Butter", amount: "3 EL" },
+          { name: "Brauner Zucker", amount: "1 EL" },
+          { name: "Balsamico-Essig", amount: "3 EL" },
+          { name: "Rotwein", amount: "200 ml" },
+          { name: "Rinderfond", amount: "400 ml" },
+          { name: "Lorbeerblatt", amount: "1" },
+          { name: "Wacholderbeeren", amount: "3, leicht angedrückt" },
+          { name: "Maisstärke zum Binden (optional)", amount: "1 TL" },
+          { name: "Salz und Pfeffer" }
+        ]
+      },
+      {
+        group: "Paprikawürfel",
+        items: [
+          { name: "Rote Paprikaschoten", amount: "2" },
+          { name: "Gelbe Paprikaschoten", amount: "2" },
+          { name: "Olivenöl", amount: "2 EL" },
+          { name: "Knoblauchzehe", amount: "1" },
+          { name: "Salz und Pfeffer" },
+          { name: "Frische Petersilie, gehackt", amount: "2 EL" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Schmorzwiebelsauce",
+        items: [
+          "Zwiebeln schälen und in feine Ringe schneiden.",
+          "In einem breiten Topf Butter schmelzen, Zwiebeln dazugeben und bei mittlerer Hitze ca. 10 Min glasig dünsten.",
+          "Braunen Zucker darüber streuen und unter Rühren karamellisieren lassen.",
+          "Mit Balsamico-Essig ablöschen und einkochen lassen.",
+          "Rotwein zugießen, um die Hälfte einkochen lassen.",
+          "Rinderfond, Lorbeerblatt und Wacholderbeeren zugeben.",
+          "Bei niedriger Hitze ca. 20 Min köcheln lassen, bis die Sauce eingedickt ist.",
+          "Lorbeerblatt und Wacholderbeeren entfernen.",
+          "Mit Salz und Pfeffer abschmecken, bei Bedarf mit etwas in kaltem Wasser angerührter Maisstärke binden.",
+          "Warm halten."
+        ]
+      },
+      {
+        group: "Paprikawürfel",
+        items: [
+          "Paprikaschoten waschen, entkernen und in gleichmäßige kleine Würfel schneiden.",
+          "Knoblauchzehe fein hacken.",
+          "In einer Pfanne Olivenöl erhitzen, Knoblauch kurz anschwitzen.",
+          "Paprikawürfel zugeben und bei hoher Hitze ca. 5 Min anbraten.",
+          "Mit Salz und Pfeffer würzen, gehackte Petersilie unterrühren.",
+          "Warm halten."
+        ]
+      },
+      {
+        group: "Rinderfilet",
+        items: [
+          "Ofen auf 180 °C vorheizen.",
+          "Rinderfilet trocken tupfen, mit Salz würzen.",
+          "Alle Pfeffersorten mischen.",
+          "Filet rundum mit Senf bestreichen, dann in der Pfeffermischung wälzen und leicht andrücken.",
+          "In einer ofenfesten Pfanne Öl und Butter erhitzen.",
+          "Filet von allen Seiten ca. 4 Min scharf anbraten, dabei mehrmals wenden.",
+          "Thymianzweige dazugeben.",
+          "Pfanne in den vorgeheizten Ofen stellen und das Filet je nach gewünschtem Gargrad 15-25 Min garen.",
+          "Aus dem Ofen nehmen und 5-10 Min ruhen lassen."
+        ]
+      },
+      {
+        group: "Anrichten",
+        items: [
+          "Paprikawürfel auf vorgewärmten Tellern verteilen.",
+          "Filet in Medaillons schneiden und auf die Paprika setzen.",
+          "Schmorzwiebelsauce daneben anrichten oder separat servieren.",
+          "Mit frischen Kräutern garnieren und sofort servieren."
+        ]
+      }
+    ],
+    tips: [
+      "Die ideale Kerntemperatur für medium rare beträgt ca. 56-58°C, für medium ca. 60-62°C.",
+      "Die Sauce kann bereits einen Tag zuvor zubereitet und vor dem Servieren erwärmt werden.",
+      "Dazu passen Kartoffelgratin oder Rosmarinkartoffeln hervorragend."
+    ],
+    isFavorite: true
   }
 ];
 
 export default recipes;
+
