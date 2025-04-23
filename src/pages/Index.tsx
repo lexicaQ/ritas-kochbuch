@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Search, Clock, ChefHat, ChevronsRight } from "lucide-react";
+import { ArrowRight, Search, Clock, ChefHat, ChevronsRight, Heart, Star, BarChart, Flame } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -12,11 +12,84 @@ import { Header } from "@/components/header";
 import recipes from "@/data/recipes";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+
+// Define the interface for decorative elements
+interface DecorativeElementProps {
+  x: string;
+  y: string;
+  rotate: number;
+  scale: number;
+  opacity: number;
+  delay: number;
+  duration: number;
+  type: 'circle' | 'square' | 'triangle' | 'dot';
+}
+
+// Create array of decorative elements
+const decorativeElements: DecorativeElementProps[] = [
+  { x: '10%', y: '20%', rotate: 0, scale: 1, opacity: 0.3, delay: 0, duration: 20, type: 'circle' },
+  { x: '85%', y: '15%', rotate: 45, scale: 0.8, opacity: 0.2, delay: 1, duration: 15, type: 'square' },
+  { x: '20%', y: '80%', rotate: 180, scale: 1.2, opacity: 0.15, delay: 2, duration: 25, type: 'triangle' },
+  { x: '70%', y: '70%', rotate: 90, scale: 0.7, opacity: 0.25, delay: 0.5, duration: 18, type: 'dot' },
+  { x: '40%', y: '30%', rotate: 30, scale: 0.9, opacity: 0.1, delay: 1.5, duration: 22, type: 'circle' },
+];
+
+// Create the DecorativeElement component
+const DecorativeElement = ({ x, y, rotate, scale, opacity, delay, duration, type }: DecorativeElementProps) => {
+  let element;
+  
+  switch (type) {
+    case 'circle':
+      element = <div className="w-16 h-16 rounded-full bg-white/5" />;
+      break;
+    case 'square':
+      element = <div className="w-12 h-12 bg-white/5" />;
+      break;
+    case 'triangle':
+      element = (
+        <div className="w-0 h-0 
+                      border-l-[10px] border-l-transparent
+                      border-b-[16px] border-b-white/5
+                      border-r-[10px] border-r-transparent" />
+      );
+      break;
+    case 'dot':
+      element = <div className="w-3 h-3 rounded-full bg-white/10" />;
+      break;
+  }
+  
+  return (
+    <motion.div
+      className="absolute z-0"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, rotate, scale: 0 }}
+      animate={{
+        opacity,
+        rotate: rotate + 360,
+        scale,
+      }}
+      transition={{
+        duration,
+        delay,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }}
+    >
+      {element}
+    </motion.div>
+  );
+};
 
 const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof recipes | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCategories, setVisibleCategories] = useState<string[]>([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState<typeof recipes>([]);
+  const [mostCookedRecipes, setMostCookedRecipes] = useState<typeof recipes>([]);
+  const [topRatedRecipes, setTopRatedRecipes] = useState<typeof recipes>([]);
+  const { toast } = useToast();
   
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
@@ -32,6 +105,100 @@ const Index = () => {
       // Start with first 2 categories
       setVisibleCategories(categories.slice(0, 2));
     }
+    
+    // Load user favorites from localStorage
+    const loadFavorites = () => {
+      try {
+        const storedFavorites = localStorage.getItem('user-favorite-recipes');
+        if (storedFavorites) {
+          const favoriteIds = JSON.parse(storedFavorites) as string[];
+          const userFavorites = recipes.filter(recipe => favoriteIds.includes(recipe.id));
+          setFavoriteRecipes(userFavorites);
+        }
+      } catch (error) {
+        console.error('Error loading favorites:', error);
+      }
+    };
+    
+    // Load most cooked recipes based on visit count
+    const loadMostCooked = () => {
+      try {
+        const visitCounts = {};
+        const completedCounts = {};
+        
+        // Get all localStorage keys
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          
+          // Track visit counts
+          if (key && key.startsWith('recipe-visit-count-')) {
+            const recipeId = key.replace('recipe-visit-count-', '');
+            visitCounts[recipeId] = parseInt(localStorage.getItem(key) || '0');
+          }
+          
+          // Track completion counts
+          if (key && key.startsWith('recipe-completed-count-')) {
+            const recipeId = key.replace('recipe-completed-count-', '');
+            completedCounts[recipeId] = parseInt(localStorage.getItem(key) || '0');
+          }
+        }
+        
+        // Sort recipes by completion count first, then visit count
+        const sortedRecipes = [...recipes].sort((a, b) => {
+          const aCompleted = completedCounts[a.id] || 0;
+          const bCompleted = completedCounts[b.id] || 0;
+          
+          if (aCompleted !== bCompleted) {
+            return bCompleted - aCompleted;
+          }
+          
+          const aVisits = visitCounts[a.id] || 0;
+          const bVisits = visitCounts[b.id] || 0;
+          return bVisits - aVisits;
+        });
+        
+        setMostCookedRecipes(sortedRecipes.slice(0, 4));
+      } catch (error) {
+        console.error('Error loading most cooked recipes:', error);
+      }
+    };
+    
+    // Load highest rated recipes
+    const loadTopRated = () => {
+      try {
+        const ratings = {};
+        const ratingCounts = {};
+        
+        // Get all localStorage keys
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          
+          // Track ratings
+          if (key && key.startsWith('recipe-rating-')) {
+            const recipeId = key.replace('recipe-rating-', '');
+            ratings[recipeId] = parseFloat(localStorage.getItem(key) || '0');
+            
+            // Also get count of ratings
+            const countKey = `recipe-rating-count-${recipeId}`;
+            ratingCounts[recipeId] = parseInt(localStorage.getItem(countKey) || '1');
+          }
+        }
+        
+        // Sort recipes by rating (only include recipes with at least one rating)
+        const ratedRecipes = recipes.filter(recipe => ratings[recipe.id] > 0);
+        const sortedRecipes = [...ratedRecipes].sort((a, b) => {
+          return (ratings[b.id] || 0) - (ratings[a.id] || 0);
+        });
+        
+        setTopRatedRecipes(sortedRecipes.slice(0, 4));
+      } catch (error) {
+        console.error('Error loading top-rated recipes:', error);
+      }
+    };
+    
+    loadFavorites();
+    loadMostCooked();
+    loadTopRated();
   }, []);
 
   const handleSearch = (query: string, filters: string[]) => {
@@ -69,53 +236,21 @@ const Index = () => {
     }, 500);
   };
 
-  // Removed the redundant handleSearchInputChange and showSuggestions state since we're now handling it in SearchBar
-
-  // Enhanced animated decorative elements for hero section
-  const decorativeElements = [
-    { delay: 0, x: "20%", y: "20%", size: "xl" },
-    { delay: 0.2, x: "80%", y: "60%", size: "lg" },
-    { delay: 0.4, x: "50%", y: "30%", size: "md" },
-    { delay: 0.6, x: "10%", y: "70%", size: "sm" },
-    { delay: 0.8, x: "90%", y: "10%", size: "xs" },
-  ];
-
-  // Animated utensil icons
-  const DecorativeElement = ({ delay, x, y, size }: any) => {
-    const sizes = {
-      xs: "w-6 h-6",
-      sm: "w-12 h-12",
-      md: "w-16 h-16",
-      lg: "w-20 h-20",
-      xl: "w-24 h-24",
-    };
-    
-    return (
-      <motion.div
-        className={cn(
-          "absolute text-white/5 pointer-events-none",
-          sizes[size as keyof typeof sizes]
-        )}
-        style={{ left: x, top: y }}
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 1,
-          delay,
-          ease: "easeOut"
-        }}
-      >
-        {/* Simple circular decorative element */}
-        <div className="w-full h-full rounded-full border-2 border-white/10 backdrop-blur-sm" />
-      </motion.div>
-    );
-  };
+  const EmptySectionPlaceholder = ({ icon: Icon, title, description }) => (
+    <div className="bg-cookbook-50 rounded-xl p-8 text-center">
+      <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-cookbook-100 flex items-center justify-center">
+        <Icon className="text-cookbook-700" size={24} />
+      </div>
+      <h3 className="text-xl font-medium text-cookbook-800 mb-2">{title}</h3>
+      <p className="text-cookbook-600">{description}</p>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Modern Hero section with animated background */}
+      {/* Modern Hero section with animated background - now with white text */}
       <section className="relative bg-cookbook-700 pt-32 pb-16">
         <div className="absolute inset-0 overflow-hidden">
           {/* Animated gradient background */}
@@ -176,7 +311,7 @@ const Index = () => {
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <span className="relative z-10">Ritas Kochbuch</span>
+                  <span className="relative z-10 text-white">Ritas Kochbuch</span>
                   <motion.span 
                     className="absolute inset-x-0 bottom-0 h-3 bg-cookbook-500/30 rounded-full -z-10"
                     initial={{ width: 0 }}
@@ -187,7 +322,7 @@ const Index = () => {
               </motion.h1>
               
               <motion.p 
-                className="mt-6 text-lg text-white/80"
+                className="mt-6 text-lg text-white"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.7, delay: 0.5 }}
@@ -262,9 +397,139 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Featured recipes */}
+      {/* User's favorite recipes - new section */}
       {!searchResults && !isLoading && (
-        <section className="py-20 bg-white">
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="mb-10 flex items-end justify-between">
+              <FadeIn>
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-2 bg-cookbook-700 rounded-full"></div>
+                  <h2 className="font-playfair text-3xl font-bold text-cookbook-800 flex items-center gap-2">
+                    <Heart size={24} className="text-cookbook-500" />
+                    Deine Favoriten
+                  </h2>
+                </div>
+                <p className="mt-2 text-gray-600 ml-5">
+                  Rezepte, die du als Favorit markiert hast
+                </p>
+              </FadeIn>
+              
+              {favoriteRecipes.length > 0 && (
+                <FadeIn direction="left">
+                  <Link to="/favoriten">
+                    <Button variant="outline" className="group flex items-center gap-2">
+                      <span>Alle Favoriten</span>
+                      <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
+                </FadeIn>
+              )}
+            </div>
+            
+            {favoriteRecipes.length > 0 ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {favoriteRecipes.slice(0, 4).map((recipe, index) => (
+                  <FadeIn key={recipe.id} delay={index * 0.1}>
+                    <RecipeCard 
+                      id={recipe.id}
+                      title={recipe.title}
+                      description={recipe.description}
+                      image={recipe.image}
+                      duration={recipe.prepTime}
+                      difficulty={recipe.difficulty}
+                      category={recipe.category}
+                      tags={recipe.tags}
+                      isFavorite={true}
+                    />
+                  </FadeIn>
+                ))}
+              </div>
+            ) : (
+              <EmptySectionPlaceholder 
+                icon={Heart} 
+                title="Noch keine Favoriten" 
+                description="Markiere Rezepte als Favorit, um sie hier zu sehen" 
+              />
+            )}
+          </div>
+        </section>
+      )}
+      
+      {/* Most cooked recipes - new section */}
+      {!searchResults && !isLoading && (
+        <section className="py-16 bg-cookbook-50/50">
+          <div className="container mx-auto px-4">
+            <div className="mb-10 flex items-end justify-between">
+              <FadeIn>
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-2 bg-cookbook-700 rounded-full"></div>
+                  <h2 className="font-playfair text-3xl font-bold text-cookbook-800 flex items-center gap-2">
+                    <Flame size={24} className="text-cookbook-600" />
+                    Häufig gekocht
+                  </h2>
+                </div>
+                <p className="mt-2 text-gray-600 ml-5">
+                  Deine am häufigsten gekochten Rezepte
+                </p>
+              </FadeIn>
+              
+              <FadeIn direction="left">
+                <Link to="/rezepte">
+                  <Button variant="outline" className="group flex items-center gap-2">
+                    <span>Alle Rezepte</span>
+                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </FadeIn>
+            </div>
+            
+            {mostCookedRecipes.length > 0 && mostCookedRecipes.some(recipe => {
+              const count = localStorage.getItem(`recipe-completed-count-${recipe.id}`);
+              return count && parseInt(count) > 0;
+            }) ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {mostCookedRecipes.map((recipe, index) => {
+                  const completedCount = localStorage.getItem(`recipe-completed-count-${recipe.id}`) || '0';
+                  const visitCount = localStorage.getItem(`recipe-visit-count-${recipe.id}`) || '0';
+                  
+                  return (
+                    <FadeIn key={recipe.id} delay={index * 0.1}>
+                      <div className="relative">
+                        <RecipeCard 
+                          id={recipe.id}
+                          title={recipe.title}
+                          description={recipe.description}
+                          image={recipe.image}
+                          duration={recipe.prepTime}
+                          difficulty={recipe.difficulty}
+                          category={recipe.category}
+                          tags={recipe.tags}
+                        />
+                        {parseInt(completedCount) > 0 && (
+                          <div className="absolute top-3 right-3 bg-cookbook-700 text-white text-xs px-2 py-1 rounded-full">
+                            {completedCount}x gekocht
+                          </div>
+                        )}
+                      </div>
+                    </FadeIn>
+                  );
+                })}
+              </div>
+            ) : (
+              <EmptySectionPlaceholder 
+                icon={ChefHat} 
+                title="Kochhistorie wird aufgezeichnet" 
+                description="Hier erscheinen Rezepte, die du häufig kochst" 
+              />
+            )}
+          </div>
+        </section>
+      )}
+      
+      {/* Featured recipes - updated with ratings */}
+      {!searchResults && !isLoading && (
+        <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="mb-10 flex items-end justify-between">
               <FadeIn>
@@ -305,23 +570,79 @@ const Index = () => {
                 </FadeIn>
               ))}
             </div>
-            
-            {/* Featured categories preview */}
-            <div className="mt-10 text-center">
-              <Link to="/rezepte">
-                <Button className="group">
-                  <span>Mehr Rezepte entdecken</span>
-                  <ChevronsRight className="ml-1 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
+          </div>
+        </section>
+      )}
+      
+      {/* Top rated recipes - new section */}
+      {!searchResults && !isLoading && (
+        <section className="py-16 bg-cookbook-50/50">
+          <div className="container mx-auto px-4">
+            <div className="mb-10 flex items-end justify-between">
+              <FadeIn>
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-2 bg-cookbook-700 rounded-full"></div>
+                  <h2 className="font-playfair text-3xl font-bold text-cookbook-800 flex items-center gap-2">
+                    <Star size={24} className="text-amber-400 fill-amber-400" />
+                    Bestbewertete Rezepte
+                  </h2>
+                </div>
+                <p className="mt-2 text-gray-600 ml-5">
+                  Rezepte mit den besten Bewertungen unserer Nutzer
+                </p>
+              </FadeIn>
+              
+              <FadeIn direction="left">
+                <Link to="/rezepte">
+                  <Button variant="outline" className="group flex items-center gap-2">
+                    <span>Alle Rezepte</span>
+                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </FadeIn>
             </div>
+            
+            {topRatedRecipes.length > 0 ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {topRatedRecipes.map((recipe, index) => {
+                  const rating = localStorage.getItem(`recipe-rating-${recipe.id}`) || '0';
+                  
+                  return (
+                    <FadeIn key={recipe.id} delay={index * 0.1}>
+                      <div className="relative">
+                        <RecipeCard 
+                          id={recipe.id}
+                          title={recipe.title}
+                          description={recipe.description}
+                          image={recipe.image}
+                          duration={recipe.prepTime}
+                          difficulty={recipe.difficulty}
+                          category={recipe.category}
+                          tags={recipe.tags}
+                        />
+                        <div className="absolute top-3 right-3 bg-cookbook-700/90 backdrop-blur-sm text-white px-2 py-1 rounded-full flex items-center gap-1">
+                          <Star size={14} className="fill-amber-400 text-amber-400" />
+                          <span>{parseFloat(rating).toFixed(1)}</span>
+                        </div>
+                      </div>
+                    </FadeIn>
+                  );
+                })}
+              </div>
+            ) : (
+              <EmptySectionPlaceholder 
+                icon={Star} 
+                title="Noch keine Bewertungen" 
+                description="Bewerte Rezepte nach dem Kochen, um sie hier zu sehen" 
+              />
+            )}
           </div>
         </section>
       )}
       
       {/* Categories preview with improved layout */}
       {!searchResults && !isLoading && (
-        <section className="py-20 bg-white">
+        <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <FadeIn className="mb-10 text-center">
               <h2 className="font-playfair text-3xl font-bold text-cookbook-800">
@@ -392,3 +713,4 @@ const Index = () => {
 };
 
 export default Index;
+

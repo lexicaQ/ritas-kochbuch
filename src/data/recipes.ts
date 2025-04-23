@@ -3,11 +3,7 @@ import { mainDishes } from "./categories/main-dishes";
 import { desserts } from "./categories/desserts";
 import { pastries } from "./categories/pastries";
 
-// Combine all recipes from different categories
 const recipes: Recipe[] = [
-  ...mainDishes,
-  ...desserts,
-  ...pastries,
   {
     id: "haferflockenbutter-kracker",
     title: "Haferflocken‑Butter‑Kracker mit Blauschimmelkäse & Birnen",
@@ -552,21 +548,17 @@ const recipes: Recipe[] = [
           { name: "Rucola", amount: "1 Bund (etwa 100 g)" },
           { name: "Getrocknete Tomaten in Öl", amount: "1 Glas (ca. 150 g)" },
           { name: "Oliven", amount: "1 Glas" },
-          { name: "Pinienkerne", amount: "1 Beutel" },
-          { name: "Parmesan", amount: "100 g (grob gehobelt)" }
+          { name: "Pinienkerne", amount: "50 g" }
         ]
       },
       {
         group: "Dressing",
         items: [
-          { name: "Olivenöl", amount: "3 EL" },
-          { name: "Öl aus dem Glas getrockneter Tomaten", amount: "6 EL" },
-          { name: "Aceto balsamico", amount: "3 EL" },
-          { name: "Senf (oder etwas Ketchup)", amount: "1 TL" },
-          { name: "Zwiebel, fein gehackt", amount: "1" },
-          { name: "Knoblauchzehe, fein gehackt", amount: "1" },
-          { name: "Salz" },
-          { name: "Pfeffer" }
+          { name: "Natives Olivenöl extra", amount: "5 EL" },
+          { name: "Weißweinessig", amount: "2 EL" },
+          { name: "Honig", amount: "1 TL" },
+          { name: "Italienische Kräuter", amount: "1 TL" },
+          { name: "Salz und Pfeffer" }
         ]
       }
     ],
@@ -574,314 +566,18 @@ const recipes: Recipe[] = [
       {
         group: "Zubereitung",
         items: [
-          "Nudeln in Salzwasser al dente kochen, abgießen und kalt abschrecken.",
-          "Cocktailtomaten vierteln, getrocknete Tomaten und Oliven grob hacken. Rucola waschen, trocken schütteln und beiseitestellen.",
-          "Olivenöl, Tomatenöl, Balsamico, Senf, Zwiebel und Knoblauch in einer kleinen Schüssel gründlich verrühren. Mit Salz und Pfeffer abschmecken.",
-          "Nudeln, Tomaten, getrocknete Tomaten und Oliven in einer großen Schüssel vermengen. Das Dressing darüber geben und alles gut durchmischen.",
-          "Parmesan grob hobeln und zusammen mit dem Rucola unter den Salat heben.",
-          "Den Salat 2–3 Std abgedeckt im Kühlschrank durchziehen lassen.",
-          "Pinienkerne ohne Fett in einer Pfanne kurz anrösten. Kurz vor dem Servieren über den Salat streuen."
+          "Nudeln nach Packungsanweisung in Salzwasser al dente kochen. Abgießen und abkühlen lassen.",
+          "Cocktailtomaten halbieren oder vierteln. Rucola waschen und trocken schleudern.",
+          "Getrocknete Tomaten abtropfen lassen und in Streifen schneiden.",
+          "Oliven abtropfen lassen und halbieren.",
+          "Pinienkerne in einer Pfanne ohne Fett rösten, bis sie goldbraun sind.",
+          "Für das Dressing Olivenöl, Essig, Honig und Kräuter vermengen, mit Salz und Pfeffer abschmecken.",
+          "Alle Zutaten in einer großen Schüssel vermischen, mit dem Dressing übergießen und vorsichtig durchmischen.",
+          "Vor dem Servieren etwa 30 Minuten ziehen lassen, damit die Aromen sich entfalten können."
         ]
       }
     ],
-    tips: [
-      "Der Salat schmeckt hervorragend mit frisch gebackenem Ciabatta und einem Glas Rotwein.",
-      "Für eine Variante können Sie auch getrocknete Kräuter wie Oregano oder frisches Basilikum zum Dressing geben."
-    ]
-  },
-  {
-    id: "kraeuter-tabbouleh",
-    title: "Kräuter‑Tabbouleh",
-    description: "Ein frischer Bulgursalat mit vielen Kräutern, Zitronensaft und knackigem Gemüse - perfekt für warme Sommertage.",
-    image: "https://images.unsplash.com/photo-1561626423-a51b45aef0a1?q=80&w=2070&auto=format&fit=crop",
-    portionSize: "4 Portionen",
-    prepTime: "20 Min (zzgl. 30 Min Quellzeit)",
-    difficulty: "leicht",
-    category: "Salat",
-    tags: ["Vegetarisch", "Orientalisch", "Bulgur", "Kräuter", "Vegan"],
-    ingredients: [
-      {
-        items: [
-          { name: "Gemüsebrühe", amount: "300 ml" },
-          { name: "Bulgur", amount: "200 g" },
-          { name: "Zitronensaft", amount: "8 EL" },
-          { name: "Salz" },
-          { name: "Pfeffer" },
-          { name: "Olivenöl", amount: "4 EL" },
-          { name: "Staudensellerie", amount: "150 g" },
-          { name: "Fenchelknolle", amount: "1 kleine" },
-          { name: "Rote Paprika", amount: "1" },
-          { name: "Kirschtomaten", amount: "250 g" },
-          { name: "Salatgurke", amount: "½" },
-          { name: "Dill, Petersilie, Schnittlauch", amount: "nach Belieben, fein gehackt" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        group: "Zubereitung",
-        items: [
-          "Brühe aufkochen, Bulgur einrühren und 2–3 Min unter Rühren sanft köcheln lassen. Vom Herd ziehen, abdecken und 30 Min quellen lassen.",
-          "In einer kleinen Schüssel Zitronensaft, Salz, Pfeffer und Olivenöl verrühren.",
-          "Sellerie, Fenchel, Paprika, Tomaten und Gurke in Würfel bzw. Scheiben schneiden.",
-          "Alle Gemüsewürfel mit der Zitronen‑Öl‑Sauce zum Bulgur geben und vorsichtig mischen.",
-          "Die Kräuter (Dill, Petersilie, Schnittlauch) untermengen.",
-          "Den fertigen Tabbouleh auf Tellern anrichten und servieren."
-        ]
-      }
-    ],
-    tips: [
-      "Für eine Variante mit Rucola: ½ Bund Rucola unterheben + 1 gewürfelte Zwiebel.",
-      "Für eine Variante mit Minze: 3 Zweige Minze fein gehackt unterrühren.",
-      "Mit gerösteten Mandeln oder Pinienkernen bestreuen."
-    ]
-  },
-  {
-    id: "suesses-hefebrot",
-    title: "Süßes Hefebrot",
-    description: "Ein saftiger Hefezopf mit Rosinen, Nüssen und Rum - perfekt zum Frühstück oder nachmittäglichen Kaffee.",
-    image: "https://images.unsplash.com/photo-1586444248836-27a6bf31c931?q=80&w=2070&auto=format&fit=crop",
-    portionSize: "1 Kastenbrot",
-    prepTime: "40 Min",
-    cookTime: "25–30 Min",
-    totalTime: "~3 Std 15 Min (inkl. Gehzeit)",
-    difficulty: "leicht",
-    category: "Brot & Gebäck",
-    tags: ["Süß", "Hefe", "Rosinen", "Nüsse", "Frühstück"],
-    ingredients: [
-      {
-        items: [
-          { name: "Frischhefe", amount: "1 Würfel (42 g)" },
-          { name: "Zucker", amount: "1 EL (+ 100 g)" },
-          { name: "Lauwarme Milch", amount: "200 ml (+ 3 EL zum Bestreichen)" },
-          { name: "Rosinen", amount: "100 g" },
-          { name: "Rum", amount: "4 EL" },
-          { name: "Weizenmehl", amount: "650 g" },
-          { name: "Butter", amount: "75 g" },
-          { name: "Ei", amount: "1" },
-          { name: "Salz", amount: "1 Prise" },
-          { name: "Gehackte Haselnüsse", amount: "100 g" },
-          { name: "Butter für das Backblech" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        group: "Zubereitung",
-        items: [
-          "Hefe mit 1 EL Zucker in 100 ml Milch auflösen. Zugedeckt 15 Min an einem warmen Ort gehen lassen. Rosinen heiß waschen, trocken tupfen und in Rum einweichen.",
-          "Mehl mit Hefevorteig und restlicher Milch in einer großen Schüssel vermengen.",
-          "Butter schmelzen und mit Zucker, Ei, Salz, Haselnüssen und den eingeweichten Rosinen zum Teig geben. Alles kräftig zu einem glatten Teig kneten.",
-          "Zugedeckt an einem warmen Ort 1 ½ Std gehen lassen, bis sich das Volumen sichtbar vergrößert.",
-          "Backblech mit Butter bestreichen. Teig nochmal kurz durchkneten, in zwei Stränge rollen (je ca. 50 cm), spiralförmig auf das Blech legen.",
-          "Laib abgedeckt weitere 30 Min gehen lassen.",
-          "Ofen auf 220 °C (Ober-/Unterhitze) vorheizen. Brot 25–30 Min backen. Nach 10 Min Backzeit etwas Wasser auf den Boden des Backofens sprühen, Temperatur auf 200 °C reduzieren.",
-          "Brot auskühlen lassen, in Scheiben schneiden und frisch mit Butter und Honig genießen."
-        ]
-      }
-    ],
-    tips: [
-      "Für ein besonders schönes Aussehen können Sie das Hefebrot vor dem Backen mit verquirltem Eigelb bestreichen.",
-      "Das Brot schmeckt auch hervorragend mit Marmelade oder Nusscreme."
-    ]
-  },
-  {
-    id: "zitronencreme-kuchen",
-    title: "Zitronencreme‑Kuchen vom Blech",
-    description: "Ein saftiger Blechkuchen mit cremiger Zitronenfüllung und feiner Sahnehaube.",
-    image: "https://images.unsplash.com/photo-1464195157370-5d851699fc70?q=80&w=2070&auto=format&fit=crop",
-    portionSize: "24 Stücke",
-    prepTime: "30 Min",
-    cookTime: "15–20 Min",
-    totalTime: "~2 Tage (inkl. Kühlzeit)",
-    difficulty: "normal",
-    category: "Dessert",
-    tags: ["Kuchen", "Zitrone", "Sahne", "Backen", "Blechkuchen"],
-    ingredients: [
-      {
-        group: "Boden",
-        items: [
-          { name: "Butter", amount: "200 g" },
-          { name: "Zucker", amount: "200 g" },
-          { name: "Vanillezucker", amount: "1 Päckchen" },
-          { name: "Eier", amount: "4" },
-          { name: "Mehl", amount: "250 g" },
-          { name: "Backpulver", amount: "1 Päckchen" }
-        ]
-      },
-      {
-        group: "Zitronencreme",
-        items: [
-          { name: "Wasser", amount: "2 Tassen" },
-          { name: "Zucker", amount: "1 Tasse" },
-          { name: "Sahne‑Puddingpulver", amount: "1 Päckchen" },
-          { name: "Zitronensaft", amount: "Saft von 1 ½ Zitronen" },
-          { name: "Eigelb", amount: "2" },
-          { name: "Sahne", amount: "250 ml" },
-          { name: "Sahnesteif", amount: "1 Päckchen" }
-        ]
-      },
-      {
-        group: "Topping",
-        items: [
-          { name: "Puderzucker zum Bestäuben" },
-          { name: "Zitrone‑Zesten (optional)" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        items: [
-          "Butter, Zucker und Vanillezucker cremig schlagen. Eier einzeln unterrühren. Mehl mit Backpulver mischen und portionsweise unterziehen.",
-          "Teig auf ein gefettetes Backblech streichen. Im vorgeheizten Ofen bei 175 °C 15–20 Min backen. Vollständig auskühlen lassen.",
-          "Wasser, Zucker und Puddingpulver in einem Topf verrühren. Unter Rühren aufkochen, kurz quellen lassen. Vom Herd nehmen, Zitronensaft und Eigelb zügig einrühren.",
-          "Sahne mit Sahnesteif steif schlagen und unter die leicht abgekühlte Pudding‑Zitronen‑Masse heben.",
-          "Creme auf dem Boden verteilen. Abgedeckt 2 Tage im Kühlschrank durchziehen lassen.",
-          "Vor dem Servieren mit Puderzucker bestäuben und nach Belieben mit Zitronenzesten garnieren."
-        ]
-      }
-    ]
-  },
-  {
-    id: "himbeer-joghurt-torte",
-    title: "Himbeer‑Joghurt‑Torte",
-    description: "Eine frische Torte mit luftiger Joghurt-Sahne-Füllung und fruchtiger Himbeerschicht.",
-    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=2070&auto=format&fit=crop",
-    portionSize: "1 Torte (Springform Ø 26 cm)",
-    prepTime: "30 Min",
-    cookTime: "20 Min",
-    totalTime: "~3 Std (inkl. Kühlzeit)",
-    difficulty: "normal",
-    category: "Dessert",
-    tags: ["Torte", "Himbeeren", "Joghurt", "Sahne", "Backen"],
-    ingredients: [
-      {
-        group: "Boden",
-        items: [
-          { name: "Margarine", amount: "50 g" },
-          { name: "Ei", amount: "1" },
-          { name: "Zucker", amount: "50 g" },
-          { name: "Vanillezucker", amount: "1 Päckchen" },
-          { name: "Mehl", amount: "125 g" },
-          { name: "Backpulver", amount: "1 TL" }
-        ]
-      },
-      {
-        group: "Füllung",
-        items: [
-          { name: "Zucker", amount: "200 g" },
-          { name: "Zitronensaft", amount: "Saft einer Zitrone" },
-          { name: "Joghurt", amount: "3 Becher (à 150 g)" },
-          { name: "Gelatine", amount: "12 Blatt (oder 2 Päckchen gemahlene)" },
-          { name: "Sahne", amount: "2 Becher" }
-        ]
-      },
-      {
-        group: "Himbeer‑Schicht",
-        items: [
-          { name: "Himbeer‑Götterspeise", amount: "1 Päckchen" },
-          { name: "Wasser", amount: "1 ½ l" },
-          { name: "gefrorene Himbeeren", amount: "300–400 g" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        items: [
-          "Alle Zutaten für den Boden rasch zu einem Rührteig verarbeiten. In eine gefettete Springform füllen und 20 Min bei 200 °C backen. Auskühlen lassen.",
-          "Gelatine nach Packungsanweisung einweichen.",
-          "Zucker, Zitronensaft und Joghurt verrühren. Gelatine darin auflösen und unterrühren. Geschlagene Sahne unterheben.",
-          "Joghurt‑Creme auf den Boden streichen.",
-          "Götterspeise in 1 ½ l Wasser auflösen. Über gefrorene Himbeeren gießen, verteilen. Sobald die Masse andickt, vorsichtig über die Creme gießen.",
-          "Torte mindestens 2 Std kaltstellen. Vor dem Servieren frisch genießen."
-        ]
-      }
-    ]
-  },
-  {
-    id: "kartoffelsalat-ziegenkaese",
-    title: "Lauwarmer Kartoffelsalat mit Ziegenkäse",
-    description: "Ein mediterraner Kartoffelsalat mit cremigem Ziegenkäse, schwarzen Oliven und Kapern.",
-    image: "https://images.unsplash.com/photo-1510130315046-1e47cc196aa0?q=80&w=2070&auto=format&fit=crop",
-    portionSize: "4 Portionen",
-    prepTime: "1 Std",
-    difficulty: "leicht",
-    category: "Salat",
-    tags: ["Vegetarisch", "Kartoffeln", "Ziegenkäse", "Mediterran"],
-    ingredients: [
-      {
-        items: [
-          { name: "festkochende Kartoffeln", amount: "800 g" },
-          { name: "Flaschentomaten", amount: "400 g" },
-          { name: "schwarze Oliven, entsteint", amount: "50 g" },
-          { name: "Kapernäpfel", amount: "50 g" },
-          { name: "Schalotten", amount: "100 g" },
-          { name: "glatte Petersilie", amount: "½ Bund" },
-          { name: "Ziegenfrischkäse", amount: "200 g" },
-          { name: "Weißweinessig", amount: "5 EL" },
-          { name: "Gemüsefond", amount: "100 ml" },
-          { name: "Zucker, Salz, weißer Pfeffer" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        items: [
-          "Kartoffeln waschen, in Salzwasser 20–25 Min gar kochen. Abgießen, kurz ausdämpfen, pellen und längs vierteln.",
-          "Tomaten waschen, in Spalten schneiden. Oliven halbieren. Kapernäpfel abtropfen lassen. Schalotten würfeln. Petersilie zupfen. Ziegenkäse in Scheiben schneiden.",
-          "Traubenkernöl (oder Olivenöl) erhitzen, Schalotten glasig andünsten. Mit Weißweinessig und Gemüsefond ablöschen, aufkochen. Mit Zucker, Salz und Pfeffer abschmecken.",
-          "Kartoffeln in eine Schüssel geben, Marinade darüber träufeln und vorsichtig mischen. Tomaten, Oliven, Kapernäpfel, Petersilie und Ziegenkäse unterheben.",
-          "Lauwarm servieren."
-        ]
-      }
-    ]
-  },
-  {
-    id: "kirsch-schoko-kuchen",
-    title: "Kirsch‑Schoko‑Kuchen",
-    description: "Ein saftiger Schokoladenkuchen mit Sauerkirschen und gemahlenen Mandeln.",
-    image: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?q=80&w=2070&auto=format&fit=crop",
-    portionSize: "1 Springform (Ø 26 cm)",
-    prepTime: "20 Min",
-    cookTime: "35–45 Min",
-    difficulty: "leicht",
-    category: "Dessert",
-    tags: ["Kuchen", "Schokolade", "Kirschen", "Mandeln", "Backen"],
-    ingredients: [
-      {
-        group: "Rührteig",
-        items: [
-          { name: "weiche Margarine oder Butter", amount: "200 g" },
-          { name: "Zucker", amount: "175 g" },
-          { name: "Vanillinzucker", amount: "1 Päckchen" },
-          { name: "Rum‑Aroma", amount: "½ Fläschchen" },
-          { name: "Salz", amount: "1 Prise" },
-          { name: "Eier", amount: "4" },
-          { name: "Mehl", amount: "125 g" },
-          { name: "Backpulver", amount: "1 TL" },
-          { name: "geriebene Blockschokolade", amount: "100 g" },
-          { name: "gemahlene Mandeln oder Haselnüsse", amount: "100 g" }
-        ]
-      },
-      {
-        group: "Belag",
-        items: [
-          { name: "Sauerkirschen, abgetropft", amount: "1 Glas (370 g)" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        items: [
-          "Margarine oder Butter cremig schlagen. Zucker, Vanillinzucker, Rum‑Aroma und Salz einrühren. Eier einzeln je ½ Min unterrühren.",
-          "Mehl mit Backpulver mischen, sieben und portionsweise unter den Teig heben.",
-          "Geriebene Schokolade und Mandeln kurz unterheben.",
-          "Teig in eine gefettete Springform füllen. Sauerkirschen gleichmäßig darauf verteilen.",
-          "Im vorgeheizten Ofen je nach Modus 35–45 Min backen.",
-          "Vor dem Servieren mit Puderzucker bestäuben. Nach Wunsch mit geschlagener Sahne genießen."
-        ]
-      }
-    ]
+    isFavorite: false
   }
 ];
 

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Enhanced Logo component with modern utensils icon
+// Logo component with updated text color
 const Logo = ({ isScrolled }: { isScrolled: boolean }) => (
   <div className="flex flex-col items-center gap-1">
     <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
@@ -13,7 +13,9 @@ const Logo = ({ isScrolled }: { isScrolled: boolean }) => (
     </div>
     <span className={cn(
       "font-playfair font-bold text-lg md:text-xl transition-colors",
-      isScrolled ? "text-cookbook-800" : "text-white"
+      isScrolled 
+        ? "text-cookbook-700" 
+        : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
     )}>
       Ritas Kochbuch
     </span>
