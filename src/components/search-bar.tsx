@@ -1,6 +1,6 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,7 +13,9 @@ import {
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { FadeIn } from "@/components/ui/fade-in";
+import { SearchSuggestions } from "@/components/search-suggestions";
 import { cn } from "@/lib/utils";
+import recipes from "@/data/recipes";
 
 interface SearchBarProps {
   onSearch: (query: string, filters: string[]) => void;
@@ -24,7 +26,9 @@ interface SearchBarProps {
 export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   
   const categories = [
     "Dessert",
@@ -42,22 +46,39 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
     "Schwer"
   ];
   
+  const getSuggestions = (query: string) => {
+    if (!query) return [];
+    return recipes
+      .filter(recipe => 
+        recipe.title.toLowerCase().includes(query.toLowerCase()) ||
+        recipe.description.toLowerCase().includes(query.toLowerCase())
+      )
+      .slice(0, 5);
+  };
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowSuggestions(false);
     onSearch(searchQuery, selectedFilters);
   };
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
+    setShowSuggestions(true);
     if (onInputChange) {
       onInputChange(value);
     }
   };
   
+  const handleSuggestionSelect = (id: string) => {
+    setShowSuggestions(false);
+    navigate(`/rezept/${id}`);
+  };
+  
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onSearch(searchQuery, selectedFilters);
+      handleSearch(e);
     }
   };
   
@@ -68,7 +89,6 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
     if (onInputChange) {
       onInputChange("");
     }
-    // Focus back on search input
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
@@ -103,12 +123,21 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
               type="button"
               onClick={() => {
                 setSearchQuery("");
+                setShowSuggestions(false);
                 if (onInputChange) onInputChange("");
               }}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
             >
               <X size={16} />
             </button>
+          )}
+          
+          {showSuggestions && (
+            <SearchSuggestions
+              query={searchQuery}
+              suggestions={getSuggestions(searchQuery)}
+              onSelect={handleSuggestionSelect}
+            />
           )}
         </div>
         
@@ -129,9 +158,12 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
                 )}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64">
-              <DropdownMenuLabel>Filter auswählen</DropdownMenuLabel>
-              <DropdownMenuSeparator />
+            <DropdownMenuContent align="end" className="w-64 bg-white border border-cookbook-200">
+              <DropdownMenuLabel className="font-playfair text-lg text-cookbook-800">
+                Filter
+              </DropdownMenuLabel>
+              
+              <DropdownMenuSeparator className="bg-cookbook-100" />
               
               <DropdownMenuGroup>
                 <DropdownMenuLabel className="text-xs text-muted-foreground">Kategorien</DropdownMenuLabel>
@@ -179,13 +211,6 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <Button 
-            type="submit" 
-            className="bg-white text-cookbook-700 hover:bg-white/90 hover:text-cookbook-800"
-          >
-            Suchen
-          </Button>
-          
           {(searchQuery || selectedFilters.length > 0) && (
             <Button 
               type="button"
@@ -200,7 +225,6 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
         </div>
       </form>
       
-      {/* Display selected filters */}
       {selectedFilters.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-3">
           {selectedFilters.map(filter => (
