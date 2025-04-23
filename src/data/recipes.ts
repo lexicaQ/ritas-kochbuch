@@ -552,4 +552,37 @@ const recipes: Recipe[] = [
           { name: "Rucola", amount: "1 Bund (etwa 100 g)" },
           { name: "Getrocknete Tomaten in Öl", amount: "1 Glas (ca. 150 g)" },
           { name: "Oliven", amount: "1 Glas" },
-          { name: "Pinienker
+          { name: "Pinienkerne", amount: "50 g" }
+        ]
+      },
+      {
+        group: "Dressing",
+        items: [
+          { name: "Natives Olivenöl extra", amount: "5 EL" },
+          { name: "Weißweinessig", amount: "2 EL" },
+          { name: "Honig", amount: "1 TL" },
+          { name: "Italienische Kräuter", amount: "1 TL" },
+          { name: "Salz und Pfeffer" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Zubereitung",
+        items: [
+          "Nudeln nach Packungsanweisung in Salzwasser al dente kochen. Abgießen und abkühlen lassen.",
+          "Cocktailtomaten halbieren oder vierteln. Rucola waschen und trocken schleudern.",
+          "Getrocknete Tomaten abtropfen lassen und in Streifen schneiden.",
+          "Oliven abtropfen lassen und halbieren.",
+          "Pinienkerne in einer Pfanne ohne Fett rösten, bis sie goldbraun sind.",
+          "Für das Dressing Olivenöl, Essig, Honig und Kräuter vermengen, mit Salz und Pfeffer abschmecken.",
+          "Alle Zutaten in einer großen Schüssel vermischen, mit dem Dressing übergießen und vorsichtig durchmischen.",
+          "Vor dem Servieren etwa 30 Minuten ziehen lassen, damit die Aromen sich entfalten können."
+        ]
+      }
+    ],
+    isFavorite: false
+  }
+];
+
+export default recipes;
