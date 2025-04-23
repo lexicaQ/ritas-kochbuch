@@ -8,7 +8,7 @@ export interface Recipe {
   prepTime: string;
   cookTime?: string;
   totalTime?: string;
-  difficulty: "leicht" | "normal" | "schwer";
+  difficulty: "leicht" | "normal" | "schwer" | "mittel" | "anspruchsvoll";
   category: string;
   tags: string[];
   ingredients: {
