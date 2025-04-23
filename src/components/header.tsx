@@ -5,6 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Logo component
+const Logo = () => (
+  <div className="flex items-center gap-2">
+    <div className="rounded-full bg-cookbook-700 h-8 w-8 flex items-center justify-center shadow">
+      <span className="text-white font-playfair font-bold text-lg">R</span>
+    </div>
+    <span className="font-playfair font-bold text-cookbook-800 text-xl">Ritas Kochbuch</span>
+  </div>
+);
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -40,40 +50,38 @@ export function Header() {
       )}
     >
       <div className="container mx-auto px-4">
-        <div className="relative flex h-16 items-center justify-between">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <span className="font-playfair text-2xl font-bold text-cookbook-800">
-                Ritas Kochbuch
-              </span>
-            </Link>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="flex items-center md:hidden">
+        <div className="flex h-16 items-center justify-center">
+          {/* Mobile menu button (left side) */}
+          <div className="absolute left-4 md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center rounded-md p-2 text-cookbook-800 hover:bg-cookbook-100"
+              aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
-          {/* Desktop navigation */}
-          <nav className="hidden md:block">
-            <ul className="flex space-x-8">
+          {/* Centered Logo */}
+          <Link to="/" className="flex items-center z-10">
+            <Logo />
+          </Link>
+
+          {/* Desktop navigation (centered around logo) */}
+          <nav className="hidden absolute inset-x-0 mx-auto w-max md:block">
+            <ul className="flex space-x-8 items-center justify-center">
               {navigationItems.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.path}
                     className={cn(
-                      "group relative flex items-center text-sm font-medium uppercase tracking-wider transition-colors",
+                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-5",
                       location.pathname === item.path
                         ? "text-cookbook-800"
                         : "text-gray-600 hover:text-cookbook-800"
                     )}
                   >
-                    <span className="py-5">{item.name}</span>
+                    <span>{item.name}</span>
                     {location.pathname === item.path && (
                       <motion.div
                         layoutId="navigation-underline"
@@ -86,6 +94,9 @@ export function Header() {
               ))}
             </ul>
           </nav>
+
+          {/* Right side empty for balance (same width as menu button) */}
+          <div className="absolute right-4 w-10"></div>
         </div>
       </div>
 
@@ -99,17 +110,18 @@ export function Header() {
             transition={{ duration: 0.3 }}
             className="md:hidden"
           >
-            <div className="space-y-1 bg-white px-2 pb-4 pt-2 shadow-lg">
+            <div className="bg-white px-4 pb-6 pt-2 shadow-lg">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "flex items-center space-x-3 rounded-md px-4 py-3 text-base font-medium",
+                    "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors",
                     location.pathname === item.path
                       ? "bg-cookbook-100 text-cookbook-800"
                       : "text-gray-600 hover:bg-cookbook-50 hover:text-cookbook-800"
                   )}
+                  onClick={() => setIsOpen(false)}
                 >
                   <item.icon size={20} />
                   <span>{item.name}</span>

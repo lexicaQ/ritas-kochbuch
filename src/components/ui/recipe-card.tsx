@@ -34,7 +34,7 @@ export function RecipeCard({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       className={cn(
-        "group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:shadow-xl", 
+        "group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-xl", 
         className
       )}
     >
@@ -45,24 +45,25 @@ export function RecipeCard({
             alt={title} 
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute top-3 right-3 rounded-full bg-white/80 px-2.5 py-1 text-xs font-medium text-cookbook-800 backdrop-blur-sm">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/50 to-transparent opacity-50"></div>
+          <div className="absolute top-3 right-3 rounded-full bg-cookbook-700/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm shadow-sm">
             {category}
           </div>
         </div>
         
-        <div className="p-4">
-          <h3 className="mb-1 line-clamp-1 font-playfair text-xl font-bold text-gray-900">
+        <div className="p-5 bg-gradient-to-b from-cookbook-50/30 to-white">
+          <h3 className="mb-2 line-clamp-1 font-playfair text-xl font-bold text-cookbook-800 rounded-lg">
             {title}
           </h3>
           
           <p className="mb-3 line-clamp-2 text-sm text-gray-600">{description}</p>
           
           <div className="flex flex-wrap items-center gap-3 text-xs">
-            <div className="flex items-center gap-1 text-cookbook-700">
+            <div className="flex items-center gap-1 text-cookbook-700 bg-cookbook-100/60 px-2 py-1 rounded-full">
               <Clock size={14} />
               <span>{duration}</span>
             </div>
-            <div className="flex items-center gap-1 text-cookbook-700">
+            <div className="flex items-center gap-1 text-cookbook-700 bg-cookbook-100/60 px-2 py-1 rounded-full">
               <ChefHat size={14} />
               <span>{difficulty}</span>
             </div>
