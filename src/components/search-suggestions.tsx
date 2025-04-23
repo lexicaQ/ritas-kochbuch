@@ -39,12 +39,11 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                 key={suggestion.id}
                 value={suggestion.title}
                 className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50/80"
+                onSelect={() => {
+                  onSelect(suggestion.id);
+                }}
               >
-                <Link
-                  to={`/rezept/${suggestion.id}`}
-                  className="flex items-center gap-4 flex-1"
-                  onClick={() => onSelect(suggestion.id)}
-                >
+                <div className="flex items-center gap-4 flex-1">
                   <img
                     src={suggestion.image}
                     alt={suggestion.title}
@@ -68,7 +67,7 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
               </CommandItem>
             ))}
           </CommandGroup>

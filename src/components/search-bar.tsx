@@ -49,14 +49,11 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
   const getSuggestions = (query: string, filters: string[]) => {
     if (!query) return [];
     
-    // Filter recipes by both query and selected filters
     return recipes
       .filter(recipe => {
-        // First check if recipe matches the query
         const matchesQuery = recipe.title.toLowerCase().includes(query.toLowerCase()) ||
           recipe.description.toLowerCase().includes(query.toLowerCase());
         
-        // Then check if it matches the filters (if any are selected)
         const matchesFilters = filters.length === 0 || 
           filters.some(filter => 
             recipe.category === filter || 
@@ -68,7 +65,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
           
         return matchesQuery && matchesFilters;
       })
-      .slice(0, 3); // Only show top 3 results
+      .slice(0, 3);
   };
   
   const handleSearch = (e: React.FormEvent) => {
@@ -80,7 +77,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
-    setShowSuggestions(value.length >= 2); // Only show suggestions after 2 characters
+    setShowSuggestions(value.length >= 2);
     if (onInputChange) {
       onInputChange(value);
     }
@@ -117,7 +114,6 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
     );
   };
 
-  // Hide suggestions when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (searchInputRef.current && !searchInputRef.current.contains(event.target as Node)) {
