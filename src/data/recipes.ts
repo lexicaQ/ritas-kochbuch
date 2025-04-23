@@ -199,7 +199,7 @@ const recipes: Recipe[] = [
       {
         items: [
           "Ofen auf 180 °C (Ober-/Unterhitze) vorheizen. Kastenform fetten oder mit Backpapier auslegen.",
-          "Butter und Zucker in einer Schüssel cremig rühren.",
+          "Butter, Zucker und Vanillinzucker in einer Schüssel cremig rühren.",
           "Eier nacheinander unterrühren.",
           "Milch dazugießen und kurz glatt rühren.",
           "Mehl, Backpulver und Kakaopulver mischen, dann in zwei Portionen unter den Teig heben.",
@@ -293,7 +293,7 @@ const recipes: Recipe[] = [
           "Ofen auf 180 °C vorheizen. Springform gut fetten und mit Semmelbröseln ausstreuen.",
           "Eigelbe und Puderzucker mit Schneebesen dick schaumig schlagen.",
           "Orangenschale, Zimt und Vanillemark unterrühren.",
-          "Mandeln und flüssige Butter abwechselnd einarbeiten.",
+          "Mandeln und flüssige Butter abwechseln einarbeiten.",
           "Eiweiß steif schlagen. Vorsichtig und gleichmäßig unter die Masse heben.",
           "Teig in die Form füllen, Oberfläche glatt streichen.",
           "45–50 Min backen (Stäbchenprobe).",
@@ -567,4 +567,142 @@ const recipes: Recipe[] = [
         items: [
           { name: "Nudeln (z. B. Penne)", amount: "500 g" },
           { name: "Cocktailtomaten", amount: "200 g" },
-          { name: "
+          { name: "Rucola", amount: "1 Bund (etwa 100 g)" },
+          { name: "Getrocknete Tomaten in Öl", amount: "1 Glas (ca. 150 g)" },
+          { name: "Oliven", amount: "1 Glas" },
+          { name: "Pinienkerne", amount: "1 Beutel" },
+          { name: "Parmesan", amount: "100 g (grob gehobelt)" }
+        ]
+      },
+      {
+        group: "Dressing",
+        items: [
+          { name: "Olivenöl", amount: "3 EL" },
+          { name: "Öl aus dem Glas getrockneter Tomaten", amount: "6 EL" },
+          { name: "Aceto balsamico", amount: "3 EL" },
+          { name: "Senf (oder etwas Ketchup)", amount: "1 TL" },
+          { name: "Zwiebel, fein gehackt", amount: "1" },
+          { name: "Knoblauchzehe, fein gehackt", amount: "1" },
+          { name: "Salz" },
+          { name: "Pfeffer" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Zubereitung",
+        items: [
+          "Nudeln in Salzwasser al dente kochen, abgießen und kalt abschrecken.",
+          "Cocktailtomaten vierteln, getrocknete Tomaten und Oliven grob hacken. Rucola waschen, trocken schütteln und beiseitestellen.",
+          "Olivenöl, Tomatenöl, Balsamico, Senf, Zwiebel und Knoblauch in einer kleinen Schüssel gründlich verrühren. Mit Salz und Pfeffer abschmecken.",
+          "Nudeln, Tomaten, getrocknete Tomaten und Oliven in einer großen Schüssel vermengen. Das Dressing darüber geben und alles gut durchmischen.",
+          "Parmesan grob hobeln und zusammen mit dem Rucola unter den Salat heben.",
+          "Den Salat 2–3 Std abgedeckt im Kühlschrank durchziehen lassen.",
+          "Pinienkerne ohne Fett in einer Pfanne kurz anrösten. Kurz vor dem Servieren über den Salat streuen."
+        ]
+      }
+    ],
+    tips: [
+      "Der Salat schmeckt hervorragend mit frisch gebackenem Ciabatta und einem Glas Rotwein.",
+      "Für eine Variante können Sie auch getrocknete Kräuter wie Oregano oder frisches Basilikum zum Dressing geben."
+    ]
+  },
+  {
+    id: "kraeuter-tabbouleh",
+    title: "Kräuter‑Tabbouleh",
+    description: "Ein frischer Bulgursalat mit vielen Kräutern, Zitronensaft und knackigem Gemüse - perfekt für warme Sommertage.",
+    image: "https://images.unsplash.com/photo-1561626423-a51b45aef0a1?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "20 Min (zzgl. 30 Min Quellzeit)",
+    difficulty: "leicht",
+    category: "Salat",
+    tags: ["Vegetarisch", "Orientalisch", "Bulgur", "Kräuter", "Vegan"],
+    ingredients: [
+      {
+        items: [
+          { name: "Gemüsebrühe", amount: "300 ml" },
+          { name: "Bulgur", amount: "200 g" },
+          { name: "Zitronensaft", amount: "8 EL" },
+          { name: "Salz" },
+          { name: "Pfeffer" },
+          { name: "Olivenöl", amount: "4 EL" },
+          { name: "Staudensellerie", amount: "150 g" },
+          { name: "Fenchelknolle", amount: "1 kleine" },
+          { name: "Rote Paprika", amount: "1" },
+          { name: "Kirschtomaten", amount: "250 g" },
+          { name: "Salatgurke", amount: "½" },
+          { name: "Dill, Petersilie, Schnittlauch", amount: "nach Belieben, fein gehackt" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Zubereitung",
+        items: [
+          "Brühe aufkochen, Bulgur einrühren und 2–3 Min unter Rühren sanft köcheln lassen. Vom Herd ziehen, abdecken und 30 Min quellen lassen.",
+          "In einer kleinen Schüssel Zitronensaft, Salz, Pfeffer und Olivenöl verrühren.",
+          "Sellerie, Fenchel, Paprika, Tomaten und Gurke in Würfel bzw. Scheiben schneiden.",
+          "Alle Gemüsewürfel mit der Zitronen‑Öl‑Sauce zum Bulgur geben und vorsichtig mischen.",
+          "Die Kräuter (Dill, Petersilie, Schnittlauch) untermengen.",
+          "Den fertigen Tabbouleh auf Tellern anrichten und servieren."
+        ]
+      }
+    ],
+    tips: [
+      "Für eine Variante mit Rucola: ½ Bund Rucola unterheben + 1 gewürfelte Zwiebel.",
+      "Für eine Variante mit Minze: 3 Zweige Minze fein gehackt unterrühren.",
+      "Mit gerösteten Mandeln oder Pinienkernen bestreuen."
+    ]
+  },
+  {
+    id: "suesses-hefebrot",
+    title: "Süßes Hefebrot",
+    description: "Ein saftiger Hefezopf mit Rosinen, Nüssen und Rum - perfekt zum Frühstück oder nachmittäglichen Kaffee.",
+    image: "https://images.unsplash.com/photo-1586444248836-27a6bf31c931?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "1 Kastenbrot",
+    prepTime: "40 Min",
+    cookTime: "25–30 Min",
+    totalTime: "~3 Std 15 Min (inkl. Gehzeit)",
+    difficulty: "leicht",
+    category: "Brot & Gebäck",
+    tags: ["Süß", "Hefe", "Rosinen", "Nüsse", "Frühstück"],
+    ingredients: [
+      {
+        items: [
+          { name: "Frischhefe", amount: "1 Würfel (42 g)" },
+          { name: "Zucker", amount: "1 EL (+ 100 g)" },
+          { name: "Lauwarme Milch", amount: "200 ml (+ 3 EL zum Bestreichen)" },
+          { name: "Rosinen", amount: "100 g" },
+          { name: "Rum", amount: "4 EL" },
+          { name: "Weizenmehl", amount: "650 g" },
+          { name: "Butter", amount: "75 g" },
+          { name: "Ei", amount: "1" },
+          { name: "Salz", amount: "1 Prise" },
+          { name: "Gehackte Haselnüsse", amount: "100 g" },
+          { name: "Butter für das Backblech" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Zubereitung",
+        items: [
+          "Hefe mit 1 EL Zucker in 100 ml Milch auflösen. Zugedeckt 15 Min an einem warmen Ort gehen lassen. Rosinen heiß waschen, trocken tupfen und in Rum einweichen.",
+          "Mehl mit Hefevorteig und restlicher Milch in einer großen Schüssel vermengen.",
+          "Butter schmelzen und mit Zucker, Ei, Salz, Haselnüssen und den eingeweichten Rosinen zum Teig geben. Alles kräftig zu einem glatten Teig kneten.",
+          "Zugedeckt an einem warmen Ort 1 ½ Std gehen lassen, bis sich das Volumen sichtbar vergrößert.",
+          "Backblech mit Butter bestreichen. Teig nochmal kurz durchkneten, in zwei Stränge rollen (je ca. 50 cm), spiralförmig auf das Blech legen.",
+          "Laib abgedeckt weitere 30 Min gehen lassen.",
+          "Ofen auf 220 °C (Ober-/Unterhitze) vorheizen. Brot 25–30 Min backen. Nach 10 Min Backzeit etwas Wasser auf den Boden des Backofens sprühen, Temperatur auf 200 °C reduzieren.",
+          "Brot auskühlen lassen, in Scheiben schneiden und frisch mit Butter und Honig genießen."
+        ]
+      }
+    ],
+    tips: [
+      "Für ein besonders schönes Aussehen können Sie das Hefebrot vor dem Backen mit verquirltem Eigelb bestreichen.",
+      "Das Brot schmeckt auch hervorragend mit Marmelade oder Nusscreme."
+    ]
+  }
+];
+
+export default recipes;
