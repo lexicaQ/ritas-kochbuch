@@ -1,8 +1,9 @@
 
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Clock, ChefHat, ArrowLeft, Heart, Tag, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Clock, ChefHat, ArrowLeft, Heart, Tag, Check, Edit, Star, MessageSquare, Award, Send } from "lucide-react";
+import confetti from "canvas-confetti";
 
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/ui/fade-in";
@@ -10,6 +11,9 @@ import { CheckboxItem, CheckboxStepItem } from "@/components/ui/checkbox-item";
 import { Header } from "@/components/header";
 import recipes from "@/data/recipes";
 import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,31 +26,67 @@ const RecipeDetail = () => {
   
   // Track progress
   const [progress, setProgress] = useState(0);
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [userNotes, setUserNotes] = useState("");
+  const [userRating, setUserRating] = useState(0);
+  const [userTips, setUserTips] = useState("");
+  const [completionTime, setCompletionTime] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<Date | null>(null);
   
   useEffect(() => {
     // This would typically be a fetch from an API
-    setRecipe(recipes.find(r => r.id === id));
+    const foundRecipe = recipes.find(r => r.id === id);
+    setRecipe(foundRecipe);
+    setIsFavorite(foundRecipe?.isFavorite || false);
     window.scrollTo(0, 0);
+    setStartTime(new Date());
   }, [id]);
   
   useEffect(() => {
     if (recipe) {
-      let totalSteps = 0;
+      let totalItems = 0;
       let completedCount = 0;
       
       // Count total steps and completed steps
       recipe.steps.forEach((group, gIndex) => {
         group.items.forEach((_, sIndex) => {
           const stepId = `step-${gIndex}-${sIndex}`;
-          totalSteps++;
+          totalItems++;
           if (completedSteps[stepId]) completedCount++;
         });
       });
       
+      // Count ingredients
+      recipe.ingredients.forEach((group, gIndex) => {
+        group.items.forEach((_, iIndex) => {
+          const ingredientId = `ingredient-${gIndex}-${iIndex}`;
+          totalItems++;
+          if (completedIngredients[ingredientId]) completedCount++;
+        });
+      });
+      
       // Calculate progress percentage
-      setProgress(totalSteps > 0 ? (completedCount / totalSteps) * 100 : 0);
+      const newProgress = totalItems > 0 ? (completedCount / totalItems) * 100 : 0;
+      setProgress(newProgress);
+      
+      // Check if recipe is complete
+      if (newProgress === 100 && !showCompletionModal) {
+        setCompletionTime(new Date());
+        setTimeout(() => {
+          triggerConfetti();
+          setShowCompletionModal(true);
+        }, 500);
+      }
     }
-  }, [recipe, completedSteps]);
+  }, [recipe, completedSteps, completedIngredients, showCompletionModal]);
+  
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  };
   
   if (!recipe) {
     return (
@@ -62,6 +102,11 @@ const RecipeDetail = () => {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
     // Here you would typically update this in your backend
+    toast({
+      title: isFavorite ? "Aus Favoriten entfernt" : "Zu Favoriten hinzugefügt",
+      description: `${recipe.title} wurde ${isFavorite ? "aus deinen Favoriten entfernt" : "zu deinen Favoriten hinzugefügt"}.`,
+      variant: isFavorite ? "destructive" : "default",
+    });
   };
   
   const toggleStep = (id: string) => {
@@ -78,10 +123,34 @@ const RecipeDetail = () => {
     }));
   };
   
-  // Get similar recipes from the same category
-  const similarRecipes = recipes
-    .filter(r => r.id !== recipe.id && r.category === recipe.category)
-    .slice(0, 4);
+  const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setUserNotes(e.target.value);
+  };
+  
+  const handleRatingChange = (rating: number) => {
+    setUserRating(rating);
+  };
+  
+  const handleTipsSubmit = () => {
+    if (userTips.trim()) {
+      toast({
+        title: "Tipp gespeichert",
+        description: "Dein Tipp wurde gespeichert und wird beim nächsten Besuch angezeigt.",
+      });
+      setUserTips("");
+    }
+  };
+  
+  const calculateTimeElapsed = () => {
+    if (!startTime || !completionTime) return "0 Minuten";
+    const diff = Math.abs(completionTime.getTime() - startTime.getTime());
+    const minutes = Math.floor(diff / 60000);
+    return minutes === 1 ? "1 Minute" : `${minutes} Minuten`;
+  };
+  
+  const closeCompletionModal = () => {
+    setShowCompletionModal(false);
+  };
   
   return (
     <div className="min-h-screen bg-cookbook-50/20">
@@ -123,7 +192,7 @@ const RecipeDetail = () => {
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl shadow-xl">
+          <div className="relative aspect-[21/9] w-full overflow-hidden rounded-3xl shadow-xl">
             <img
               src={recipe.image}
               alt={recipe.title}
@@ -188,11 +257,14 @@ const RecipeDetail = () => {
                   <span className="text-sm font-medium text-cookbook-800">Fortschritt</span>
                   <span className="text-sm font-medium text-cookbook-800">{Math.round(progress)}%</span>
                 </div>
-                <div className="mt-2 h-2 w-full rounded-full bg-cookbook-200">
-                  <div 
-                    className="h-2 rounded-full bg-cookbook-600" 
+                <div className="mt-2 h-2.5 w-full rounded-full bg-cookbook-200">
+                  <motion.div 
+                    className="h-2.5 rounded-full bg-cookbook-600" 
                     style={{ width: `${progress}%` }}
-                  ></div>
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.5 }}
+                  ></motion.div>
                 </div>
               </div>
             </FadeIn>
@@ -225,25 +297,31 @@ const RecipeDetail = () => {
                       {group.items.map((item, itemIndex) => {
                         const ingredientId = `ingredient-${groupIndex}-${itemIndex}`;
                         return (
-                          <li key={itemIndex} onClick={() => toggleIngredient(ingredientId)}>
+                          <li key={itemIndex}>
                             <div 
                               className={cn(
                                 "flex items-start gap-2 p-2 rounded-lg transition-colors cursor-pointer",
                                 completedIngredients[ingredientId] ? "bg-cookbook-100/50" : "hover:bg-cookbook-50/50"
                               )}
                             >
-                              <div className={cn(
-                                "flex h-5 w-5 rounded-md items-center justify-center border transition-colors",
-                                completedIngredients[ingredientId] 
-                                  ? "bg-cookbook-700 border-cookbook-700" 
-                                  : "border-cookbook-300"
-                              )}>
+                              <div 
+                                className={cn(
+                                  "flex h-5 w-5 rounded-md items-center justify-center border transition-colors cursor-pointer",
+                                  completedIngredients[ingredientId] 
+                                    ? "bg-cookbook-700 border-cookbook-700" 
+                                    : "border-cookbook-300"
+                                )}
+                                onClick={() => toggleIngredient(ingredientId)}
+                              >
                                 {completedIngredients[ingredientId] && <Check size={12} className="text-white" />}
                               </div>
-                              <span className={cn(
-                                "text-sm",
-                                completedIngredients[ingredientId] && "line-through text-gray-400"
-                              )}>
+                              <span 
+                                className={cn(
+                                  "text-sm",
+                                  completedIngredients[ingredientId] && "line-through text-gray-400"
+                                )}
+                                onClick={() => toggleIngredient(ingredientId)}
+                              >
                                 {`${item.name}${item.amount ? ` (${item.amount})` : ''}`}
                               </span>
                             </div>
@@ -277,28 +355,46 @@ const RecipeDetail = () => {
                         return (
                           <div
                             key={stepIndex}
-                            onClick={() => toggleStep(stepId)}
                             className={cn(
-                              "flex items-start gap-3 rounded-lg p-4 transition-all cursor-pointer",
+                              "flex items-start gap-3 rounded-lg p-4 transition-all",
                               completedSteps[stepId] 
                                 ? "bg-cookbook-100/50 border border-cookbook-200" 
                                 : "hover:bg-cookbook-50/50 border border-cookbook-100/50"
                             )}
                           >
                             <div className={cn(
-                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-medium transition-colors",
+                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-medium transition-colors cursor-pointer",
                               completedSteps[stepId] 
                                 ? "bg-cookbook-700 text-white" 
                                 : "bg-cookbook-200 text-cookbook-700"
-                            )}>
-                              {stepIndex + 1}
+                            )}
+                            onClick={() => toggleStep(stepId)}
+                            >
+                              <span className={completedSteps[stepId] ? "opacity-0" : "opacity-100"}>
+                                {stepIndex + 1}
+                              </span>
+                              {completedSteps[stepId] && <Check size={14} className="absolute" />}
                             </div>
-                            <span className={cn(
-                              "text-sm",
-                              completedSteps[stepId] && "text-gray-500 line-through"
-                            )}>
+                            <span 
+                              className={cn(
+                                "text-sm flex-grow",
+                                completedSteps[stepId] && "text-gray-500 line-through"
+                              )}
+                              onClick={() => toggleStep(stepId)}
+                            >
                               {step}
                             </span>
+                            <div 
+                              className={cn(
+                                "flex h-5 w-5 rounded-md items-center justify-center border transition-colors cursor-pointer",
+                                completedSteps[stepId] 
+                                  ? "bg-cookbook-700 border-cookbook-700" 
+                                  : "border-cookbook-300"
+                              )}
+                              onClick={() => toggleStep(stepId)}
+                            >
+                              {completedSteps[stepId] && <Check size={12} className="text-white" />}
+                            </div>
                           </div>
                         );
                       })}
@@ -307,89 +403,170 @@ const RecipeDetail = () => {
                 ))}
               </div>
               
-              {/* Tips */}
-              {recipe.tips && recipe.tips.length > 0 && (
-                <div className="mt-8 rounded-xl bg-cookbook-50/70 p-6 border border-cookbook-200">
+              <div className="mt-8 grid gap-8 md:grid-cols-2">
+                {/* Tips */}
+                {recipe.tips && recipe.tips.length > 0 && (
+                  <div className="rounded-xl bg-cookbook-50/70 p-6 border border-cookbook-200">
+                    <h2 className="font-playfair text-xl font-bold text-cookbook-800 mb-4 flex items-center">
+                      <div className="bg-cookbook-700 text-white p-1 rounded-full mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <line x1="12" y1="16" x2="12" y2="12"></line>
+                          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                      </div>
+                      Tipps & Tricks
+                    </h2>
+                    
+                    <ul className="mt-4 space-y-3">
+                      {recipe.tips.map((tip, index) => (
+                        <li key={index} className="flex items-start gap-3 bg-white p-3 rounded-lg shadow-sm">
+                          <div className="bg-cookbook-100 text-cookbook-700 h-6 w-6 flex items-center justify-center rounded-full font-semibold text-sm">
+                            {index + 1}
+                          </div>
+                          <p className="text-sm">{tip}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {/* User Notes Section */}
+                <div className="rounded-xl bg-cookbook-50/70 p-6 border border-cookbook-200">
                   <h2 className="font-playfair text-xl font-bold text-cookbook-800 mb-4 flex items-center">
                     <div className="bg-cookbook-700 text-white p-1 rounded-full mr-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                      </svg>
+                      <Edit size={20} />
                     </div>
-                    Tipps & Tricks
+                    Meine Notizen
                   </h2>
                   
-                  <ul className="mt-4 space-y-3">
-                    {recipe.tips.map((tip, index) => (
-                      <li key={index} className="flex items-start gap-3 bg-white p-3 rounded-lg shadow-sm">
-                        <div className="bg-cookbook-100 text-cookbook-700 h-6 w-6 flex items-center justify-center rounded-full font-semibold text-sm">
-                          {index + 1}
-                        </div>
-                        <p className="text-sm">{tip}</p>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="space-y-3">
+                    <Textarea 
+                      placeholder="Füge hier deine eigenen Notizen hinzu..." 
+                      className="min-h-[100px] bg-white"
+                      value={userNotes}
+                      onChange={handleNotesChange}
+                    />
+                    
+                    <div className="flex justify-end">
+                      <Button 
+                        size="sm" 
+                        onClick={() => {
+                          toast({
+                            title: "Notizen gespeichert",
+                            description: "Deine Notizen wurden für dieses Rezept gespeichert.",
+                          });
+                        }}
+                      >
+                        <MessageSquare size={14} className="mr-1" />
+                        Notiz speichern
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-5 pt-5 border-t border-cookbook-200">
+                    <h3 className="font-medium text-cookbook-800 mb-2">Dein Tipp für andere</h3>
+                    <div className="space-y-3">
+                      <Textarea 
+                        placeholder="Teile einen hilfreichen Tipp für dieses Rezept..." 
+                        className="min-h-[60px] bg-white"
+                        value={userTips}
+                        onChange={(e) => setUserTips(e.target.value)}
+                      />
+                      
+                      <div className="flex justify-end">
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          onClick={handleTipsSubmit}
+                        >
+                          <Send size={14} className="mr-1" />
+                          Tipp teilen
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              )}
+              </div>
             </FadeIn>
           </div>
         </div>
       </div>
       
-      {/* Similar recipes */}
-      <section className="mt-16 bg-cookbook-50 py-12">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center mb-8">
-            <div className="h-1 w-6 bg-cookbook-700 rounded-full mr-3"></div>
-            <h2 className="font-playfair text-2xl font-bold text-cookbook-800">
-              Das könnte dir auch gefallen
-            </h2>
-            <div className="h-1 flex-grow bg-cookbook-200 rounded-full ml-3"></div>
-          </div>
-          
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {similarRecipes.map(similarRecipe => (
-              <motion.div
-                key={similarRecipe.id}
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <Link
-                  to={`/rezept/${similarRecipe.id}`}
-                  className="block overflow-hidden rounded-lg bg-white shadow-lg transition-all hover:shadow-xl"
-                >
-                  <div className="aspect-[3/2] relative">
-                    <img
-                      src={similarRecipe.image}
-                      alt={similarRecipe.title}
-                      className="h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60"></div>
-                    <div className="absolute bottom-0 w-full p-3 text-white">
-                      <h3 className="font-playfair font-bold text-white">
-                        {similarRecipe.title}
-                      </h3>
-                    </div>
+      {/* Completion Modal */}
+      <AnimatePresence>
+        {showCompletionModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+            onClick={closeCompletionModal}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-white rounded-xl shadow-xl max-w-md w-full p-6"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="text-center mb-6">
+                <div className="mx-auto w-16 h-16 bg-cookbook-100 rounded-full flex items-center justify-center mb-4">
+                  <Award size={32} className="text-cookbook-700" />
+                </div>
+                <h2 className="font-playfair text-2xl font-bold text-cookbook-800">
+                  Rezept abgeschlossen!
+                </h2>
+                <p className="text-gray-600 mt-2">
+                  Glückwunsch! Du hast das Rezept erfolgreich zubereitet.
+                </p>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="bg-cookbook-50/70 rounded-lg p-3">
+                  <p className="text-sm text-cookbook-800">
+                    <span className="font-medium">Benötigte Zeit:</span> {calculateTimeElapsed()}
+                  </p>
+                </div>
+                
+                <div>
+                  <p className="text-sm font-medium text-cookbook-800 mb-2">Wie hat es geschmeckt?</p>
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => handleRatingChange(star)}
+                        className={cn(
+                          "rounded-full p-1 transition-colors",
+                          userRating >= star ? "text-yellow-400" : "text-gray-300 hover:text-yellow-200"
+                        )}
+                      >
+                        <Star size={24} className={userRating >= star ? "fill-yellow-400" : ""} />
+                      </button>
+                    ))}
                   </div>
-                  <div className="p-4">
-                    <div className="flex gap-2">
-                      <span className="rounded-full bg-cookbook-100/80 px-2 py-0.5 text-xs font-medium text-cookbook-800">
-                        {similarRecipe.category}
-                      </span>
-                      <span className="flex items-center gap-1 rounded-full bg-cookbook-100/60 px-2 py-0.5 text-xs font-medium text-cookbook-700">
-                        <Clock size={10} />
-                        {similarRecipe.prepTime}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+                </div>
+              </div>
+              
+              <div className="flex justify-end gap-3">
+                <Button variant="outline" onClick={closeCompletionModal}>
+                  Schließen
+                </Button>
+                <Button onClick={() => {
+                  toast({
+                    title: "Bewertung gespeichert",
+                    description: "Vielen Dank für deine Bewertung!",
+                  });
+                  closeCompletionModal();
+                }}>
+                  Bewertung speichern
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
