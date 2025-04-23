@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -34,12 +33,10 @@ export const SearchBar = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // Auto focus on mount if specified
     if (autoFocus && inputRef.current) {
       inputRef.current.focus();
     }
     
-    // Handle click outside to close suggestions
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsActive(false);
@@ -58,14 +55,12 @@ export const SearchBar = ({
 
     const normalizedSearchTerm = searchTerm.toLowerCase();
     
-    // Group results by different match types
     const titleMatches: SearchResult[] = [];
     const categoryMatches: SearchResult[] = [];
     const tagMatches: SearchResult[] = [];
     const descriptionMatches: SearchResult[] = [];
     
     recipes.forEach(recipe => {
-      // Check for title matches (highest priority)
       if (recipe.title.toLowerCase().includes(normalizedSearchTerm)) {
         titleMatches.push({
           id: recipe.id,
@@ -77,10 +72,9 @@ export const SearchBar = ({
           prepTime: recipe.prepTime,
           tags: recipe.tags.slice(0, 2)
         });
-        return; // Skip other checks for this recipe if title matches
+        return;
       }
       
-      // Check for category matches
       if (recipe.category.toLowerCase().includes(normalizedSearchTerm)) {
         categoryMatches.push({
           id: recipe.id,
@@ -95,7 +89,6 @@ export const SearchBar = ({
         return;
       }
       
-      // Check for tag matches
       if (recipe.tags.some(tag => tag.toLowerCase().includes(normalizedSearchTerm))) {
         tagMatches.push({
           id: recipe.id,
@@ -112,7 +105,6 @@ export const SearchBar = ({
         return;
       }
       
-      // Check for description matches (lowest priority)
       if (recipe.description.toLowerCase().includes(normalizedSearchTerm)) {
         descriptionMatches.push({
           id: recipe.id,
@@ -127,7 +119,6 @@ export const SearchBar = ({
       }
     });
     
-    // Combine results with priority order and limit to maxResults
     const combinedResults = [
       ...titleMatches,
       ...categoryMatches, 
@@ -182,7 +173,7 @@ export const SearchBar = ({
     <div className={cn("relative z-30", variantClasses[variant], className)} ref={searchRef}>
       <form onSubmit={handleSubmit}>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           
           <Input
             ref={inputRef}
@@ -192,9 +183,9 @@ export const SearchBar = ({
             onChange={handleInputChange}
             onClick={() => setIsActive(true)}
             className={cn(
-              "pl-9 pr-9",
-              variant === "large" ? "h-12 text-lg" : "h-10",
-              variant === "minimal" ? "rounded-full bg-background/80 backdrop-blur-sm" : ""
+              "pl-10 pr-9 border-white/20 shadow-lg bg-white/80 backdrop-blur-sm",
+              variant === "large" ? "h-12 text-lg rounded-2xl" : "h-10 rounded-xl",
+              variant === "minimal" ? "rounded-full bg-background/80" : ""
             )}
           />
           

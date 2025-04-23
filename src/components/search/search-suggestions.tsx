@@ -31,7 +31,7 @@ export const SearchSuggestions = ({
   searchTerm 
 }: SearchSuggestionsProps) => {
   return (
-    <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden max-h-[65vh] overflow-y-auto">
+    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-white/20 overflow-hidden max-h-[65vh] overflow-y-auto backdrop-blur-sm">
       <div className="divide-y divide-gray-100">
         {results.map((result, index) => (
           <motion.div 
@@ -40,34 +40,19 @@ export const SearchSuggestions = ({
             animate={{ opacity: 1 }}
             transition={{ delay: index * 0.05 }}
             onClick={() => onSelect(result)}
-            className="p-3 hover:bg-cookbook-50 cursor-pointer transition-colors flex items-center gap-3"
+            className="p-3 hover:bg-cookbook-50 cursor-pointer transition-colors flex items-start gap-3"
           >
-            <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+            <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
               <img 
                 src={result.image} 
                 alt={result.title} 
                 className="w-full h-full object-cover"
                 loading="lazy" 
               />
-              
-              {result.matchType && (
-                <div className={cn(
-                  "absolute top-0 left-0 right-0 text-[10px] text-center text-white px-1 py-0.5",
-                  result.matchType === "title" ? "bg-cookbook-700/80" :
-                  result.matchType === "category" ? "bg-cookbook-500/80" :
-                  result.matchType === "tag" ? "bg-cookbook-600/80" :
-                  "bg-cookbook-400/80"
-                )}>
-                  {result.matchType === "title" ? "Titel" :
-                   result.matchType === "category" ? "Kategorie" :
-                   result.matchType === "tag" ? "Tag" :
-                   "Beschreibung"}
-                </div>
-              )}
             </div>
             
             <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-cookbook-800 truncate mb-0.5">
+              <h4 className="font-medium text-cookbook-800 mb-1.5">
                 {highlightMatch(result.title, searchTerm)}
               </h4>
               
@@ -83,7 +68,7 @@ export const SearchSuggestions = ({
               </div>
               
               {result.tags && result.tags.length > 0 && (
-                <div className="flex gap-1 mt-1 flex-wrap">
+                <div className="flex gap-1 mt-1.5 flex-wrap">
                   {result.tags.map(tag => (
                     <span 
                       key={tag} 
