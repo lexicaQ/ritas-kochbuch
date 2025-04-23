@@ -68,6 +68,7 @@ export function RecipeCard({
           
           {/* Favorite Button */}
           <FavoriteButton
+            recipeId={id}
             isFavorite={isFavorite}
             onToggle={toggleFavorite}
             className="absolute top-3 left-3 z-10"

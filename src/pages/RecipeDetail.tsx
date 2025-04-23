@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -21,24 +20,19 @@ const RecipeDetail = () => {
   const [isFavorite, setIsFavorite] = useState(recipe?.isFavorite || false);
   const startTimeRef = useRef(new Date());
   
-  // Track completed steps and ingredients
   const [completedSteps, setCompletedSteps] = useState<{[key: string]: boolean}>({});
   const [completedIngredients, setCompletedIngredients] = useState<{[key: string]: boolean}>({});
   
-  // Track progress and completion
   const [progress, setProgress] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [completionTime, setCompletionTime] = useState<string>("");
   
   useEffect(() => {
-    // This would typically be a fetch from an API
     setRecipe(recipes.find(r => r.id === id));
     window.scrollTo(0, 0);
     
-    // Reset the start time when changing recipes
     startTimeRef.current = new Date();
     
-    // Load saved progress from localStorage
     if (id) {
       const savedSteps = localStorage.getItem(`recipe-steps-${id}`);
       const savedIngredients = localStorage.getItem(`recipe-ingredients-${id}`);
@@ -64,7 +58,6 @@ const RecipeDetail = () => {
       let totalSteps = 0;
       let completedCount = 0;
       
-      // Count total steps and completed steps
       recipe.steps.forEach((group, gIndex) => {
         group.items.forEach((_, sIndex) => {
           const stepId = `step-${gIndex}-${sIndex}`;
@@ -73,15 +66,12 @@ const RecipeDetail = () => {
         });
       });
       
-      // Calculate progress percentage
       const newProgress = totalSteps > 0 ? (completedCount / totalSteps) * 100 : 0;
       setProgress(newProgress);
       
-      // Check if all steps are completed
       if (newProgress === 100 && totalSteps > 0 && !showSuccess) {
-        // Calculate completion time
         const endTime = new Date();
-        const timeDiff = Math.floor((endTime.getTime() - startTimeRef.current.getTime()) / 1000 / 60); // in minutes
+        const timeDiff = Math.floor((endTime.getTime() - startTimeRef.current.getTime()) / 1000 / 60);
         
         if (timeDiff < 60) {
           setCompletionTime(`${timeDiff} Minuten`);
@@ -91,13 +81,11 @@ const RecipeDetail = () => {
           setCompletionTime(`${hours} Std ${minutes} Min`);
         }
         
-        // Show success modal with slight delay
         setTimeout(() => {
           setShowSuccess(true);
         }, 500);
       }
       
-      // Save progress to localStorage
       if (id) {
         localStorage.setItem(`recipe-steps-${id}`, JSON.stringify(completedSteps));
         localStorage.setItem(`recipe-ingredients-${id}`, JSON.stringify(completedIngredients));
@@ -117,7 +105,6 @@ const RecipeDetail = () => {
   }
   
   const toggleFavorite = () => {
-    // Find the recipe in the data and toggle its favorite status
     const recipeIndex = recipes.findIndex(r => r.id === recipe.id);
     if (recipeIndex !== -1) {
       recipes[recipeIndex].isFavorite = !isFavorite;
@@ -145,7 +132,6 @@ const RecipeDetail = () => {
       <Header />
       
       <div className="container mx-auto mt-20 px-4 pt-8">
-        {/* Back button and actions */}
         <div className="mb-6 flex items-center justify-between">
           <Link to="/rezepte">
             <Button variant="ghost" className="group flex items-center gap-2">
@@ -155,12 +141,12 @@ const RecipeDetail = () => {
           </Link>
           
           <FavoriteButton 
+            recipeId={recipe.id}
             isFavorite={isFavorite} 
             onToggle={toggleFavorite}
           />
         </div>
         
-        {/* Recipe header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -197,14 +183,12 @@ const RecipeDetail = () => {
           </div>
         </motion.div>
         
-        {/* Recipe info */}
         <div className="mt-8">
           <FadeIn>
             <p className="text-lg text-gray-700">
               {recipe.description}
             </p>
             
-            {/* Recipe meta */}
             <div className="mt-6 flex flex-wrap gap-2">
               {recipe.tags && recipe.tags.map(tag => (
                 <span
@@ -224,25 +208,20 @@ const RecipeDetail = () => {
             </div>
           </FadeIn>
           
-          {/* Progress bar */}
-          <FadeIn delay={0.2}>
-            <div className="mt-8">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-cookbook-800">Fortschritt</span>
-                <span className="text-sm font-medium text-cookbook-800">{Math.round(progress)}%</span>
-              </div>
-              <div className="mt-2 h-2 w-full rounded-full bg-cookbook-200">
-                <div 
-                  className="h-2 rounded-full bg-cookbook-600 transition-all duration-1000" 
-                  style={{ width: `${progress}%` }}
-                ></div>
-              </div>
+          <div className="mt-8">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-cookbook-800">Fortschritt</span>
+              <span className="text-sm font-medium text-cookbook-800">{Math.round(progress)}%</span>
             </div>
-          </FadeIn>
+            <div className="mt-2 h-2 w-full rounded-full bg-cookbook-200">
+              <div 
+                className="h-2 rounded-full bg-cookbook-600 transition-all duration-1000" 
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
           
-          {/* Main content */}
           <div className="mt-10 grid gap-8 md:grid-cols-12 md:gap-12">
-            {/* Ingredients */}
             <FadeIn className="md:col-span-4" delay={0.1}>
               <div className="rounded-xl bg-white p-6 shadow-lg border border-cookbook-100">
                 <div className="mb-6 flex items-center justify-between">
@@ -298,7 +277,6 @@ const RecipeDetail = () => {
               </div>
             </FadeIn>
             
-            {/* Steps */}
             <FadeIn className="md:col-span-8" delay={0.2}>
               <div className="rounded-xl bg-white p-6 shadow-lg border border-cookbook-100">
                 <h2 className="font-playfair text-2xl font-bold text-cookbook-800 mb-6 pb-2 border-b border-cookbook-100">
@@ -349,7 +327,6 @@ const RecipeDetail = () => {
                 ))}
               </div>
               
-              {/* Tips */}
               {recipe.tips && recipe.tips.length > 0 && (
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="rounded-xl bg-cookbook-50/70 p-6 border border-cookbook-200">
@@ -380,7 +357,6 @@ const RecipeDetail = () => {
                 </div>
               )}
               
-              {/* Rating */}
               <div className="mt-8">
                 <RecipeRating recipeId={recipe.id} />
               </div>
@@ -389,7 +365,6 @@ const RecipeDetail = () => {
         </div>
       </div>
       
-      {/* Success Modal */}
       <RecipeSuccess 
         show={showSuccess} 
         onClose={() => setShowSuccess(false)}
