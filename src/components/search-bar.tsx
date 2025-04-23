@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -87,8 +88,9 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
   };
   
   const handleSuggestionSelect = (id: string) => {
+    console.log(`Suggestion selected: ${id}`);
     setShowSuggestions(false);
-    navigate(`/rezept/${id}`);
+    setSearchQuery("");
   };
   
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Card } from "@/components/ui/card";
 import { Clock, ChefHat } from "lucide-react";
@@ -23,7 +23,25 @@ interface SearchSuggestionsProps {
 }
 
 export function SearchSuggestions({ query, suggestions, onSelect, className }: SearchSuggestionsProps) {
+  const navigate = useNavigate();
+
   if (!query) return null;
+
+  // Diese Funktion wird aufgerufen, wenn ein Vorschlag ausgewählt wird
+  const handleSuggestionSelect = (id: string, event: React.MouseEvent) => {
+    // Stoppe die Event-Propagation, um zu verhindern, dass andere onClick-Handler ausgelöst werden
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Suchvorschläge schließen über die onSelect-Funktion
+    onSelect(id);
+    
+    // Nach einer kurzen Verzögerung zur Rezeptseite navigieren
+    // Dies gibt dem UI Zeit, die Vorschläge auszublenden, bevor die Navigation stattfindet
+    setTimeout(() => {
+      navigate(`/rezept/${id}`);
+    }, 10);
+  };
 
   return (
     <Card className={cn(
@@ -39,11 +57,17 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                 key={suggestion.id}
                 value={suggestion.title}
                 className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50/80"
+                onSelect={(value) => {
+                  const selected = suggestions.find(s => s.title.toLowerCase() === value);
+                  if (selected) {
+                    onSelect(selected.id);
+                    navigate(`/rezept/${selected.id}`);
+                  }
+                }}
               >
-                <Link
-                  to={`/rezept/${suggestion.id}`}
+                <div 
                   className="flex items-center gap-4 flex-1"
-                  onClick={() => onSelect(suggestion.id)}
+                  onClick={(e) => handleSuggestionSelect(suggestion.id, e)}
                 >
                   <img
                     src={suggestion.image}
@@ -68,7 +92,7 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
               </CommandItem>
             ))}
           </CommandGroup>
