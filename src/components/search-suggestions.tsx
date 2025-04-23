@@ -3,8 +3,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Card } from "@/components/ui/card";
-import { Clock, ChefHat } from "lucide-react";
+import { Clock, ChefHat, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface SearchSuggestionsProps {
   query: string;
@@ -81,6 +82,20 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
           </CommandGroup>
         </CommandList>
       </Command>
+      
+      <div className="p-3 border-t border-cookbook-100 bg-cookbook-50/50">
+        <Button
+          variant="outline"
+          className="w-full justify-between"
+          onClick={() => {
+            onSelect('');  // Clear selection
+            navigate('/rezepte');  // Navigate to recipes page
+          }}
+        >
+          Alle Rezepte anzeigen
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+      </div>
     </Card>
   );
 }
