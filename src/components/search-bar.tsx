@@ -165,6 +165,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
               query={searchQuery}
               suggestions={getSuggestions(searchQuery, selectedFilters)}
               onSelect={handleSuggestionSelect}
+              className="bg-white"
             />
           )}
         </div>
@@ -186,7 +187,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
                 )}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 bg-white border border-cookbook-200">
+            <DropdownMenuContent align="end" className="w-64 bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg">
               <DropdownMenuLabel className="font-playfair text-lg text-cookbook-800">
                 Filter
               </DropdownMenuLabel>
@@ -194,12 +195,13 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
               <DropdownMenuSeparator className="bg-cookbook-100" />
               
               <DropdownMenuGroup>
-                <DropdownMenuLabel className="text-xs text-muted-foreground">Kategorien</DropdownMenuLabel>
+                <DropdownMenuLabel className="text-xs font-medium text-cookbook-600">Kategorien</DropdownMenuLabel>
                 {categories.map((category) => (
                   <DropdownMenuCheckboxItem
                     key={category}
                     checked={selectedFilters.includes(category)}
                     onCheckedChange={() => toggleFilter(category)}
+                    className="text-cookbook-800"
                   >
                     {category}
                   </DropdownMenuCheckboxItem>
@@ -209,12 +211,13 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
               <DropdownMenuSeparator />
               
               <DropdownMenuGroup>
-                <DropdownMenuLabel className="text-xs text-muted-foreground">Schwierigkeit</DropdownMenuLabel>
+                <DropdownMenuLabel className="text-xs font-medium text-cookbook-600">Schwierigkeit</DropdownMenuLabel>
                 {difficulties.map((difficulty) => (
                   <DropdownMenuCheckboxItem
                     key={difficulty}
                     checked={selectedFilters.includes(difficulty)}
                     onCheckedChange={() => toggleFilter(difficulty)}
+                    className="text-cookbook-800"
                   >
                     {difficulty}
                   </DropdownMenuCheckboxItem>
@@ -228,7 +231,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      className="w-full text-xs"
+                      className="w-full text-xs text-cookbook-600 hover:text-cookbook-800"
                       onClick={() => setSelectedFilters([])}
                     >
                       Filter zurücksetzen
@@ -275,3 +278,4 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
     </FadeIn>
   );
 }
+

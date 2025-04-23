@@ -26,7 +26,7 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
 
   return (
     <Card className={cn(
-      "absolute left-0 top-full w-full mt-2 z-50 overflow-hidden shadow-lg border border-cookbook-200 max-h-[300px] overflow-y-auto",
+      "absolute left-0 top-full w-full mt-2 z-50 overflow-hidden shadow-lg border border-cookbook-200 bg-white/95 backdrop-blur-sm",
       className
     )}>
       <Command>
@@ -38,7 +38,7 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                 key={suggestion.id}
                 value={suggestion.title}
                 onSelect={() => onSelect(suggestion.id)}
-                className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50"
+                className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50/80"
               >
                 <img
                   src={suggestion.image}
