@@ -702,6 +702,204 @@ const recipes: Recipe[] = [
       "Für ein besonders schönes Aussehen können Sie das Hefebrot vor dem Backen mit verquirltem Eigelb bestreichen.",
       "Das Brot schmeckt auch hervorragend mit Marmelade oder Nusscreme."
     ]
+  },
+  {
+    id: "zitronencreme-kuchen",
+    title: "Zitronencreme‑Kuchen vom Blech",
+    description: "Ein saftiger Blechkuchen mit cremiger Zitronenfüllung und feiner Sahnehaube.",
+    image: "https://images.unsplash.com/photo-1464195157370-5d851699fc70?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "24 Stücke",
+    prepTime: "30 Min",
+    cookTime: "15–20 Min",
+    totalTime: "~2 Tage (inkl. Kühlzeit)",
+    difficulty: "normal",
+    category: "Dessert",
+    tags: ["Kuchen", "Zitrone", "Sahne", "Backen", "Blechkuchen"],
+    ingredients: [
+      {
+        group: "Boden",
+        items: [
+          { name: "Butter", amount: "200 g" },
+          { name: "Zucker", amount: "200 g" },
+          { name: "Vanillezucker", amount: "1 Päckchen" },
+          { name: "Eier", amount: "4" },
+          { name: "Mehl", amount: "250 g" },
+          { name: "Backpulver", amount: "1 Päckchen" }
+        ]
+      },
+      {
+        group: "Zitronencreme",
+        items: [
+          { name: "Wasser", amount: "2 Tassen" },
+          { name: "Zucker", amount: "1 Tasse" },
+          { name: "Sahne‑Puddingpulver", amount: "1 Päckchen" },
+          { name: "Zitronensaft", amount: "Saft von 1 ½ Zitronen" },
+          { name: "Eigelb", amount: "2" },
+          { name: "Sahne", amount: "250 ml" },
+          { name: "Sahnesteif", amount: "1 Päckchen" }
+        ]
+      },
+      {
+        group: "Topping",
+        items: [
+          { name: "Puderzucker zum Bestäuben" },
+          { name: "Zitrone‑Zesten (optional)" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Butter, Zucker und Vanillezucker cremig schlagen. Eier einzeln unterrühren. Mehl mit Backpulver mischen und portionsweise unterziehen.",
+          "Teig auf ein gefettetes Backblech streichen. Im vorgeheizten Ofen bei 175 °C 15–20 Min backen. Vollständig auskühlen lassen.",
+          "Wasser, Zucker und Puddingpulver in einem Topf verrühren. Unter Rühren aufkochen, kurz quellen lassen. Vom Herd nehmen, Zitronensaft und Eigelb zügig einrühren.",
+          "Sahne mit Sahnesteif steif schlagen und unter die leicht abgekühlte Pudding‑Zitronen‑Masse heben.",
+          "Creme auf dem Boden verteilen. Abgedeckt 2 Tage im Kühlschrank durchziehen lassen.",
+          "Vor dem Servieren mit Puderzucker bestäuben und nach Belieben mit Zitronenzesten garnieren."
+        ]
+      }
+    ]
+  },
+  {
+    id: "himbeer-joghurt-torte",
+    title: "Himbeer‑Joghurt‑Torte",
+    description: "Eine frische Torte mit luftiger Joghurt-Sahne-Füllung und fruchtiger Himbeerschicht.",
+    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "1 Torte (Springform Ø 26 cm)",
+    prepTime: "30 Min",
+    cookTime: "20 Min",
+    totalTime: "~3 Std (inkl. Kühlzeit)",
+    difficulty: "normal",
+    category: "Dessert",
+    tags: ["Torte", "Himbeeren", "Joghurt", "Sahne", "Backen"],
+    ingredients: [
+      {
+        group: "Boden",
+        items: [
+          { name: "Margarine", amount: "50 g" },
+          { name: "Ei", amount: "1" },
+          { name: "Zucker", amount: "50 g" },
+          { name: "Vanillezucker", amount: "1 Päckchen" },
+          { name: "Mehl", amount: "125 g" },
+          { name: "Backpulver", amount: "1 TL" }
+        ]
+      },
+      {
+        group: "Füllung",
+        items: [
+          { name: "Zucker", amount: "200 g" },
+          { name: "Zitronensaft", amount: "Saft einer Zitrone" },
+          { name: "Joghurt", amount: "3 Becher (à 150 g)" },
+          { name: "Gelatine", amount: "12 Blatt (oder 2 Päckchen gemahlene)" },
+          { name: "Sahne", amount: "2 Becher" }
+        ]
+      },
+      {
+        group: "Himbeer‑Schicht",
+        items: [
+          { name: "Himbeer‑Götterspeise", amount: "1 Päckchen" },
+          { name: "Wasser", amount: "1 ½ l" },
+          { name: "gefrorene Himbeeren", amount: "300–400 g" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Alle Zutaten für den Boden rasch zu einem Rührteig verarbeiten. In eine gefettete Springform füllen und 20 Min bei 200 °C backen. Auskühlen lassen.",
+          "Gelatine nach Packungsanweisung einweichen.",
+          "Zucker, Zitronensaft und Joghurt verrühren. Gelatine darin auflösen und unterrühren. Geschlagene Sahne unterheben.",
+          "Joghurt‑Creme auf den Boden streichen.",
+          "Götterspeise in 1 ½ l Wasser auflösen. Über gefrorene Himbeeren gießen, verteilen. Sobald die Masse andickt, vorsichtig über die Creme gießen.",
+          "Torte mindestens 2 Std kaltstellen. Vor dem Servieren frisch genießen."
+        ]
+      }
+    ]
+  },
+  {
+    id: "kartoffelsalat-ziegenkaese",
+    title: "Lauwarmer Kartoffelsalat mit Ziegenkäse",
+    description: "Ein mediterraner Kartoffelsalat mit cremigem Ziegenkäse, schwarzen Oliven und Kapern.",
+    image: "https://images.unsplash.com/photo-1510130315046-1e47cc196aa0?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "1 Std",
+    difficulty: "leicht",
+    category: "Salat",
+    tags: ["Vegetarisch", "Kartoffeln", "Ziegenkäse", "Mediterran"],
+    ingredients: [
+      {
+        items: [
+          { name: "festkochende Kartoffeln", amount: "800 g" },
+          { name: "Flaschentomaten", amount: "400 g" },
+          { name: "schwarze Oliven, entsteint", amount: "50 g" },
+          { name: "Kapernäpfel", amount: "50 g" },
+          { name: "Schalotten", amount: "100 g" },
+          { name: "glatte Petersilie", amount: "½ Bund" },
+          { name: "Ziegenfrischkäse", amount: "200 g" },
+          { name: "Weißweinessig", amount: "5 EL" },
+          { name: "Gemüsefond", amount: "100 ml" },
+          { name: "Zucker, Salz, weißer Pfeffer" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Kartoffeln waschen, in Salzwasser 20–25 Min gar kochen. Abgießen, kurz ausdämpfen, pellen und längs vierteln.",
+          "Tomaten waschen, in Spalten schneiden. Oliven halbieren. Kapernäpfel abtropfen lassen. Schalotten würfeln. Petersilie zupfen. Ziegenkäse in Scheiben schneiden.",
+          "Traubenkernöl (oder Olivenöl) erhitzen, Schalotten glasig andünsten. Mit Weißweinessig und Gemüsefond ablöschen, aufkochen. Mit Zucker, Salz und Pfeffer abschmecken.",
+          "Kartoffeln in eine Schüssel geben, Marinade darüber träufeln und vorsichtig mischen. Tomaten, Oliven, Kapernäpfel, Petersilie und Ziegenkäse unterheben.",
+          "Lauwarm servieren."
+        ]
+      }
+    ]
+  },
+  {
+    id: "kirsch-schoko-kuchen",
+    title: "Kirsch‑Schoko‑Kuchen",
+    description: "Ein saftiger Schokoladenkuchen mit Sauerkirschen und gemahlenen Mandeln.",
+    image: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "1 Springform (Ø 26 cm)",
+    prepTime: "20 Min",
+    cookTime: "35–45 Min",
+    difficulty: "leicht",
+    category: "Dessert",
+    tags: ["Kuchen", "Schokolade", "Kirschen", "Mandeln", "Backen"],
+    ingredients: [
+      {
+        group: "Rührteig",
+        items: [
+          { name: "weiche Margarine oder Butter", amount: "200 g" },
+          { name: "Zucker", amount: "175 g" },
+          { name: "Vanillinzucker", amount: "1 Päckchen" },
+          { name: "Rum‑Aroma", amount: "½ Fläschchen" },
+          { name: "Salz", amount: "1 Prise" },
+          { name: "Eier", amount: "4" },
+          { name: "Mehl", amount: "125 g" },
+          { name: "Backpulver", amount: "1 TL" },
+          { name: "geriebene Blockschokolade", amount: "100 g" },
+          { name: "gemahlene Mandeln oder Haselnüsse", amount: "100 g" }
+        ]
+      },
+      {
+        group: "Belag",
+        items: [
+          { name: "Sauerkirschen, abgetropft", amount: "1 Glas (370 g)" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        items: [
+          "Margarine oder Butter cremig schlagen. Zucker, Vanillinzucker, Rum‑Aroma und Salz einrühren. Eier einzeln je ½ Min unterrühren.",
+          "Mehl mit Backpulver mischen, sieben und portionsweise unter den Teig heben.",
+          "Geriebene Schokolade und Mandeln kurz unterheben.",
+          "Teig in eine gefettete Springform füllen. Sauerkirschen gleichmäßig darauf verteilen.",
+          "Im vorgeheizten Ofen je nach Modus 35–45 Min backen.",
+          "Vor dem Servieren mit Puderzucker bestäuben. Nach Wunsch mit geschlagener Sahne genießen."
+        ]
+      }
+    ]
   }
 ];
 
