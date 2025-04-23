@@ -84,7 +84,7 @@ export function Header() {
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             {isOpen ? (
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6 text-white" />
             ) : (
               <Menu className="w-6 h-6" />
             )}
@@ -144,7 +144,6 @@ export function Header() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Overlay that covers and blurs the entire screen */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -154,7 +153,6 @@ export function Header() {
               onClick={() => setIsOpen(false)}
             />
             
-            {/* Mobile navigation menu */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -162,7 +160,7 @@ export function Header() {
               transition={{ type: "spring", damping: 25 }}
               className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col"
             >
-              <div className="h-full bg-cookbook-50 px-4 pb-6 pt-24">
+              <div className="h-full bg-white px-4 pb-6 pt-24">
                 <div className="absolute top-4 right-4">
                   <button
                     onClick={() => setIsOpen(false)}
@@ -172,6 +170,12 @@ export function Header() {
                     <X className="w-5 h-5" />
                   </button>
                 </div>
+
+                <div className="text-center mb-6 border-b border-cookbook-200 pb-4">
+                  <span className="font-playfair text-xl font-bold text-cookbook-700">
+                    Ritas Kochbuch
+                  </span>
+                </div>
                 
                 {navigationItems.map((item) => (
                   <Link
@@ -180,8 +184,8 @@ export function Header() {
                     className={cn(
                       "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors",
                       location.pathname === item.path
-                        ? "bg-cookbook-200 text-cookbook-800"
-                        : "text-cookbook-700 hover:bg-cookbook-100 hover:text-cookbook-800"
+                        ? "bg-cookbook-100 text-cookbook-800"
+                        : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800"
                     )}
                     onClick={() => setIsOpen(false)}
                   >

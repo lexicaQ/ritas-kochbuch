@@ -285,8 +285,8 @@ const RecipeDetail = () => {
               onToggleStep={toggleStep}
             />
             
-            {recipe.tips && recipe.tips.length > 0 && (
-              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              {recipe.tips && recipe.tips.length > 0 && (
                 <div className="rounded-xl bg-cookbook-50/70 p-6 border border-cookbook-200">
                   <h2 className="font-playfair text-xl font-bold text-cookbook-800 mb-4 flex items-center">
                     <div className="bg-cookbook-700 text-white p-1 rounded-full mr-3">
@@ -310,10 +310,10 @@ const RecipeDetail = () => {
                     ))}
                   </ul>
                 </div>
-                
-                <RecipeNotes recipeId={recipe.id} />
-              </div>
-            )}
+              )}
+              
+              <RecipeNotes recipeId={recipe.id} />
+            </div>
           </FadeIn>
         </div>
       </div>
