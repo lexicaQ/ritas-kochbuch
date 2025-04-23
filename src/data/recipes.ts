@@ -1,4 +1,3 @@
-
 export interface Recipe {
   id: string;
   title: string;
@@ -493,7 +492,79 @@ const recipes: Recipe[] = [
       "Für eine herzhafte Variante können Sie einige gewürfelte Oliven oder getrocknete Tomaten unter die Spinatmasse heben."
     ],
     isFavorite: true
-  }
-];
-
-export default recipes;
+  },
+  {
+    id: "grenobler-walnussbissen",
+    title: "Grenobler Walnußbissen",
+    description: "Feine Plätzchen mit Walnüssen, Orange und einer zarten Rumglasur - eine köstliche Spezialität aus Grenoble.",
+    image: "https://images.unsplash.com/photo-1621236378699-08b5f0c3b6ed?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "8 Bleche (ca. 170 Stück)",
+    prepTime: "45 Min",
+    cookTime: "10 Min",
+    totalTime: "~85 Min",
+    difficulty: "normal",
+    category: "Gebäck",
+    tags: ["Weihnachten", "Plätzchen", "Walnüsse", "Orange", "Rum"],
+    ingredients: [
+      {
+        group: "Teig",
+        items: [
+          { name: "Mehl", amount: "400 g (+ Mehl zum Ausrollen)" },
+          { name: "Ei", amount: "1" },
+          { name: "Salz", amount: "1 Prise" },
+          { name: "Bittermandelöl", amount: "3 Tropfen" },
+          { name: "Kardamom", amount: "1 Messerspitze" },
+          { name: "Rum", amount: "1 EL" },
+          { name: "Butter in Flöcken", amount: "200 g" },
+          { name: "Zucker", amount: "200 g" },
+          { name: "Walnüsse, gerieben", amount: "165 g" }
+        ]
+      },
+      {
+        group: "Für Füllung & Glasur",
+        items: [
+          { name: "Orangenmarmelade", amount: "100 g" },
+          { name: "Puderzucker", amount: "400 g" },
+          { name: "Rum", amount: "4 Gläser" },
+          { name: "Walnußhälften", amount: "ca. 170" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Schritt-für-Schritt-Zubereitung",
+        items: [
+          "Mehl in eine Schüssel geben, in der Mitte eine Mulde formen.",
+          "Ei, Salz, Bittermandelöl, Kardamom und Rum hineingeben.",
+          "Butterflöckchen rundherum verteilen.",
+          "Zucker und geriebene Walnüsse darüberstreuen.",
+          "Schnell zu einem glatten Teig kneten.",
+          "Teig mindestens 30 Min im Kühlschrank ruhen lassen.",
+          "Auf bemehlter Fläche ca. 0,5 cm dick ausrollen.",
+          "Plätzchen (Ø 3 cm) ausstechen, auf ein unbelagtes Backblech legen.",
+          "Im vorgeheizten Ofen 10 Min bei 220 °C backen.",
+          "Hälfte der Plätzchen mit Orangenmarmelade bestreichen, jeweils ein unbestrichenes Plätzchen darauf setzen.",
+          "Aus Puderzucker und Rum eine zähflüssige Glasur anrühren, Plätzchen damit überziehen.",
+          "In die noch feuchte Glasur je eine Walnußhälfte drücken."
+        ]
+      }
+    ]
+  },
+  {
+    id: "italienischer-nudelsalat",
+    title: "Italienischer Nudelsalat mit Rucola & getrockneten Tomaten",
+    description: "Ein mediterraner Nudelsalat mit sonnengereiften Tomaten, Rucola und Pinienkernen, perfekt für warme Tage.",
+    image: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "30 Min",
+    totalTime: "~3.5 Std",
+    difficulty: "normal",
+    category: "Salat",
+    tags: ["Italienisch", "Vegetarisch", "Pasta", "Rucola", "Tomaten"],
+    ingredients: [
+      {
+        group: "Salat",
+        items: [
+          { name: "Nudeln (z. B. Penne)", amount: "500 g" },
+          { name: "Cocktailtomaten", amount: "200 g" },
+          { name: "
