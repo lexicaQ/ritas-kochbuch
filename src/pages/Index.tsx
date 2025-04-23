@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Search, Clock, ChefHat, ChevronsRight, Heart, Star, BarChart, Flame } from "lucide-react";
+import { ArrowRight, ChefHat, ChevronsRight, Heart, Star, Flame } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/ui/recipe-card";
@@ -10,8 +10,8 @@ import recipes from "@/data/recipes";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { SearchBar } from "@/components/search/search-bar";
 
-// Define the interface for decorative elements
 interface DecorativeElementProps {
   x: string;
   y: string;
@@ -23,7 +23,6 @@ interface DecorativeElementProps {
   type: 'circle' | 'square' | 'triangle' | 'dot';
 }
 
-// Create array of decorative elements
 const decorativeElements: DecorativeElementProps[] = [{
   x: '10%',
   y: '20%',
@@ -71,7 +70,6 @@ const decorativeElements: DecorativeElementProps[] = [{
   type: 'circle'
 }];
 
-// Create the DecorativeElement component
 const DecorativeElement = ({
   x,
   y,
@@ -121,6 +119,7 @@ const DecorativeElement = ({
       {element}
     </motion.div>;
 };
+
 const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof recipes | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -134,6 +133,7 @@ const Index = () => {
     acc[category] = recipes.filter(r => r.category === category).slice(0, 4);
     return acc;
   }, {} as Record<string, typeof recipes>);
+
   useEffect(() => {
     if (categories.length > 0) {
       setVisibleCategories(categories.slice(0, 2));
@@ -156,7 +156,7 @@ const Index = () => {
         const completedCounts = {};
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key && key && key.startsWith('recipe-visit-count-')) {
+          if (key && key.startsWith('recipe-visit-count-')) {
             const recipeId = key.replace('recipe-visit-count-', '');
             visitCounts[recipeId] = parseInt(localStorage.getItem(key) || '0');
           }
@@ -206,6 +206,7 @@ const Index = () => {
     loadMostCooked();
     loadTopRated();
   }, []);
+
   const handleSearch = (query: string, filters: string[]) => {
     if (!query && filters.length === 0) {
       setSearchResults(null);
@@ -224,6 +225,7 @@ const Index = () => {
       setIsLoading(false);
     }, 500);
   };
+
   const EmptySectionPlaceholder = ({
     icon: Icon,
     title,
@@ -235,6 +237,7 @@ const Index = () => {
       <h3 className="text-xl font-medium text-cookbook-800 mb-2">{title}</h3>
       <p className="text-cookbook-600">{description}</p>
     </div>;
+
   return <div className="min-h-screen bg-white">
       <Header />
       
@@ -321,7 +324,7 @@ const Index = () => {
               duration: 0.7,
               delay: 0.8
             }}>
-                
+                <SearchBar variant="large" autoFocus className="mx-auto" />
                 
                 <div className="mt-6 text-center">
                   
@@ -340,7 +343,6 @@ const Index = () => {
           duration: 0.5
         }} className="mt-12 bg-white rounded-xl shadow-xl p-6 max-w-5xl mx-auto">
               <h2 className="mb-6 text-2xl font-semibold text-cookbook-800 flex items-center gap-2">
-                <Search size={20} />
                 <span>Suchergebnisse {!isLoading && `(${searchResults?.length || 0})`}</span>
               </h2>
               

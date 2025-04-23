@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Filter, Search, ChevronDown, X, Clock, ChefHat, Tag, User, Utensils, Leaf } from "lucide-react";
@@ -7,10 +6,11 @@ import { RecipeCard } from "@/components/ui/recipe-card";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Header } from "@/components/header";
 import recipes from "@/data/recipes";
-import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { SearchBar } from "@/components/search/search-bar";
+import { useLocation } from "react-router-dom";
 
 // Helper function to extract all ingredients from recipes
 const extractAllIngredients = () => {
@@ -41,6 +41,7 @@ const RecipeList = () => {
   const [selectedDietType, setSelectedDietType] = useState<string[]>([]);
   const [selectedServings, setSelectedServings] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
   
   // Extract unique values for filter options
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
@@ -55,8 +56,16 @@ const RecipeList = () => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 500);
+    
+    // Check for search query in URL
+    const queryParams = new URLSearchParams(location.search);
+    const searchQuery = queryParams.get('search');
+    if (searchQuery) {
+      setSearchTerm(searchQuery);
+    }
+    
     return () => clearTimeout(timer);
-  }, []);
+  }, [location]);
   
   // Helper function to match recipe preparation time with selected time range
   const matchesTimeRange = (prepTime: string, range: string | null) => {
@@ -223,12 +232,6 @@ const RecipeList = () => {
                        (selectedTime ? 1 : 0) + 
                        (selectedServings ? 1 : 0);
   
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      // Search functionality handled by the filter update
-    }
-  };
-  
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -250,14 +253,10 @@ const RecipeList = () => {
         <div className="sticky top-24 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input 
-                type="search" 
-                placeholder="Nach Rezepten suchen..." 
-                value={searchTerm} 
-                onChange={e => setSearchTerm(e.target.value)} 
-                onKeyDown={handleKeyPress} 
-                className="w-full pl-9" 
+              <SearchBar 
+                placeholder="Nach Rezepten suchen..."
+                className="w-full"
+                maxResults={8}
               />
             </div>
             
