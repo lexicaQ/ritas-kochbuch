@@ -132,7 +132,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
             </button>
           )}
           
-          {showSuggestions && (
+          {showSuggestions && searchQuery.length > 0 && (
             <SearchSuggestions
               query={searchQuery}
               suggestions={getSuggestions(searchQuery)}

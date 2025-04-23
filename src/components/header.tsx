@@ -2,16 +2,18 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Heart, Home, BookOpen, FolderOpenDot } from "lucide-react";
+import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Enhanced Logo component
+// Enhanced Logo component with modern utensils icon
 const Logo = () => (
   <div className="flex flex-col items-center gap-1">
-    <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white">
-      <span className="text-white font-playfair font-bold text-2xl">R</span>
+    <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
+      <Utensils className="w-6 h-6 text-white" />
     </div>
-    <span className="font-playfair font-bold text-cookbook-800 text-lg md:text-xl">Ritas Kochbuch</span>
+    <span className="font-playfair font-bold text-cookbook-800 text-lg md:text-xl transition-colors">
+      Ritas Kochbuch
+    </span>
   </div>
 );
 
@@ -46,24 +48,27 @@ export function Header() {
     <header 
       className={cn(
         "fixed left-0 top-0 z-40 w-full transition-all duration-300",
-        isScrolled ? "bg-white shadow-md" : "bg-white/0"
+        isScrolled ? "bg-white shadow-md" : "bg-transparent"
       )}
     >
-      {/* Centered Logo above navigation */}
       <div className="w-full flex justify-center pt-2 pb-1">
         <Link to="/" aria-label="Ritas Kochbuch">
           <Logo />
         </Link>
       </div>
       
-      {/* Navigation bar */}
       <div className="container mx-auto px-4">
         <div className="flex h-14 items-center justify-center border-t border-cookbook-100/50">
           {/* Mobile menu button (left side) */}
           <div className="absolute left-4 md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center rounded-md p-2 text-cookbook-800 hover:bg-cookbook-100"
+              className={cn(
+                "inline-flex items-center justify-center rounded-md p-2 transition-colors",
+                isScrolled 
+                  ? "text-cookbook-800 hover:bg-cookbook-100" 
+                  : "text-white hover:bg-white/20"
+              )}
               aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -80,8 +85,8 @@ export function Header() {
                     className={cn(
                       "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
                       location.pathname === item.path
-                        ? "text-cookbook-800"
-                        : "text-gray-600 hover:text-cookbook-800"
+                        ? isScrolled ? "text-cookbook-800" : "text-white"
+                        : isScrolled ? "text-gray-600 hover:text-cookbook-800" : "text-white/80 hover:text-white"
                     )}
                   >
                     <span className="flex items-center gap-1">
@@ -91,7 +96,10 @@ export function Header() {
                     {location.pathname === item.path && (
                       <motion.div
                         layoutId="navigation-underline"
-                        className="absolute -bottom-1 left-0 h-0.5 w-full rounded bg-cookbook-800"
+                        className={cn(
+                          "absolute -bottom-1 left-0 h-0.5 w-full rounded",
+                          isScrolled ? "bg-cookbook-800" : "bg-white"
+                        )}
                         transition={{ duration: 0.3 }}
                       />
                     )}
