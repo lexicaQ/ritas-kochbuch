@@ -1,6 +1,5 @@
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 
 import { Header } from "@/components/header";
@@ -9,8 +8,12 @@ import { RecipeCard } from "@/components/ui/recipe-card";
 import recipes from "@/data/recipes";
 
 const Favorites = () => {
-  // In a real app, favorites would likely be fetched from an API or local storage
-  const [favorites] = useState(recipes.filter(recipe => recipe.isFavorite));
+  const [favorites, setFavorites] = useState(recipes.filter(recipe => recipe.isFavorite));
+  
+  // Update favorites when recipes change
+  useEffect(() => {
+    setFavorites(recipes.filter(recipe => recipe.isFavorite));
+  }, []);
   
   return (
     <div className="min-h-screen bg-white">
@@ -29,14 +32,9 @@ const Favorites = () => {
           </p>
         </FadeIn>
         
-        {/* Favorites grid */}
         <div className="mt-10">
           {favorites.length > 0 ? (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {favorites.map((recipe, index) => (
                 <FadeIn key={recipe.id} delay={index * 0.05}>
                   <RecipeCard
@@ -51,7 +49,7 @@ const Favorites = () => {
                   />
                 </FadeIn>
               ))}
-            </motion.div>
+            </div>
           ) : (
             <div className="rounded-xl bg-cookbook-50 p-10 text-center">
               <Heart size={48} className="mx-auto text-cookbook-300" />
