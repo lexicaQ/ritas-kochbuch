@@ -4,6 +4,13 @@ import { Clock, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
+// Define the missing interface
+interface SearchSuggestionsProps {
+  results: SearchResult[];
+  onSelect: (result: SearchResult) => void;
+  searchTerm: string;
+}
+
 // Helper function to highlight matching text
 const highlightMatch = (text: string, searchTerm: string) => {
   if (!searchTerm.trim()) return text;
