@@ -56,22 +56,22 @@ export function Header() {
       )}
     >
       <div className="w-full flex justify-center pt-6 pb-1">
-        <Link to="/" aria-label="Ritas Kochbuch">
+        <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
           <Logo isScrolled={isScrolled} />
         </Link>
       </div>
       
       <div className="container mx-auto px-4">
         <div className="flex h-14 items-center justify-center border-t border-cookbook-100/50">
-          {/* Mobile menu button (left side) */}
-          <div className="absolute left-4 md:hidden">
+          {/* Mobile menu button (right side) */}
+          <div className="absolute right-4 md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
                 "inline-flex items-center justify-center rounded-md p-2 transition-colors",
                 isScrolled 
                   ? "text-cookbook-800 hover:bg-cookbook-100" 
-                  : "text-white hover:bg-white/20"
+                  : "text-cookbook-700 hover:bg-white/20"
               )}
               aria-label="Toggle menu"
             >
@@ -89,8 +89,8 @@ export function Header() {
                     className={cn(
                       "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
                       location.pathname === item.path
-                        ? isScrolled ? "text-cookbook-700" : "text-white"
-                        : isScrolled ? "text-cookbook-800/80 hover:text-cookbook-700" : "text-white/80 hover:text-white"
+                        ? isScrolled ? "text-cookbook-700" : "text-cookbook-700"
+                        : isScrolled ? "text-cookbook-800/80 hover:text-cookbook-700" : "text-cookbook-700/80 hover:text-cookbook-700"
                     )}
                   >
                     <span className="flex items-center gap-1">
@@ -102,7 +102,7 @@ export function Header() {
                         layoutId="navigation-underline"
                         className={cn(
                           "absolute -bottom-1 left-0 h-0.5 w-full rounded",
-                          isScrolled ? "bg-cookbook-700" : "bg-white"
+                          isScrolled ? "bg-cookbook-700" : "bg-cookbook-700"
                         )}
                         transition={{ duration: 0.3 }}
                       />
@@ -119,13 +119,13 @@ export function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden"
+            initial={{ opacity: 0, x: 300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 300 }}
+            transition={{ type: "spring", damping: 20 }}
+            className="fixed top-0 right-0 bottom-0 w-72 md:hidden"
           >
-            <div className="bg-white px-4 pb-6 pt-2 shadow-lg">
+            <div className="h-full bg-white px-4 pb-6 pt-20 shadow-xl">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}

@@ -233,7 +233,7 @@ const RecipeList = () => {
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
       
-      <div className="relative bg-cookbook-700 pt-32 pb-20 overflow-hidden mt-8">
+      <div className="relative bg-cookbook-700 pt-36 pb-20 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-cookbook-900/30"></div>
           

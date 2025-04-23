@@ -5,8 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { LoadingSpinner } from "./components/ui/loading-spinner";
+import { CookieConsent } from "./components/cookie-consent";
 
-// Lazy-loaded pages for better performance
 const Index = lazy(() => import("./pages/Index"));
 const RecipeList = lazy(() => import("./pages/RecipeList"));
 const RecipeDetail = lazy(() => import("./pages/RecipeDetail"));
@@ -40,6 +40,7 @@ const App = () => (
             <Route path="/favoriten" element={<Favorites />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <CookieConsent />
         </Suspense>
       </BrowserRouter>
     </TooltipProvider>

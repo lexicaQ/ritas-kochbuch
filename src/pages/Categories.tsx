@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -23,7 +22,7 @@ const Categories = () => {
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
       
-      <div className="container mx-auto px-4 py-12 mt-32">
+      <div className="container mx-auto px-4 py-12 mt-36">
         <FadeIn>
           <h1 className="font-playfair text-4xl font-bold text-cookbook-800 md:text-5xl text-center">
             Rezeptkategorien
