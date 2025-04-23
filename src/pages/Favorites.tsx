@@ -6,14 +6,26 @@ import { Header } from "@/components/header";
 import { FadeIn } from "@/components/ui/fade-in";
 import { RecipeCard } from "@/components/ui/recipe-card";
 import recipes from "@/data/recipes";
+import { useToast } from "@/hooks/use-toast";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState(recipes.filter(recipe => recipe.isFavorite));
+  const { toast } = useToast();
   
   // Update favorites when recipes change
   useEffect(() => {
-    setFavorites(recipes.filter(recipe => recipe.isFavorite));
-  }, []);
+    const favoritedRecipes = recipes.filter(recipe => recipe.isFavorite);
+    setFavorites(favoritedRecipes);
+    
+    // Show toast if no favorites
+    if (favoritedRecipes.length === 0) {
+      toast({
+        title: "Keine Favoriten",
+        description: "Du hast noch keine Rezepte zu deinen Favoriten hinzugefügt.",
+        variant: "default",
+      });
+    }
+  }, [toast]);
   
   return (
     <div className="min-h-screen bg-white">
@@ -46,6 +58,7 @@ const Favorites = () => {
                     difficulty={recipe.difficulty}
                     category={recipe.category}
                     tags={recipe.tags}
+                    isFavorite={recipe.isFavorite}
                   />
                 </FadeIn>
               ))}
