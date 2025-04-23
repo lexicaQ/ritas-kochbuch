@@ -22,7 +22,7 @@ export function FavoriteButton({ isFavorite, onToggle, className }: FavoriteButt
     toast({
       title: isFavorite ? "Aus Favoriten entfernt" : "Zu Favoriten hinzugefügt",
       description: isFavorite ? "Das Rezept wurde aus deinen Favoriten entfernt." : "Das Rezept wurde zu deinen Favoriten hinzugefügt.",
-      variant: isFavorite ? "default" : "cookbook",
+      variant: isFavorite ? "default" : "default", // Changed from "cookbook" to "default"
       duration: 2000,
     });
   };
