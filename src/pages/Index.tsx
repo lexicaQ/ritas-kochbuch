@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Search, Clock, ChefHat, ChevronsRight } from "lucide-react";
@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/ui/recipe-card";
 import { SearchBar } from "@/components/search-bar";
 import { FadeIn } from "@/components/ui/fade-in";
-import Header from "@/components/header";
+import { Header } from "@/components/header";
 import recipes from "@/data/recipes";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ const Index = () => {
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
   
+  // Get recipes for popular categories
   const categoryRecipes = categories.reduce((acc, category) => {
     acc[category] = recipes.filter(r => r.category === category).slice(0, 4);
     return acc;
@@ -28,6 +29,7 @@ const Index = () => {
   
   useEffect(() => {
     if (categories.length > 0) {
+      // Start with first 2 categories
       setVisibleCategories(categories.slice(0, 2));
     }
   }, []);
@@ -41,6 +43,7 @@ const Index = () => {
     
     setIsLoading(true);
     
+    // Simulate search delay for better UX
     setTimeout(() => {
       const lowercaseQuery = query.toLowerCase();
       
@@ -66,6 +69,9 @@ const Index = () => {
     }, 500);
   };
 
+  // Removed the redundant handleSearchInputChange and showSuggestions state since we're now handling it in SearchBar
+
+  // Enhanced animated decorative elements for hero section
   const decorativeElements = [
     { delay: 0, x: "20%", y: "20%", size: "xl" },
     { delay: 0.2, x: "80%", y: "60%", size: "lg" },
@@ -74,6 +80,7 @@ const Index = () => {
     { delay: 0.8, x: "90%", y: "10%", size: "xs" },
   ];
 
+  // Animated utensil icons
   const DecorativeElement = ({ delay, x, y, size }: any) => {
     const sizes = {
       xs: "w-6 h-6",
@@ -98,6 +105,7 @@ const Index = () => {
           ease: "easeOut"
         }}
       >
+        {/* Simple circular decorative element */}
         <div className="w-full h-full rounded-full border-2 border-white/10 backdrop-blur-sm" />
       </motion.div>
     );
@@ -107,8 +115,10 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
+      {/* Modern Hero section with animated background */}
       <section className="relative bg-cookbook-700 pt-32 pb-16">
         <div className="absolute inset-0 overflow-hidden">
+          {/* Animated gradient background */}
           <motion.div 
             className="absolute inset-0 bg-gradient-to-br from-cookbook-800 via-cookbook-700 to-cookbook-600"
             animate={{
@@ -122,10 +132,12 @@ const Index = () => {
             }}
           />
           
+          {/* Decorative elements */}
           {decorativeElements.map((elem, i) => (
             <DecorativeElement key={i} {...elem} />
           ))}
           
+          {/* Animated particles */}
           <div className="absolute inset-0">
             {Array.from({ length: 20 }).map((_, i) => (
               <motion.div
@@ -193,10 +205,13 @@ const Index = () => {
                   onSearch={handleSearch}
                   className="mx-auto max-w-2xl"
                 />
+                
+                {/* Removed redundant search suggestions container */}
               </motion.div>
             </FadeIn>
           </div>
 
+          {/* Search results */}
           {(searchResults || isLoading) && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -247,6 +262,7 @@ const Index = () => {
         </div>
       </section>
       
+      {/* Featured recipes */}
       {!searchResults && !isLoading && (
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
@@ -290,6 +306,7 @@ const Index = () => {
               ))}
             </div>
             
+            {/* Featured categories preview */}
             <div className="mt-10 text-center">
               <Link to="/rezepte">
                 <Button className="group">
@@ -302,6 +319,7 @@ const Index = () => {
         </section>
       )}
       
+      {/* Categories preview with improved layout */}
       {!searchResults && !isLoading && (
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
@@ -324,6 +342,7 @@ const Index = () => {
                     className="group relative block overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl border border-cookbook-100"
                   >
                     <div className="aspect-[16/9] relative overflow-hidden">
+                      {/* Display first recipe image from category */}
                       {categoryRecipes[category]?.[0]?.image && (
                         <>
                           <img 

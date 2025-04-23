@@ -1,94 +1,158 @@
 
-import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Search, Menu, X } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { NavLink } from './nav-link';
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export const Header = () => {
-  const { isMobile } = useIsMobile();
-  const navigate = useNavigate();
+// Enhanced Logo component with modern utensils icon
+const Logo = ({ isScrolled }: { isScrolled: boolean }) => (
+  <div className="flex flex-col items-center gap-1">
+    <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
+      <Utensils className="w-6 h-6 text-white" />
+    </div>
+    <span className={cn(
+      "font-playfair font-bold text-lg md:text-xl transition-colors",
+      isScrolled ? "text-cookbook-800" : "text-white"
+    )}>
+      Ritas Kochbuch
+    </span>
+  </div>
+);
+
+export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+
+  const navigationItems = [
+    { name: "Home", path: "/", icon: Home },
+    { name: "Alle Rezepte", path: "/rezepte", icon: BookOpen },
+    { name: "Kategorien", path: "/kategorien", icon: FolderOpenDot },
+    { name: "Favoriten", path: "/favoriten", icon: Heart },
+  ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-cookbook-100 bg-white">
-      <div className="container flex h-16 items-center px-4">
-        <div className="mr-4 flex items-center gap-2" onClick={() => navigate('/')}>
-          <img src="/favicon.ico" alt="Logo" className="h-8 w-8" />
-          <span className="font-playfair text-2xl font-bold text-cookbook-700">Ritas Kochbuch</span>
-        </div>
-        
-        <div className="hidden md:flex flex-1 items-center justify-between">
-          <nav className="flex items-center space-x-4 lg:space-x-6">
-            <NavLink to="/" active={isHomePage}>
-              Home
-            </NavLink>
-            <NavLink to="/rezepte">
-              Rezepte
-            </NavLink>
-            <NavLink to="/kategorien">
-              Kategorien
-            </NavLink>
-            <NavLink to="/favoriten">
-              Favoriten
-            </NavLink>
-          </nav>
-          
-          <div className="relative w-full max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Rezepte suchen..."
-              className="w-full bg-background pl-8 md:w-[300px] lg:w-[400px]"
-            />
-          </div>
-        </div>
-        
-        {isMobile && (
-          <div className="flex flex-1 items-center justify-end gap-4 md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="mr-2"
-              onClick={() => navigate('/suche')}
-            >
-              <Search className="h-5 w-5" />
-              <span className="sr-only">Suche</span>
-            </Button>
-            
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <nav className="flex flex-col gap-4 mt-8">
-                  <NavLink to="/" className="text-lg">
-                    Home
-                  </NavLink>
-                  <NavLink to="/rezepte" className="text-lg">
-                    Rezepte
-                  </NavLink>
-                  <NavLink to="/kategorien" className="text-lg">
-                    Kategorien
-                  </NavLink>
-                  <NavLink to="/favoriten" className="text-lg">
-                    Favoriten
-                  </NavLink>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-        )}
+    <header 
+      className={cn(
+        "fixed left-0 top-0 z-40 w-full transition-all duration-300",
+        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+      )}
+    >
+      <div className="w-full flex justify-center pt-6 pb-1">
+        <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
+          <Logo isScrolled={isScrolled} />
+        </Link>
       </div>
+      
+      <div className="container mx-auto px-4">
+        <div className="flex h-14 items-center justify-center border-t border-cookbook-100/50">
+          {/* Mobile menu button */}
+          <div className="absolute right-4 md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={cn(
+                "inline-flex items-center justify-center rounded-md p-2 transition-colors",
+                isScrolled 
+                  ? "text-cookbook-800 hover:bg-cookbook-100" 
+                  : "text-cookbook-700 hover:bg-white/20"
+              )}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          {/* Desktop navigation */}
+          <nav className="hidden md:block">
+            <ul className="flex space-x-8 items-center justify-center">
+              {navigationItems.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className={cn(
+                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
+                      location.pathname === item.path
+                        ? isHomePage 
+                          ? "text-white" 
+                          : "text-cookbook-700"
+                        : isHomePage
+                          ? isScrolled 
+                            ? "text-cookbook-800/80 hover:text-cookbook-700"
+                            : "text-white/90 hover:text-white"
+                          : "text-cookbook-800/80 hover:text-cookbook-700"
+                    )}
+                  >
+                    <span className="flex items-center gap-1">
+                      <item.icon size={18} className="opacity-80" />
+                      {item.name}
+                    </span>
+                    {location.pathname === item.path && (
+                      <motion.div
+                        layoutId="navigation-underline"
+                        className={cn(
+                          "absolute -bottom-1 left-0 h-0.5 w-full rounded",
+                          isHomePage ? "bg-white" : "bg-cookbook-700"
+                        )}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 300 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 300 }}
+            transition={{ type: "spring", damping: 20 }}
+            className="fixed top-0 right-0 bottom-0 w-72 md:hidden"
+          >
+            <div className="h-full bg-white px-4 pb-6 pt-20 shadow-xl">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  className={cn(
+                    "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors",
+                    location.pathname === item.path
+                      ? "bg-cookbook-100 text-cookbook-700"
+                      : "text-cookbook-800 hover:bg-cookbook-50 hover:text-cookbook-700"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <item.icon size={20} />
+                  <span>{item.name}</span>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
-};
-
-export default Header;
+}
