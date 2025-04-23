@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +8,7 @@ import { Suspense, lazy } from "react";
 import { LoadingSpinner } from "./components/ui/loading-spinner";
 import { CookieConsent } from "./components/cookie-consent";
 
+// Lazy load components to improve initial loading performance
 const Index = lazy(() => import("./pages/Index"));
 const RecipeList = lazy(() => import("./pages/RecipeList"));
 const RecipeDetail = lazy(() => import("./pages/RecipeDetail"));
@@ -23,7 +25,15 @@ const LoadingPage = () => (
   </div>
 );
 
-const queryClient = new QueryClient();
+// Create a new query client instance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
