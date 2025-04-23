@@ -1,7 +1,8 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Clock, ChefHat, ArrowLeft, Tag, Check, BarChart } from "lucide-react";
+import { Clock, ChefHat, ArrowLeft, Tag, Check, BarChart, PlusCircle, Trash2, Pencil } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -11,9 +12,10 @@ import { Header } from "@/components/header";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { RecipeSuccess } from "@/components/ui/recipe-success";
 import { RecipeNotes } from "@/components/ui/recipe-notes";
-import { RecipeRating } from "@/components/ui/recipe-rating";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import recipes from "@/data/recipes";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,13 +30,21 @@ const RecipeDetail = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [completionTime, setCompletionTime] = useState<string>("");
   
+  // Notes state
+  const [notes, setNotes] = useState<{id: string; text: string}[]>([]);
+  const [newNote, setNewNote] = useState("");
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  
   useEffect(() => {
     setRecipe(recipes.find(r => r.id === id));
     window.scrollTo(0, 0);
     
-    startTimeRef.current = new Date();
-    
+    // Record start time for this recipe
     if (id) {
+      startTimeRef.current = new Date();
+      localStorage.setItem(`recipe-start-time-${id}`, startTimeRef.current.toString());
+      
+      // Load saved steps and ingredients
       const savedSteps = localStorage.getItem(`recipe-steps-${id}`);
       const savedIngredients = localStorage.getItem(`recipe-ingredients-${id}`);
       
@@ -48,6 +58,12 @@ const RecipeDetail = () => {
         setCompletedIngredients(JSON.parse(savedIngredients));
       } else {
         setCompletedIngredients({});
+      }
+      
+      // Load saved notes
+      const savedNotes = localStorage.getItem(`recipe-bullet-notes-${id}`);
+      if (savedNotes) {
+        setNotes(JSON.parse(savedNotes));
       }
     }
   }, [id]);
@@ -94,6 +110,13 @@ const RecipeDetail = () => {
     }
   }, [recipe, completedSteps, id, showSuccess]);
   
+  // Save notes when they change
+  useEffect(() => {
+    if (id && notes.length > 0) {
+      localStorage.setItem(`recipe-bullet-notes-${id}`, JSON.stringify(notes));
+    }
+  }, [notes, id]);
+  
   if (!recipe) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center">
@@ -128,6 +151,39 @@ const RecipeDetail = () => {
     }));
   };
   
+  const handleAddNote = () => {
+    if (newNote.trim()) {
+      if (editingNoteId) {
+        // Update existing note
+        setNotes(prev => 
+          prev.map(note => 
+            note.id === editingNoteId 
+              ? { ...note, text: newNote } 
+              : note
+          )
+        );
+        setEditingNoteId(null);
+      } else {
+        // Add new note
+        setNotes(prev => [...prev, { id: Date.now().toString(), text: newNote }]);
+      }
+      setNewNote("");
+    }
+  };
+  
+  const handleEditNote = (note: { id: string; text: string }) => {
+    setNewNote(note.text);
+    setEditingNoteId(note.id);
+  };
+  
+  const handleDeleteNote = (id: string) => {
+    setNotes(prev => prev.filter(note => note.id !== id));
+    if (editingNoteId === id) {
+      setEditingNoteId(null);
+      setNewNote("");
+    }
+  };
+  
   return (
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
@@ -154,7 +210,7 @@ const RecipeDetail = () => {
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-lg">
+          <div className="relative w-full overflow-hidden rounded-2xl shadow-lg" style={{maxHeight: "400px"}}>
             <img
               src={recipe.image}
               alt={recipe.title}
@@ -374,8 +430,82 @@ const RecipeDetail = () => {
                 </div>
               )}
               
-              <div className="mt-8">
-                <RecipeRating recipeId={recipe.id} />
+              {/* Notes Container - Replacing Recipe Rating */}
+              <div className="mt-8 rounded-xl bg-white p-6 shadow-lg border border-cookbook-100">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="font-playfair text-xl font-bold text-cookbook-800 flex items-center">
+                    <div className="bg-cookbook-700 text-white p-1 rounded-full mr-3">
+                      <PlusCircle size={20} />
+                    </div>
+                    Meine Notizen
+                  </h2>
+                  
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="flex items-center gap-2">
+                        <PlusCircle size={16} />
+                        <span>Notiz hinzufügen</span>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{editingNoteId ? "Notiz bearbeiten" : "Neue Notiz hinzufügen"}</DialogTitle>
+                      </DialogHeader>
+                      <div className="flex flex-col gap-4">
+                        <Input 
+                          value={newNote}
+                          onChange={(e) => setNewNote(e.target.value)}
+                          placeholder="Deine Notiz..."
+                          className="w-full"
+                        />
+                        <div className="flex justify-end">
+                          <Button onClick={handleAddNote}>
+                            {editingNoteId ? "Speichern" : "Hinzufügen"}
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+                
+                {notes.length > 0 ? (
+                  <ul className="space-y-3 mt-4">
+                    {notes.map((note) => (
+                      <li 
+                        key={note.id}
+                        className="flex items-start gap-3 p-3 rounded-lg bg-cookbook-50 border border-cookbook-100"
+                      >
+                        <div className="bg-cookbook-100 text-cookbook-700 h-6 w-6 flex items-center justify-center rounded-full font-semibold text-sm">
+                          •
+                        </div>
+                        <p className="flex-grow text-sm">{note.text}</p>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={() => handleEditNote(note)}
+                          >
+                            <Pencil size={16} />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0 text-red-500 hover:text-red-600"
+                            onClick={() => handleDeleteNote(note.id)}
+                          >
+                            <Trash2 size={16} />
+                          </Button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-center py-8 bg-cookbook-50/50 rounded-lg">
+                    <p className="text-gray-500">Du hast noch keine Notizen hinzugefügt.</p>
+                    <p className="text-sm text-gray-400 mt-1">Klicke auf "Notiz hinzufügen", um loszulegen.</p>
+                  </div>
+                )}
               </div>
             </FadeIn>
           </div>
@@ -386,6 +516,7 @@ const RecipeDetail = () => {
         show={showSuccess} 
         onClose={() => setShowSuccess(false)}
         completionTime={completionTime}
+        recipeId={recipe.id}
       />
     </div>
   );

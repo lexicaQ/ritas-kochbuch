@@ -6,12 +6,15 @@ import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-
 import { cn } from "@/lib/utils";
 
 // Enhanced Logo component with modern utensils icon
-const Logo = () => (
+const Logo = ({ isScrolled }: { isScrolled: boolean }) => (
   <div className="flex flex-col items-center gap-1">
     <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
       <Utensils className="w-6 h-6 text-white" />
     </div>
-    <span className="font-playfair font-bold text-cookbook-800 text-lg md:text-xl transition-colors">
+    <span className={cn(
+      "font-playfair font-bold text-lg md:text-xl transition-colors",
+      isScrolled ? "text-cookbook-800" : "text-white"
+    )}>
       Ritas Kochbuch
     </span>
   </div>
@@ -28,6 +31,7 @@ export function Header() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial scroll position
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -51,9 +55,9 @@ export function Header() {
         isScrolled ? "bg-white shadow-md" : "bg-transparent"
       )}
     >
-      <div className="w-full flex justify-center pt-2 pb-1">
+      <div className="w-full flex justify-center pt-6 pb-1">
         <Link to="/" aria-label="Ritas Kochbuch">
-          <Logo />
+          <Logo isScrolled={isScrolled} />
         </Link>
       </div>
       
@@ -85,8 +89,8 @@ export function Header() {
                     className={cn(
                       "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
                       location.pathname === item.path
-                        ? isScrolled ? "text-cookbook-800" : "text-white"
-                        : isScrolled ? "text-gray-600 hover:text-cookbook-800" : "text-white/80 hover:text-white"
+                        ? isScrolled ? "text-cookbook-700" : "text-white"
+                        : isScrolled ? "text-cookbook-800/80 hover:text-cookbook-700" : "text-white/80 hover:text-white"
                     )}
                   >
                     <span className="flex items-center gap-1">
@@ -98,7 +102,7 @@ export function Header() {
                         layoutId="navigation-underline"
                         className={cn(
                           "absolute -bottom-1 left-0 h-0.5 w-full rounded",
-                          isScrolled ? "bg-cookbook-800" : "bg-white"
+                          isScrolled ? "bg-cookbook-700" : "bg-white"
                         )}
                         transition={{ duration: 0.3 }}
                       />
@@ -129,8 +133,8 @@ export function Header() {
                   className={cn(
                     "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors",
                     location.pathname === item.path
-                      ? "bg-cookbook-100 text-cookbook-800"
-                      : "text-gray-600 hover:bg-cookbook-50 hover:text-cookbook-800"
+                      ? "bg-cookbook-100 text-cookbook-700"
+                      : "text-cookbook-800 hover:bg-cookbook-50 hover:text-cookbook-700"
                   )}
                   onClick={() => setIsOpen(false)}
                 >

@@ -48,7 +48,7 @@ const Favorites = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      <div className="container mx-auto mt-20 px-4 py-12">
+      <div className="container mx-auto mt-32 px-4 py-12">
         <FadeIn>
           <div className="flex items-center gap-3">
             <Heart size={24} className="text-cookbook-600" />

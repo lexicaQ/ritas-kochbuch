@@ -23,7 +23,7 @@ const Categories = () => {
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
       
-      <div className="container mx-auto px-4 py-12 mt-20">
+      <div className="container mx-auto px-4 py-12 mt-32">
         <FadeIn>
           <h1 className="font-playfair text-4xl font-bold text-cookbook-800 md:text-5xl text-center">
             Rezeptkategorien
