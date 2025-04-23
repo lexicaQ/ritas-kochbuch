@@ -12,6 +12,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
+// Define the interface for decorative elements
 interface DecorativeElementProps {
   x: string;
   y: string;
@@ -23,6 +24,7 @@ interface DecorativeElementProps {
   type: 'circle' | 'square' | 'triangle' | 'dot';
 }
 
+// Create array of decorative elements
 const decorativeElements: DecorativeElementProps[] = [{
   x: '10%',
   y: '20%',
@@ -70,6 +72,7 @@ const decorativeElements: DecorativeElementProps[] = [{
   type: 'circle'
 }];
 
+// Create the DecorativeElement component
 const DecorativeElement = ({
   x,
   y,
@@ -119,7 +122,6 @@ const DecorativeElement = ({
       {element}
     </motion.div>;
 };
-
 const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof recipes | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -127,15 +129,12 @@ const Index = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState<typeof recipes>([]);
   const [mostCookedRecipes, setMostCookedRecipes] = useState<typeof recipes>([]);
   const [topRatedRecipes, setTopRatedRecipes] = useState<typeof recipes>([]);
-  const { toast } = useToast();
-  
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
   const categoryRecipes = categories.reduce((acc, category) => {
     acc[category] = recipes.filter(r => r.category === category).slice(0, 4);
     return acc;
   }, {} as Record<string, typeof recipes>);
-  
   useEffect(() => {
     if (categories.length > 0) {
       setVisibleCategories(categories.slice(0, 2));
@@ -208,48 +207,24 @@ const Index = () => {
     loadMostCooked();
     loadTopRated();
   }, []);
-  
   const handleSearch = (query: string, filters: string[]) => {
     if (!query && filters.length === 0) {
       setSearchResults(null);
       setIsLoading(false);
       return;
     }
-    
     setIsLoading(true);
-    
     setTimeout(() => {
       const lowercaseQuery = query.toLowerCase();
       const results = recipes.filter(recipe => {
-        const matchesQuery = !query || 
-          recipe.title.toLowerCase().includes(lowercaseQuery) || 
-          recipe.description.toLowerCase().includes(lowercaseQuery) || 
-          recipe.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
-          recipe.category.toLowerCase().includes(lowercaseQuery);
-          
-        const matchesFilters = filters.length === 0 || 
-          filters.some(filter => 
-            recipe.category === filter || 
-            recipe.tags.includes(filter) || 
-            filter === recipe.difficulty
-          );
-          
+        const matchesQuery = !query || recipe.title.toLowerCase().includes(lowercaseQuery) || recipe.description.toLowerCase().includes(lowercaseQuery);
+        const matchesFilters = filters.length === 0 || filters.some(filter => recipe.category === filter || recipe.tags.includes(filter) || filter === "Leicht" && recipe.difficulty === "Leicht" || filter === "Mittel" && recipe.difficulty === "Mittel" || filter === "Schwer" && recipe.difficulty === "Schwer");
         return matchesQuery && matchesFilters;
       });
-      
       setSearchResults(results);
       setIsLoading(false);
-      
-      if (results.length === 0 && query) {
-        toast({
-          title: "Keine Ergebnisse",
-          description: `Für "${query}" wurden keine Rezepte gefunden.`,
-          variant: "destructive"
-        });
-      }
     }, 500);
   };
-  
   const EmptySectionPlaceholder = ({
     icon: Icon,
     title,
@@ -261,7 +236,6 @@ const Index = () => {
       <h3 className="text-xl font-medium text-cookbook-800 mb-2">{title}</h3>
       <p className="text-cookbook-600">{description}</p>
     </div>;
-  
   return <div className="min-h-screen bg-white">
       <Header />
       
@@ -319,7 +293,8 @@ const Index = () => {
                   <motion.span className="absolute inset-x-0 bottom-0 h-3 bg-cookbook-500/30 rounded-full -z-10" initial={{
                   width: 0
                 }} animate={{
-                  width: "100%" }} transition={{
+                  width: "100%"
+                }} transition={{
                   duration: 0.5,
                   delay: 0.8
                 }} />
@@ -347,11 +322,7 @@ const Index = () => {
               duration: 0.7,
               delay: 0.8
             }}>
-                <SearchBar 
-                  onSearch={handleSearch} 
-                  className="mx-auto max-w-2xl" 
-                  placeholder="Nach Rezepten suchen (z.B. Kuchen, Vegetarisch, ...)"
-                />
+                <SearchBar onSearch={handleSearch} className="mx-auto max-w-2xl" />
                 
                 <div className="mt-6 text-center">
                   
@@ -598,5 +569,4 @@ const Index = () => {
         </section>}
     </div>;
 };
-
 export default Index;

@@ -3,7 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Card } from "@/components/ui/card";
-import { Clock, ChefHat, Tag } from "lucide-react";
+import { Clock, ChefHat } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SearchSuggestionsProps {
@@ -26,14 +26,21 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
   const navigate = useNavigate();
 
   if (!query) return null;
-  
-  // Handle suggestion selection
-  const handleSuggestionSelect = (id: string) => {
-    // Close search suggestions through the onSelect callback
+
+  // Diese Funktion wird aufgerufen, wenn ein Vorschlag ausgewählt wird
+  const handleSuggestionSelect = (id: string, event: React.MouseEvent) => {
+    // Stoppe die Event-Propagation, um zu verhindern, dass andere onClick-Handler ausgelöst werden
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Suchvorschläge schließen über die onSelect-Funktion
     onSelect(id);
     
-    // Navigate to recipe page
-    navigate(`/rezept/${id}`);
+    // Nach einer kurzen Verzögerung zur Rezeptseite navigieren
+    // Dies gibt dem UI Zeit, die Vorschläge auszublenden, bevor die Navigation stattfindet
+    setTimeout(() => {
+      navigate(`/rezept/${id}`);
+    }, 10);
   };
 
   return (
@@ -50,9 +57,18 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                 key={suggestion.id}
                 value={suggestion.title}
                 className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50/80"
-                onSelect={() => handleSuggestionSelect(suggestion.id)}
+                onSelect={(value) => {
+                  const selected = suggestions.find(s => s.title.toLowerCase() === value);
+                  if (selected) {
+                    onSelect(selected.id);
+                    navigate(`/rezept/${selected.id}`);
+                  }
+                }}
               >
-                <div className="flex items-center gap-4 flex-1">
+                <div 
+                  className="flex items-center gap-4 flex-1"
+                  onClick={(e) => handleSuggestionSelect(suggestion.id, e)}
+                >
                   <img
                     src={suggestion.image}
                     alt={suggestion.title}
@@ -74,13 +90,6 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                         <ChefHat size={12} />
                         <span>{suggestion.difficulty}</span>
                       </div>
-                      {suggestion.tags.length > 0 && (
-                        <div className="flex items-center gap-1 text-xs text-cookbook-600">
-                          <Tag size={12} />
-                          <span>{suggestion.tags[0]}</span>
-                          {suggestion.tags.length > 1 && <span>+{suggestion.tags.length - 1}</span>}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>

@@ -18,7 +18,7 @@ export function ProgressSection({ stepsProgress, ingredientsProgress }: Progress
           </div>
           <span className="text-sm font-medium text-cookbook-600">{Math.round(stepsProgress)}%</span>
         </div>
-        <Progress value={stepsProgress} className="h-2" color="dark" />
+        <Progress value={stepsProgress} className="h-2" color="green" />
         <p className="mt-2 text-sm text-gray-600">
           {stepsProgress === 0 ? "Beginne mit der Zubereitung" :
            stepsProgress === 100 ? "Rezept abgeschlossen!" :
@@ -34,7 +34,7 @@ export function ProgressSection({ stepsProgress, ingredientsProgress }: Progress
           </div>
           <span className="text-sm font-medium text-cookbook-600">{Math.round(ingredientsProgress)}%</span>
         </div>
-        <Progress value={ingredientsProgress} className="h-2" color="dark" />
+        <Progress value={ingredientsProgress} className="h-2" color="green" />
         <p className="mt-2 text-sm text-gray-600">
           {ingredientsProgress === 0 ? "Beginne mit dem Einkauf" :
            ingredientsProgress === 100 ? "Alle Zutaten vorhanden!" :
