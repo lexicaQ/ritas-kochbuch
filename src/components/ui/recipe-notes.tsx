@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Save, FileText, List, Tags } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface RecipeNotesProps {
   recipeId: string;
@@ -19,12 +20,18 @@ export function RecipeNotes({ recipeId, className }: RecipeNotesProps) {
   
   useEffect(() => {
     const loadNotes = () => {
-      const savedNotes = localStorage.getItem(`recipe-notes-${recipeId}`);
-      if (savedNotes) {
-        const parsed = JSON.parse(savedNotes);
-        setGeneralNotes(parsed.general || "");
-        setIngredients(parsed.ingredients || "");
-        setTips(parsed.tips || "");
+      try {
+        const savedNotes = localStorage.getItem(`recipe-notes-${recipeId}`);
+        if (savedNotes) {
+          const parsed = JSON.parse(savedNotes);
+          setGeneralNotes(parsed.general || "");
+          setIngredients(parsed.ingredients || "");
+          setTips(parsed.tips || "");
+        }
+      } catch (error) {
+        console.error("Error loading notes:", error);
+        // Reset localStorage for this recipe if the data is corrupted
+        localStorage.removeItem(`recipe-notes-${recipeId}`);
       }
     };
     
@@ -50,25 +57,32 @@ export function RecipeNotes({ recipeId, className }: RecipeNotesProps) {
   };
   
   const saveNotes = () => {
-    const notesToSave = {
-      general: generalNotes,
-      ingredients: ingredients,
-      tips: tips,
-    };
-    
-    localStorage.setItem(
-      `recipe-notes-${recipeId}`,
-      JSON.stringify(notesToSave)
-    );
-    setIsSaved(true);
-    
-    // Visual feedback animation
-    const saveButton = document.getElementById('save-notes-button');
-    if (saveButton) {
-      saveButton.classList.add('bg-cookbook-600');
-      setTimeout(() => {
-        saveButton.classList.remove('bg-cookbook-600');
-      }, 1000);
+    try {
+      const notesToSave = {
+        general: generalNotes,
+        ingredients: ingredients,
+        tips: tips,
+      };
+      
+      localStorage.setItem(
+        `recipe-notes-${recipeId}`,
+        JSON.stringify(notesToSave)
+      );
+      setIsSaved(true);
+      
+      // Visual feedback animation
+      const saveButton = document.getElementById('save-notes-button');
+      if (saveButton) {
+        saveButton.classList.add('bg-cookbook-600');
+        setTimeout(() => {
+          saveButton.classList.remove('bg-cookbook-600');
+        }, 1000);
+      }
+      
+      toast.success("Notizen wurden gespeichert");
+    } catch (error) {
+      console.error("Error saving notes:", error);
+      toast.error("Fehler beim Speichern der Notizen");
     }
   };
   
