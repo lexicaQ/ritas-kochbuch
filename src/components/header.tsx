@@ -1,17 +1,19 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Logo component with updated text color
+// Enhanced Logo component with modern utensils icon
 const Logo = ({ isScrolled }: { isScrolled: boolean }) => (
   <div className="flex flex-col items-center gap-1">
     <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
       <Utensils className="w-6 h-6 text-white" />
     </div>
     <span className={cn(
-      "font-playfair font-bold text-lg md:text-xl transition-colors text-cookbook-700"
+      "font-playfair font-bold text-lg md:text-xl transition-colors",
+      isScrolled ? "text-cookbook-800" : "text-white"
     )}>
       Ritas Kochbuch
     </span>

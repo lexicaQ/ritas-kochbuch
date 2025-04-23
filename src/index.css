@@ -59,7 +59,7 @@
   }
 
   body {
-    @apply bg-white text-cookbook-700 pb-24;
+    @apply bg-white text-cookbook-700;
   }
 }
 
@@ -70,13 +70,4 @@
 
 .spinner-animation {
   animation: spinner 1s linear infinite;
-}
-
-/* Override dropdown menu styles */
-[data-radix-popper-content-wrapper] {
-  @apply bg-white !important;
-}
-
-.dropdown-content {
-  @apply bg-white border border-cookbook-100 shadow-lg rounded-lg;
 }
