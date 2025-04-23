@@ -17,19 +17,27 @@ import { FadeIn } from "@/components/ui/fade-in";
 import { SearchSuggestions } from "@/components/search-suggestions";
 import { cn } from "@/lib/utils";
 import recipes from "@/data/recipes";
+import { useToast } from "@/hooks/use-toast";
 
 interface SearchBarProps {
   onSearch: (query: string, filters: string[]) => void;
   onInputChange?: (query: string) => void;
   className?: string;
+  placeholder?: string;
 }
 
-export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps) {
+export function SearchBar({ 
+  onSearch, 
+  onInputChange, 
+  className,
+  placeholder = "Nach Rezepten suchen..." 
+}: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const categories = [
     "Dessert",
@@ -48,14 +56,17 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
   ];
   
   const getSuggestions = (query: string, filters: string[]) => {
-    if (!query) return [];
+    if (!query || query.length < 2) return [];
     
     // Filter recipes by both query and selected filters
     return recipes
       .filter(recipe => {
         // First check if recipe matches the query
-        const matchesQuery = recipe.title.toLowerCase().includes(query.toLowerCase()) ||
-          recipe.description.toLowerCase().includes(query.toLowerCase());
+        const matchesQuery = 
+          recipe.title.toLowerCase().includes(query.toLowerCase()) ||
+          recipe.description.toLowerCase().includes(query.toLowerCase()) ||
+          recipe.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase())) ||
+          recipe.category.toLowerCase().includes(query.toLowerCase());
         
         // Then check if it matches the filters (if any are selected)
         const matchesFilters = filters.length === 0 || 
@@ -69,13 +80,21 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
           
         return matchesQuery && matchesFilters;
       })
-      .slice(0, 3); // Only show top 3 results
+      .slice(0, 5); // Show top 5 results
   };
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setShowSuggestions(false);
     onSearch(searchQuery, selectedFilters);
+
+    // If there's a search query, show a toast notification
+    if (searchQuery) {
+      toast({
+        title: "Suche gestartet",
+        description: `Suche nach "${searchQuery}"${selectedFilters.length ? ` mit ${selectedFilters.length} Filter(n)` : ''}`,
+      });
+    }
   };
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,9 +107,11 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
   };
   
   const handleSuggestionSelect = (id: string) => {
-    console.log(`Suggestion selected: ${id}`);
     setShowSuggestions(false);
     setSearchQuery("");
+    if (onInputChange) {
+      onInputChange("");
+    }
   };
   
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -141,11 +162,16 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
           <Input
             ref={searchInputRef}
             type="search"
-            placeholder="Nach Rezepten suchen..."
+            placeholder={placeholder}
             className="pl-10 bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:border-white focus:ring-white"
             value={searchQuery}
             onChange={handleInputChange}
             onKeyDown={handleKeyPress}
+            onClick={() => {
+              if (searchQuery.length >= 2) {
+                setShowSuggestions(true);
+              }
+            }}
           />
           {searchQuery && (
             <button
