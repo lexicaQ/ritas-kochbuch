@@ -129,7 +129,7 @@ export function CookieConsent() {
                         <Switch 
                           checked 
                           disabled 
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]" 
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50" 
                         />
                       </div>
 
@@ -146,7 +146,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, functional: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
                         />
                       </div>
 
@@ -163,7 +163,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, analytics: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
                         />
                       </div>
 
@@ -180,7 +180,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, marketing: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
                         />
                       </div>
 
@@ -197,7 +197,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, personalization: checked })
                           }
-                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-[#1A1F2C]"
+                          className="data-[state=checked]:bg-cookbook-700 data-[state=unchecked]:bg-cookbook-50"
                         />
                       </div>
                     </div>
