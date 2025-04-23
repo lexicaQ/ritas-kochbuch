@@ -25,16 +25,18 @@ const LoadingPage = () => (
   </div>
 );
 
-// Create a new query client instance with error handling
+// Create a new query client instance with correct error handling
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
-      onError: (error) => {
-        console.error('Query error:', error);
-      }
     },
+    mutations: {
+      onError: (error) => {
+        console.error('Mutation error:', error);
+      }
+    }
   },
 });
 
