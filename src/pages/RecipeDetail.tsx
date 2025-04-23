@@ -1,8 +1,7 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Clock, ChefHat, ArrowLeft, Tag, Check, BarChart, PlusCircle, Trash2, Pencil, Star } from "lucide-react";
+import { ArrowLeft, Tag, Check, BarChart, PlusCircle, Trash2, Pencil, Star, Clock, ChefHat } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -18,6 +17,10 @@ import recipes from "@/data/recipes";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { ProgressSection } from "@/components/recipe-detail/progress-section";
+import { RecipeHeader } from "@/components/recipe-detail/recipe-header";
+import { RecipeIngredients } from "@/components/recipe-detail/recipe-ingredients";
+import { RecipeSteps } from "@/components/recipe-detail/recipe-steps";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -275,68 +278,12 @@ const RecipeDetail = () => {
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <div className="relative w-full overflow-hidden rounded-2xl shadow-lg" style={{maxHeight: "400px"}}>
-            <img
-              src={recipe.image}
-              alt={recipe.title}
-              className="h-full w-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div className="absolute bottom-0 w-full p-6 text-white">
-              <h1 className="font-playfair text-3xl font-bold text-white md:text-4xl">
-                {recipe.title}
-              </h1>
-              <div className="mt-2 flex flex-wrap gap-x-6 gap-y-3 text-sm">
-                <div className="flex items-center gap-1.5 text-white/90">
-                  <Clock size={18} />
-                  <span>{recipe.totalTime || recipe.prepTime}</span>
-                </div>
-                
-                <div className="flex items-center gap-1.5 text-white/90">
-                  <ChefHat size={18} />
-                  <span>{recipe.difficulty}</span>
-                </div>
-                
-                <div className="flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur-sm px-2.5 py-1 text-white">
-                  {recipe.category}
-                </div>
-              </div>
-            </div>
-          </div>
+          <RecipeHeader recipe={recipe} />
           
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-cookbook-100">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2 text-cookbook-800">
-                  <BarChart size={18} />
-                  <span className="font-medium">Fortschritt Zubereitung</span>
-                </div>
-                <span className="text-sm font-medium text-cookbook-600">{Math.round(progress)}%</span>
-              </div>
-              <Progress value={progress} className="h-2" color="green" />
-              <p className="mt-2 text-sm text-gray-600">
-                {progress === 0 ? "Beginne mit der Zubereitung" :
-                 progress === 100 ? "Rezept abgeschlossen!" :
-                 `${Math.round(progress)}% der Schritte abgeschlossen`}
-              </p>
-            </div>
-            
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-cookbook-100">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2 text-cookbook-800">
-                  <Check size={18} />
-                  <span className="font-medium">Einkaufsliste</span>
-                </div>
-                <span className="text-sm font-medium text-cookbook-600">{Math.round(ingredientsProgress)}%</span>
-              </div>
-              <Progress value={ingredientsProgress} className="h-2" color="green" />
-              <p className="mt-2 text-sm text-gray-600">
-                {ingredientsProgress === 0 ? "Beginne mit dem Einkauf" :
-                 ingredientsProgress === 100 ? "Alle Zutaten vorhanden!" :
-                 `${Math.round(ingredientsProgress)}% der Zutaten abgehakt`}
-              </p>
-            </div>
-          </div>
+          <ProgressSection 
+            stepsProgress={progress} 
+            ingredientsProgress={ingredientsProgress}
+          />
         </motion.div>
         
         <div className="mt-8">
@@ -366,109 +313,19 @@ const RecipeDetail = () => {
           
           <div className="mt-10 grid gap-8 md:grid-cols-12 md:gap-12">
             <FadeIn className="md:col-span-4" delay={0.1}>
-              <div className="rounded-xl bg-white p-6 shadow-lg border border-cookbook-100">
-                <div className="mb-6 flex items-center justify-between">
-                  <h2 className="font-playfair text-2xl font-bold text-cookbook-800">Zutaten</h2>
-                  <div className="h-1 flex-grow mx-4 bg-cookbook-200 rounded-full"></div>
-                  {recipe.portionSize && (
-                    <span className="text-cookbook-700 font-medium bg-cookbook-100/60 px-3 py-1 rounded-full text-sm">
-                      {recipe.portionSize}
-                    </span>
-                  )}
-                </div>
-                
-                {recipe.ingredients.map((group, groupIndex) => (
-                  <div key={groupIndex} className="mt-6">
-                    {group.group && (
-                      <h3 className="mb-3 inline-block font-medium text-white bg-cookbook-700 px-3 py-1 rounded-lg">
-                        {group.group}
-                      </h3>
-                    )}
-                    
-                    <ul className="space-y-2 pl-1">
-                      {group.items.map((item, itemIndex) => {
-                        const ingredientId = `ingredient-${groupIndex}-${itemIndex}`;
-                        return (
-                          <li key={itemIndex} onClick={() => toggleIngredient(ingredientId)}>
-                            <div 
-                              className={cn(
-                                "flex items-start gap-2 p-2 rounded-lg transition-colors cursor-pointer",
-                                completedIngredients[ingredientId] ? "bg-cookbook-100/50" : "hover:bg-cookbook-50/50"
-                              )}
-                            >
-                              <div className={cn(
-                                "flex h-5 w-5 rounded-full items-center justify-center border transition-colors",
-                                completedIngredients[ingredientId] 
-                                  ? "bg-cookbook-700 border-cookbook-700" 
-                                  : "border-cookbook-300"
-                              )}>
-                                {completedIngredients[ingredientId] && <Check size={12} className="text-white" />}
-                              </div>
-                              <span className={cn(
-                                "text-sm",
-                                completedIngredients[ingredientId] && "line-through text-gray-400"
-                              )}>
-                                {`${item.name}${item.amount ? ` (${item.amount})` : ''}`}
-                              </span>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+              <RecipeIngredients
+                recipe={recipe}
+                completedIngredients={completedIngredients}
+                onToggleIngredient={toggleIngredient}
+              />
             </FadeIn>
             
             <FadeIn className="md:col-span-8" delay={0.2}>
-              <div className="rounded-xl bg-white p-6 shadow-lg border border-cookbook-100">
-                <h2 className="font-playfair text-2xl font-bold text-cookbook-800 mb-6 pb-2 border-b border-cookbook-100">
-                  Zubereitung
-                </h2>
-                
-                {recipe.steps.map((group, groupIndex) => (
-                  <div key={groupIndex} className="mt-8">
-                    {group.group && (
-                      <h3 className="mb-4 font-medium text-cookbook-700 bg-cookbook-100 inline-block px-4 py-1 rounded-lg">
-                        {group.group}
-                      </h3>
-                    )}
-                    
-                    <div className="space-y-4">
-                      {group.items.map((step, stepIndex) => {
-                        const stepId = `step-${groupIndex}-${stepIndex}`;
-                        return (
-                          <div
-                            key={stepIndex}
-                            onClick={() => toggleStep(stepId)}
-                            className={cn(
-                              "flex items-start gap-3 rounded-lg p-4 transition-all cursor-pointer",
-                              completedSteps[stepId] 
-                                ? "bg-cookbook-100/50 border border-cookbook-200" 
-                                : "hover:bg-cookbook-50/50 border border-cookbook-100/50"
-                            )}
-                          >
-                            <div className={cn(
-                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-medium transition-colors",
-                              completedSteps[stepId] 
-                                ? "bg-cookbook-700 text-white" 
-                                : "bg-cookbook-200 text-cookbook-700"
-                            )}>
-                              {completedSteps[stepId] ? <Check size={14} /> : stepIndex + 1}
-                            </div>
-                            <span className={cn(
-                              "text-sm",
-                              completedSteps[stepId] && "text-gray-500 line-through"
-                            )}>
-                              {step}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <RecipeSteps
+                recipe={recipe}
+                completedSteps={completedSteps}
+                onToggleStep={toggleStep}
+              />
               
               {recipe.tips && recipe.tips.length > 0 && (
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
