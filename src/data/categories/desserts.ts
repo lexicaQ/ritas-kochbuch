@@ -1,3 +1,4 @@
+
 import { Recipe } from "../types";
 
 export const desserts: Recipe[] = [
@@ -95,7 +96,7 @@ export const desserts: Recipe[] = [
       }
     ],
     tips: [
-      "Damit das Lamm beim Aufgehen nicht die Form sprengt, zwei Zahnstocher als „Stützen" in den Teig bohren und Form zur Hälfte mit Kartoffelschalen füllen."
+      "Damit das Lamm beim Aufgehen nicht die Form sprengt, zwei Zahnstocher als \"Stützen\" in den Teig bohren und Form zur Hälfte mit Kartoffelschalen füllen."
     ]
   }
 ];
