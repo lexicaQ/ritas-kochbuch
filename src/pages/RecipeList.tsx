@@ -143,14 +143,7 @@ const RecipeList = () => {
   return <div className="min-h-screen bg-white">
       <Header />
       
-      <div className="relative bg-cookbook-700 pt-48 pb-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-slate-50"></div>
-          
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cookbook-600 rounded-full -translate-y-1/2 translate-x-1/2 opacity-40 blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-cookbook-600 rounded-full translate-y-1/2 -translate-x-1/2 opacity-30 blur-3xl"></div>
-        </div>
-        
+      <div className="relative bg-white pt-48 pb-20 overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <div>
             <h1 className="font-playfair text-4xl font-bold text-cookbook-700 text-center md:text-5xl">

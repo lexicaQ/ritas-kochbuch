@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Cookie, Settings, Shield } from 'lucide-react';
@@ -66,7 +65,7 @@ export function CookieConsent() {
             exit={{ y: 100, opacity: 0 }}
             className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-cookbook-100 shadow-lg"
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="container mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <Cookie className="h-6 w-6 text-cookbook-700" />
                 <p className="text-sm text-cookbook-800">
@@ -81,27 +80,27 @@ export function CookieConsent() {
                       Einstellungen
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
+                  <DialogContent className="sm:max-w-[425px] bg-white">
                     <DialogHeader>
-                      <DialogTitle>Cookie-Einstellungen</DialogTitle>
-                      <DialogDescription>
+                      <DialogTitle className="text-cookbook-800 text-xl">Cookie-Einstellungen</DialogTitle>
+                      <DialogDescription className="text-cookbook-600">
                         Passen Sie Ihre Cookie-Präferenzen an Ihre Bedürfnisse an.
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-4 py-4">
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-0.5">
-                          <div className="font-medium">Notwendige Cookies</div>
-                          <div className="text-sm text-muted-foreground">
+                    <div className="space-y-6 py-6">
+                      <div className="flex items-center justify-between space-x-4">
+                        <div className="space-y-1">
+                          <div className="font-medium text-cookbook-800">Notwendige Cookies</div>
+                          <div className="text-sm text-cookbook-600">
                             Erforderlich für grundlegende Funktionen
                           </div>
                         </div>
-                        <Switch checked disabled />
+                        <Switch checked disabled className="data-[state=checked]:bg-cookbook-700" />
                       </div>
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-0.5">
-                          <div className="font-medium">Analytics Cookies</div>
-                          <div className="text-sm text-muted-foreground">
+                      <div className="flex items-center justify-between space-x-4">
+                        <div className="space-y-1">
+                          <div className="font-medium text-cookbook-800">Analytics Cookies</div>
+                          <div className="text-sm text-cookbook-600">
                             Helfen uns, die Website zu verbessern
                           </div>
                         </div>
@@ -110,12 +109,13 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, analytics: checked })
                           }
+                          className="data-[state=checked]:bg-cookbook-700"
                         />
                       </div>
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-0.5">
-                          <div className="font-medium">Marketing Cookies</div>
-                          <div className="text-sm text-muted-foreground">
+                      <div className="flex items-center justify-between space-x-4">
+                        <div className="space-y-1">
+                          <div className="font-medium text-cookbook-800">Marketing Cookies</div>
+                          <div className="text-sm text-cookbook-600">
                             Für personalisierte Werbung
                           </div>
                         </div>
@@ -124,6 +124,7 @@ export function CookieConsent() {
                           onCheckedChange={(checked) =>
                             setPreferences({ ...preferences, marketing: checked })
                           }
+                          className="data-[state=checked]:bg-cookbook-700"
                         />
                       </div>
                     </div>
@@ -131,13 +132,16 @@ export function CookieConsent() {
                       <Button variant="outline" onClick={() => setShowPreferences(false)}>
                         Abbrechen
                       </Button>
-                      <Button onClick={() => savePreferences(preferences)}>
+                      <Button 
+                        onClick={() => savePreferences(preferences)}
+                        className="bg-cookbook-700 text-white hover:bg-cookbook-800"
+                      >
                         Speichern
                       </Button>
                     </div>
                   </DialogContent>
                 </Dialog>
-                <Button onClick={acceptAll} className="whitespace-nowrap">
+                <Button onClick={acceptAll} className="bg-cookbook-700 text-white hover:bg-cookbook-800 whitespace-nowrap">
                   <Shield className="w-4 h-4 mr-2" />
                   Alle akzeptieren
                 </Button>
