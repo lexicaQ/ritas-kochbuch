@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Card } from "@/components/ui/card";
 import { Clock, ChefHat } from "lucide-react";
@@ -23,7 +23,17 @@ interface SearchSuggestionsProps {
 }
 
 export function SearchSuggestions({ query, suggestions, onSelect, className }: SearchSuggestionsProps) {
+  const navigate = useNavigate();
+  
   if (!query) return null;
+  
+  const handleSuggestionClick = (id: string) => {
+    // Call the onSelect prop for any additional logic it might contain
+    onSelect(id);
+    
+    // Navigate to the recipe detail page
+    navigate(`/rezept/${id}`);
+  };
 
   return (
     <Card className={cn(
@@ -39,9 +49,7 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
                 key={suggestion.id}
                 value={suggestion.title}
                 className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50/80"
-                onSelect={() => {
-                  onSelect(suggestion.id);
-                }}
+                onSelect={() => handleSuggestionClick(suggestion.id)}
               >
                 <div className="flex items-center gap-4 flex-1">
                   <img

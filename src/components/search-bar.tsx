@@ -85,7 +85,6 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
   
   const handleSuggestionSelect = (id: string) => {
     setShowSuggestions(false);
-    navigate(`/rezept/${id}`);
   };
   
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
