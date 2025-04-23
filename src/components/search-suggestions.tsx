@@ -38,16 +38,12 @@ export function SearchSuggestions({ query, suggestions, onSelect, className }: S
               <CommandItem
                 key={suggestion.id}
                 value={suggestion.title}
-                onSelect={() => onSelect(suggestion.id)}
                 className="flex items-center gap-4 p-3 cursor-pointer hover:bg-cookbook-50/80"
               >
                 <Link
                   to={`/rezept/${suggestion.id}`}
                   className="flex items-center gap-4 flex-1"
-                  onClick={(e) => {
-                    // Prevent default to avoid onSelect being triggered
-                    e.stopPropagation();
-                  }}
+                  onClick={() => onSelect(suggestion.id)}
                 >
                   <img
                     src={suggestion.image}
