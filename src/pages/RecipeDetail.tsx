@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Clock, ChefHat, ArrowLeft, Heart, Tag, Check } from "lucide-react";
+import { Clock, ChefHat, ArrowLeft, Tag, Check, Progress as ProgressIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CheckboxItem, CheckboxStepItem } from "@/components/ui/checkbox-item";
 import { Header } from "@/components/header";
@@ -180,6 +181,22 @@ const RecipeDetail = () => {
                 </div>
               </div>
             </div>
+          </div>
+          
+          <div className="mt-6 bg-white rounded-xl p-6 shadow-sm border border-cookbook-100">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2 text-cookbook-800">
+                <ProgressIcon size={18} />
+                <span className="font-medium">Fortschritt</span>
+              </div>
+              <span className="text-sm font-medium text-cookbook-600">{Math.round(progress)}%</span>
+            </div>
+            <Progress value={progress} className="h-2" />
+            <p className="mt-2 text-sm text-gray-600">
+              {progress === 0 ? "Beginne mit der Zubereitung" :
+               progress === 100 ? "Rezept abgeschlossen!" :
+               `${Math.round(progress)}% der Schritte abgeschlossen`}
+            </p>
           </div>
         </motion.div>
         
