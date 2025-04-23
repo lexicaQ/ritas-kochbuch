@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -82,14 +83,41 @@ export function Header() {
           <nav className="hidden md:block">
             <ul className="flex space-x-8 items-center justify-center">
               {navigationItems.map(item => <li key={item.name}>
-                  <Link to={item.path} className={cn("group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4", location.pathname === item.path ? isHomePage ? isScrolled ? "text-cookbook-700" : "text-white" : "text-cookbook-700" : isHomePage ? isScrolled ? "text-cookbook-800/80 hover:text-cookbook-700" : "text-white hover:text-white" : "text-cookbook-800/80 hover:text-cookbook-700")}>
+                  <Link 
+                    to={item.path} 
+                    className={cn(
+                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4", 
+                      location.pathname === item.path 
+                        ? isHomePage 
+                          ? isScrolled 
+                            ? "text-cookbook-700" 
+                            : "text-white" 
+                          : "text-cookbook-700" 
+                        : isHomePage 
+                          ? isScrolled 
+                            ? "text-cookbook-800/80 hover:text-cookbook-700" 
+                            : "text-white hover:text-white" 
+                          : "text-cookbook-800/80 hover:text-cookbook-700"
+                    )}
+                  >
                     <span className="flex items-center gap-1">
                       <item.icon size={18} className="opacity-80" />
                       {item.name}
                     </span>
-                    {location.pathname === item.path && <motion.div layoutId="navigation-underline" className={cn("absolute -bottom-1 left-0 h-0.5 w-full rounded", isHomePage ? isScrolled ? "bg-cookbook-700" : "bg-white" : "bg-cookbook-700")} transition={{
-                  duration: 0.3
-                }} />}
+                    {location.pathname === item.path && <motion.div 
+                      layoutId="navigation-underline" 
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-0.5 w-full rounded", 
+                        isHomePage 
+                          ? isScrolled 
+                            ? "bg-cookbook-700" 
+                            : "bg-white" 
+                          : "bg-cookbook-700"
+                      )} 
+                      transition={{
+                        duration: 0.3
+                      }} 
+                    />}
                   </Link>
                 </li>)}
             </ul>
@@ -99,26 +127,22 @@ export function Header() {
 
       <AnimatePresence>
         {isOpen && <>
-            <motion.div initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} exit={{
-          opacity: 0
-        }} transition={{
-          duration: 0.3
-        }} className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" onClick={() => setIsOpen(false)} />
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              transition={{ duration: 0.3 }} 
+              className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" 
+              onClick={() => setIsOpen(false)} 
+            />
             
-            <motion.div initial={{
-          x: "100%"
-        }} animate={{
-          x: 0
-        }} exit={{
-          x: "100%"
-        }} transition={{
-          type: "spring",
-          damping: 25
-        }} className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col">
+            <motion.div 
+              initial={{ x: "100%" }} 
+              animate={{ x: 0 }} 
+              exit={{ x: "100%" }} 
+              transition={{ type: "spring", damping: 25 }} 
+              className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col"
+            >
               <div className="h-full bg-white px-4 pb-6 pt-24">
                 <div className="absolute top-4 right-4">
                   <button 
