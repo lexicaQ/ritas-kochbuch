@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -46,14 +47,29 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
     "Schwer"
   ];
   
-  const getSuggestions = (query: string) => {
+  const getSuggestions = (query: string, filters: string[]) => {
     if (!query) return [];
+    
+    // Filter recipes by both query and selected filters
     return recipes
-      .filter(recipe => 
-        recipe.title.toLowerCase().includes(query.toLowerCase()) ||
-        recipe.description.toLowerCase().includes(query.toLowerCase())
-      )
-      .slice(0, 3);
+      .filter(recipe => {
+        // First check if recipe matches the query
+        const matchesQuery = recipe.title.toLowerCase().includes(query.toLowerCase()) ||
+          recipe.description.toLowerCase().includes(query.toLowerCase());
+        
+        // Then check if it matches the filters (if any are selected)
+        const matchesFilters = filters.length === 0 || 
+          filters.some(filter => 
+            recipe.category === filter || 
+            recipe.tags.includes(filter) ||
+            (filter === "Leicht" && recipe.difficulty === "leicht") ||
+            (filter === "Mittel" && recipe.difficulty === "normal") ||
+            (filter === "Schwer" && recipe.difficulty === "schwer")
+          );
+          
+        return matchesQuery && matchesFilters;
+      })
+      .slice(0, 3); // Only show top 3 results
   };
   
   const handleSearch = (e: React.FormEvent) => {
@@ -65,7 +81,7 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
-    setShowSuggestions(true);
+    setShowSuggestions(value.length >= 2); // Only show suggestions after 2 characters
     if (onInputChange) {
       onInputChange(value);
     }
@@ -102,6 +118,18 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
     );
   };
 
+  // Hide suggestions when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchInputRef.current && !searchInputRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    }
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <FadeIn className={className}>
       <form onSubmit={handleSearch} className="flex w-full flex-col items-stretch gap-3 md:flex-row md:items-center">
@@ -132,10 +160,10 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
             </button>
           )}
           
-          {showSuggestions && searchQuery.length > 0 && (
+          {showSuggestions && searchQuery.length >= 2 && (
             <SearchSuggestions
               query={searchQuery}
-              suggestions={getSuggestions(searchQuery)}
+              suggestions={getSuggestions(searchQuery, selectedFilters)}
               onSelect={handleSuggestionSelect}
             />
           )}

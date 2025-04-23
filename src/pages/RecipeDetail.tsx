@@ -281,18 +281,7 @@ const RecipeDetail = () => {
             </div>
           </FadeIn>
           
-          <div className="mt-8">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-cookbook-800">Fortschritt</span>
-              <span className="text-sm font-medium text-cookbook-800">{Math.round(progress)}%</span>
-            </div>
-            <div className="mt-2 h-2 w-full rounded-full bg-cookbook-200">
-              <div 
-                className="h-2 rounded-full bg-cookbook-600 transition-all duration-1000" 
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-          </div>
+          {/* Removed duplicate progress bar here */}
           
           <div className="mt-10 grid gap-8 md:grid-cols-12 md:gap-12">
             <FadeIn className="md:col-span-4" delay={0.1}>

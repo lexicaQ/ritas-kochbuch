@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Search, Clock, ChefHat, Heart, ChevronsRight } from "lucide-react";
+import { ArrowRight, Search, Clock, ChefHat, ChevronsRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -16,8 +17,6 @@ const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof recipes | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCategories, setVisibleCategories] = useState<string[]>([]);
-  const [searchSuggestions, setSearchSuggestions] = useState<typeof recipes>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
@@ -36,8 +35,6 @@ const Index = () => {
   }, []);
 
   const handleSearch = (query: string, filters: string[]) => {
-    setShowSuggestions(false);
-    
     if (!query && filters.length === 0) {
       setSearchResults(null);
       setIsLoading(false);
@@ -58,7 +55,10 @@ const Index = () => {
         const matchesFilters = filters.length === 0 || 
           filters.some(filter => 
             recipe.category === filter || 
-            recipe.tags.includes(filter)
+            recipe.tags.includes(filter) ||
+            (filter === "Leicht" && recipe.difficulty === "leicht") ||
+            (filter === "Mittel" && recipe.difficulty === "normal") ||
+            (filter === "Schwer" && recipe.difficulty === "schwer")
           );
           
         return matchesQuery && matchesFilters;
@@ -69,28 +69,7 @@ const Index = () => {
     }, 500);
   };
 
-  const handleSearchInputChange = (query: string) => {
-    if (query.length > 1) {
-      // Find matching recipes for suggestions
-      const matches = recipes
-        .filter(recipe => 
-          recipe.title.toLowerCase().includes(query.toLowerCase()) ||
-          recipe.description.toLowerCase().includes(query.toLowerCase())
-        )
-        .slice(0, 5); // Limit to 5 suggestions
-      
-      setSearchSuggestions(matches);
-      setShowSuggestions(true);
-    } else {
-      setSearchSuggestions([]);
-      setShowSuggestions(false);
-    }
-  };
-
-  const handleSuggestionClick = (recipe: any) => {
-    setShowSuggestions(false);
-    // Navigate to recipe or trigger search
-  };
+  // Removed the redundant handleSearchInputChange and showSuggestions state since we're now handling it in SearchBar
 
   // Enhanced animated decorative elements for hero section
   const decorativeElements = [
@@ -224,41 +203,10 @@ const Index = () => {
               >
                 <SearchBar 
                   onSearch={handleSearch}
-                  onInputChange={handleSearchInputChange}
                   className="mx-auto max-w-2xl"
                 />
                 
-                {/* Search suggestions */}
-                {showSuggestions && searchSuggestions.length > 0 && (
-                  <motion.div 
-                    className="absolute z-20 mt-2 w-full max-w-2xl mx-auto bg-white rounded-xl shadow-xl border border-cookbook-100 overflow-hidden"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="p-2">
-                      {searchSuggestions.map((recipe) => (
-                        <Link
-                          key={recipe.id}
-                          to={`/rezept/${recipe.id}`}
-                          onClick={() => setShowSuggestions(false)}
-                          className="flex items-center p-2 hover:bg-cookbook-50 rounded-lg transition-colors"
-                        >
-                          <img 
-                            src={recipe.image} 
-                            alt={recipe.title}
-                            className="h-10 w-10 rounded-md object-cover mr-3"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-cookbook-800 truncate">{recipe.title}</p>
-                            <p className="text-xs text-gray-500 truncate">{recipe.category}</p>
-                          </div>
-                          <ArrowRight size={16} className="text-cookbook-600 ml-2" />
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
+                {/* Removed redundant search suggestions container */}
               </motion.div>
             </FadeIn>
           </div>

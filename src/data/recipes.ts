@@ -305,6 +305,194 @@ const recipes: Recipe[] = [
     ],
     tips: ["Im Winter eine Prise Lebkuchengewürz zugeben und etwas mehr Zimt."],
     isFavorite: false
+  },
+  {
+    id: "vitalbrot",
+    title: "Vitalbrot",
+    description: "Ein kerniges Vollkornbrot mit Roggenschrot, Weizenschrot, Leinsamen und Sonnenblumenkernen. Perfekt für eine gesunde Ernährung.",
+    image: "https://images.unsplash.com/photo-1600423400430-34eb4ea425dc?q=80&w=2071&auto=format&fit=crop",
+    portionSize: "1 Kastenform",
+    prepTime: "15 Min (zzgl. 1 Std Gehzeit)",
+    cookTime: "3 Std",
+    totalTime: "~4 Std 15 Min",
+    difficulty: "leicht",
+    category: "Brot & Gebäck",
+    tags: ["Vollkorn", "Roggenschrot", "Weizenschrot", "Leinsamen", "Sesam", "Sonnenblumenkerne", "Gesund", "Vegan"],
+    ingredients: [
+      {
+        items: [
+          { name: "Roggenschrot", amount: "280 g" },
+          { name: "Weizenschrot", amount: "280 g" },
+          { name: "Leinsamen", amount: "140 g" },
+          { name: "Sesam", amount: "140 g" },
+          { name: "Sonnenblumenkerne", amount: "100 g (+ etwas zum Bestreuen)" },
+          { name: "Vollkornmehl", amount: "500 g" },
+          { name: "Salz", amount: "1 EL" },
+          { name: "Buttermilch, lauwarm", amount: "1 l" },
+          { name: "Rübenkraut (z. B. Grafschafter Goldsaft)", amount: "150 g" },
+          { name: "Würfelhefe", amount: "3 Päckchen (á 42,5 g)" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Schritt-für-Schritt-Zubereitung",
+        items: [
+          "Lauwarme Buttermilch mit Hefe und Rübenkraut verrühren, 1 Std gehen lassen.",
+          "Restliche Zutaten in eine große Schüssel geben.",
+          "Hefemilch mit einem großen Holzlöffel unterrühren, bis kein trockenes Mehl mehr sichtbar ist.",
+          "Kastenform fetten, Boden und Rand mit Sonnenblumenkernen bestreuen.",
+          "Teig einfüllen, im Ofen bei 150 °C 3 Std backen.",
+          "Nach 2 Std Backzeit Form mit Backpapier abdecken (sonst wird Kruste zu dunkel).",
+          "Brot nach dem Backen in der Form ca. 1 Std ruhen lassen."
+        ]
+      }
+    ],
+    tips: [
+      "Das Brot eignet sich hervorragend zum Einfrieren. In Scheiben geschnitten und portionsweise verpackt, kann es bei Bedarf aufgetaut werden.",
+      "Dieses Brot ist besonders lecker mit Avocado und Salz oder mit Hummus bestrichen."
+    ],
+    isFavorite: true
+  },
+  {
+    id: "lammschulter-gedünstet",
+    title: "Lammschulter gedünstet mit Senfsauce auf Gemüsebett",
+    description: "Ein saftiges Lammgericht mit zart geschmorter Lammschulter, würziger Senfsauce und einem bunten Gemüsebett aus Zwiebeln, Fenchel, Zucchini und Bohnen.",
+    image: "https://images.unsplash.com/photo-1598511726623-d2e9996e75e0?q=80&w=2071&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "30 Min",
+    cookTime: "45 Min + 30 Min Aufgießen/Schmoren",
+    totalTime: "~1 Std 45 Min",
+    difficulty: "normal",
+    category: "Hauptgericht",
+    tags: ["Lamm", "Fleisch", "Senfsauce", "Gemüse", "Schmorgericht"],
+    ingredients: [
+      {
+        group: "Lammschulter & Gewürz",
+        items: [
+          { name: "Lammschulter", amount: "1–1,5 kg" },
+          { name: "Dijon‑Senf", amount: "3 EL" },
+          { name: "Salz" },
+          { name: "Pfeffer" },
+          { name: "Olivenöl zum Anbraten" }
+        ]
+      },
+      {
+        group: "Gemüse",
+        items: [
+          { name: "Zwiebeln", amount: "2" },
+          { name: "rote Zwiebel", amount: "1" },
+          { name: "Stangensellerie", amount: "1 Stück" },
+          { name: "Fenchelknolle", amount: "1" },
+          { name: "Zucchini", amount: "1" },
+          { name: "Bohnen", amount: "100 g" },
+          { name: "kleine Kartoffeln", amount: "8" },
+          { name: "Knoblauchzehen", amount: "3" },
+          { name: "Thymian", amount: "1 Sträußchen" }
+        ]
+      },
+      {
+        group: "Flüssigkeiten",
+        items: [
+          { name: "Tomatenmark", amount: "2 EL" },
+          { name: "Weißwein", amount: "¼ l" },
+          { name: "Lammfond", amount: "400 ml" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Schritt-für-Schritt-Zubereitung",
+        items: [
+          "Lammschulter parieren, überschüssiges Fett und Sehnen entfernen, Knochen etwas hacken.",
+          "Schulter von allen Seiten salzen, pfeffern.",
+          "In einem Bräter mit Olivenöl rundherum braun anbraten.",
+          "Fleischabschnitte und Knochen beiseitestellen.",
+          "Zwiebeln, Sellerie und Karotte (aus dem Brätergemüse) würfeln, mit in den Bräter geben und kurz mitbraten.",
+          "Tomatenmark einrühren, anrösten.",
+          "Mit Weißwein ablöschen, kurz einkochen lassen.",
+          "Lammfond angießen, aufkochen.",
+          "Thymian und Knoblauch zugeben.",
+          "Lammschulter auf ein Gitter im Bräter legen, im vorgeheizten Ofen bei 180 °C 45 Min garen.",
+          "Zwischendurch Fleisch mit Fond übergießen.",
+          "Rote Zwiebel, Fenchel und Zucchini in gleich große Stücke schneiden.",
+          "Kartoffeln schälen, halbieren.",
+          "Bohnen bissfest kochen, abschrecken.",
+          "Gemüse in Olivenöl andünsten, würzen.",
+          "Schulter aus dem Ofen nehmen, in Alufolie ruhen lassen.",
+          "Sauce durch ein feines Sieb gießen, aufkochen, mit Senf abschmecken, ggf. etwas mit Butter binden.",
+          "Gemüse auf Tellern anrichten, Fleisch in Portionen schneiden, darauf legen.",
+          "Sauce angießen und servieren."
+        ]
+      }
+    ],
+    tips: [
+      "Für eine intensivere Sauce können Sie vor dem Sieben ein Stück kalte Butter unter ständigem Rühren einarbeiten.",
+      "Das Gericht lässt sich gut vorbereiten. Die Schulter können Sie am Vortag garen und am nächsten Tag nur noch das Gemüsebett frisch zubereiten."
+    ],
+    isFavorite: false
+  },
+  {
+    id: "spinat-crostata",
+    title: "Spinat‑Crostata",
+    description: "Eine rustikale italienische Spinattarte mit cremiger Ricotta-Füllung, Rosinen und knackigen Pinienkernen.",
+    image: "https://images.unsplash.com/photo-1589579136787-607def05db8f?q=80&w=2070&auto=format&fit=crop",
+    portionSize: "8 Stücke",
+    prepTime: "60 Min",
+    cookTime: "30–35 Min",
+    totalTime: "~95 Min",
+    difficulty: "normal",
+    category: "Hauptgericht",
+    tags: ["Vegetarisch", "Italienisch", "Spinat", "Ricotta", "Pinienkerne", "Tarte"],
+    ingredients: [
+      {
+        group: "Für den Teig",
+        items: [
+          { name: "Mehl", amount: "200 g" },
+          { name: "kalte Butter in kleinen Stücken", amount: "100 g" },
+          { name: "Eigelb", amount: "1" },
+          { name: "Salz", amount: "1 Prise" },
+          { name: "kaltes Wasser", amount: "3 EL" }
+        ]
+      },
+      {
+        group: "Für den Belag",
+        items: [
+          { name: "TK‑Blattspinat", amount: "500 g" },
+          { name: "Milch", amount: "150 ml" },
+          { name: "Ei (Gr. M)", amount: "1" },
+          { name: "Eiweiß", amount: "1" },
+          { name: "Salz" },
+          { name: "Pfeffer" },
+          { name: "Muskat" },
+          { name: "Rosinen", amount: "1 EL" },
+          { name: "Ricotta", amount: "150 g" },
+          { name: "Pinienkerne", amount: "1 EL" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Schritt-für-Schritt-Zubereitung",
+        items: [
+          "Mehl, Butter, Eigelb, Salz und kaltes Wasser in einer Schüssel rasch zu einem glatten Teig verkneten.",
+          "In Frischhaltefolie 30 Min kaltstellen.",
+          "TK‑Spinat auftauen lassen, gut ausdrücken.",
+          "Mit Ei, Eiweiß, Milch sowie Salz, Pfeffer und Muskat kräftig würzen.",
+          "Teig auf bemehlter Fläche etwas größer als Form ausrollen (Ø 28 cm), in gefettete Form drücken.",
+          "Boden mit Gabel mehrfach einstechen.",
+          "Spinatmasse portionsweise auf den Teig geben.",
+          "Rosinen, Kleckse Ricotta und Pinienkerne darauf verteilen.",
+          "Im heißen Ofen 30–35 Min bei 200 °C (Umluft) oder 220 °C (Gas Stufe 4) backen.",
+          "Warm oder kalt genießen."
+        ]
+      }
+    ],
+    tips: [
+      "Die Crostata schmeckt sowohl warm als auch kalt hervorragend und eignet sich gut zum Mitnehmen für ein Picknick.",
+      "Für eine herzhafte Variante können Sie einige gewürfelte Oliven oder getrocknete Tomaten unter die Spinatmasse heben."
+    ],
+    isFavorite: true
   }
 ];
 
