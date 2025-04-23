@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Search, Clock, ChefHat, ChevronsRight, Heart, Star, BarChart, Flame } from "lucide-react";
@@ -12,6 +13,74 @@ import recipes from "@/data/recipes";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+
+// Define the interface for decorative elements
+interface DecorativeElementProps {
+  x: string;
+  y: string;
+  rotate: number;
+  scale: number;
+  opacity: number;
+  delay: number;
+  duration: number;
+  type: 'circle' | 'square' | 'triangle' | 'dot';
+}
+
+// Create array of decorative elements
+const decorativeElements: DecorativeElementProps[] = [
+  { x: '10%', y: '20%', rotate: 0, scale: 1, opacity: 0.3, delay: 0, duration: 20, type: 'circle' },
+  { x: '85%', y: '15%', rotate: 45, scale: 0.8, opacity: 0.2, delay: 1, duration: 15, type: 'square' },
+  { x: '20%', y: '80%', rotate: 180, scale: 1.2, opacity: 0.15, delay: 2, duration: 25, type: 'triangle' },
+  { x: '70%', y: '70%', rotate: 90, scale: 0.7, opacity: 0.25, delay: 0.5, duration: 18, type: 'dot' },
+  { x: '40%', y: '30%', rotate: 30, scale: 0.9, opacity: 0.1, delay: 1.5, duration: 22, type: 'circle' },
+];
+
+// Create the DecorativeElement component
+const DecorativeElement = ({ x, y, rotate, scale, opacity, delay, duration, type }: DecorativeElementProps) => {
+  let element;
+  
+  switch (type) {
+    case 'circle':
+      element = <div className="w-16 h-16 rounded-full bg-white/5" />;
+      break;
+    case 'square':
+      element = <div className="w-12 h-12 bg-white/5" />;
+      break;
+    case 'triangle':
+      element = (
+        <div className="w-0 h-0 
+                      border-l-[10px] border-l-transparent
+                      border-b-[16px] border-b-white/5
+                      border-r-[10px] border-r-transparent" />
+      );
+      break;
+    case 'dot':
+      element = <div className="w-3 h-3 rounded-full bg-white/10" />;
+      break;
+  }
+  
+  return (
+    <motion.div
+      className="absolute z-0"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, rotate, scale: 0 }}
+      animate={{
+        opacity,
+        rotate: rotate + 360,
+        scale,
+      }}
+      transition={{
+        duration,
+        delay,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }}
+    >
+      {element}
+    </motion.div>
+  );
+};
 
 const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof recipes | null>(null);
@@ -644,3 +713,4 @@ const Index = () => {
 };
 
 export default Index;
+
