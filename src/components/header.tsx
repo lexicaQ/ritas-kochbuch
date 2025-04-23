@@ -70,14 +70,24 @@ export function Header() {
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
-            "absolute right-4 md:hidden inline-flex items-center justify-center rounded-md p-2 transition-colors",
+            "absolute right-4 md:hidden inline-flex items-center justify-center rounded-md p-2 transition-all duration-300",
             isScrolled 
               ? "text-cookbook-800 hover:bg-cookbook-100" 
-              : "text-cookbook-700 hover:bg-white/20"
+              : "text-white hover:bg-white/20"
           )}
           aria-label="Toggle menu"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          <motion.div
+            initial={false}
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            {isOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </motion.div>
         </button>
       </div>
       
@@ -139,7 +149,7 @@ export function Header() {
             transition={{ type: "spring", damping: 20 }}
             className="fixed top-0 right-0 bottom-0 w-72 md:hidden"
           >
-            <div className="h-full bg-white px-4 pb-6 pt-20 shadow-xl">
+            <div className="h-full bg-[#1A1F2C] px-4 pb-6 pt-20 shadow-xl">
               {navigationItems.map((item) => (
                 <Link
                   key={item.name}
@@ -147,8 +157,8 @@ export function Header() {
                   className={cn(
                     "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors",
                     location.pathname === item.path
-                      ? "bg-cookbook-100 text-cookbook-700"
-                      : "text-cookbook-800 hover:bg-cookbook-50 hover:text-cookbook-700"
+                      ? "bg-white/10 text-white"
+                      : "text-gray-300 hover:bg-white/5 hover:text-white"
                   )}
                   onClick={() => setIsOpen(false)}
                 >

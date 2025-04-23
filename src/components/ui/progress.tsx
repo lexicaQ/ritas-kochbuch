@@ -19,8 +19,8 @@ const Progress = React.forwardRef<
       className="h-full w-full flex-1 transition-all duration-500 ease-in-out"
       style={{
         background: color === "green" 
-          ? `linear-gradient(90deg, #34A853 0%, #68C676 ${value}%, #90DE9B 100%)`
-          : `linear-gradient(90deg, #9b87f5 0%, #7E69AB ${value}%, #B29EFF 100%)`,
+          ? `linear-gradient(90deg, #222222 0%, #444444 ${value}%, #666666 100%)`
+          : `linear-gradient(90deg, #222222 0%, #444444 ${value}%, #666666 100%)`,
         transform: `translateX(-${100 - (value || 0)}%)`
       }}
     />
