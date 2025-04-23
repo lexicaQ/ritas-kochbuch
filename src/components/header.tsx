@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -142,32 +143,55 @@ export function Header() {
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: 300 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 300 }}
-            transition={{ type: "spring", damping: 20 }}
-            className="fixed top-0 right-0 bottom-0 w-72 md:hidden"
-          >
-            <div className="h-full bg-[#1A1F2C] px-4 pb-6 pt-20 shadow-xl">
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={cn(
-                    "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors",
-                    location.pathname === item.path
-                      ? "bg-white/10 text-white"
-                      : "text-gray-300 hover:bg-white/5 hover:text-white"
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  <item.icon size={20} />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
+          <>
+            {/* Overlay that covers and blurs the entire screen */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden"
+              onClick={() => setIsOpen(false)}
+            />
+            
+            {/* Mobile navigation menu */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25 }}
+              className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col"
+            >
+              <div className="h-full bg-cookbook-50 px-4 pb-6 pt-24">
+                <div className="absolute top-4 right-4">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-2 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors"
+                    aria-label="Close menu"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                
+                {navigationItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className={cn(
+                      "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors",
+                      location.pathname === item.path
+                        ? "bg-cookbook-200 text-cookbook-800"
+                        : "text-cookbook-700 hover:bg-cookbook-100 hover:text-cookbook-800"
+                    )}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <item.icon size={20} />
+                    <span>{item.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

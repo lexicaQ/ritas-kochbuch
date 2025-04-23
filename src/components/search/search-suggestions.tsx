@@ -1,3 +1,4 @@
+
 import { SearchResult } from "@/types/search";
 import { Clock, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,7 @@ export const SearchSuggestions = ({
   return (
     <div 
       className={cn(
-        "absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-cookbook-800/20 overflow-hidden max-h-[65vh] overflow-y-auto backdrop-blur-sm shadow-xl shadow-cookbook-800/10",
+        "absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border-2 border-cookbook-800/40 overflow-hidden max-h-[65vh] overflow-y-auto backdrop-blur-sm shadow-lg shadow-black/20",
         className
       )}
     >

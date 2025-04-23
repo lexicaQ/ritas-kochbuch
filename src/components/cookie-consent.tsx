@@ -105,7 +105,7 @@ export function CookieConsent() {
                       Cookie-Einstellungen
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[500px] bg-white rounded-xl">
+                  <DialogContent className="sm:max-w-[500px] max-w-[90vw] bg-white rounded-xl">
                     <DialogHeader>
                       <DialogTitle className="text-cookbook-800 text-xl flex items-center gap-2">
                         <Cookie className="h-5 w-5" />

@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -174,7 +173,7 @@ export const SearchBar = ({
     <div className={cn("relative z-30", variantClasses[variant], className)} ref={searchRef}>
       <form onSubmit={handleSubmit}>
         <div className="relative">
-          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-cookbook-800">
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-cookbook-700">
             <Search size={20} />
           </div>
           
@@ -186,12 +185,12 @@ export const SearchBar = ({
             onChange={handleInputChange}
             onClick={() => setIsActive(true)}
             className={cn(
-              "pl-10 pr-9 border-2 border-cookbook-800/30 shadow-lg bg-white/80 backdrop-blur-sm",
-              "focus:border-cookbook-800/50 focus:ring-4 focus:ring-cookbook-800/20",
+              "pl-10 pr-9 border-2 border-cookbook-800/70 bg-white/80 backdrop-blur-sm",
+              "focus:border-cookbook-800 focus:ring-4 focus:ring-cookbook-800/20",
               "transition-all duration-300 ease-in-out",
               variant === "large" ? "h-12 text-lg rounded-2xl" : "h-10 rounded-xl",
               variant === "minimal" ? "rounded-full bg-background/80" : "",
-              "shadow-cookbook-800/10 shadow-md"
+              "shadow-[0_4px_8px_-2px_rgba(0,0,0,0.25)]"
             )}
           />
           
@@ -219,7 +218,7 @@ export const SearchBar = ({
               results={searchResults}
               onSelect={handleSelectResult}
               searchTerm={searchTerm}
-              className="border-2 border-cookbook-800/20 shadow-lg shadow-cookbook-800/10"
+              className="border-2 border-cookbook-800/40 shadow-[0_8px_16px_-4px_rgba(0,0,0,0.3)]"
             />
           </motion.div>
         )}
