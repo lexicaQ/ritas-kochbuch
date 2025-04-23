@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Search, Clock, ChefHat, ChevronsRight, Heart, Star, BarChart, Flame } from "lucide-react";
@@ -89,24 +88,20 @@ const Index = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState<typeof recipes>([]);
   const [mostCookedRecipes, setMostCookedRecipes] = useState<typeof recipes>([]);
   const [topRatedRecipes, setTopRatedRecipes] = useState<typeof recipes>([]);
-  const { toast } = useToast();
-  
+
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
-  
-  // Get recipes for popular categories
+
   const categoryRecipes = categories.reduce((acc, category) => {
     acc[category] = recipes.filter(r => r.category === category).slice(0, 4);
     return acc;
   }, {} as Record<string, typeof recipes>);
-  
+
   useEffect(() => {
     if (categories.length > 0) {
-      // Start with first 2 categories
       setVisibleCategories(categories.slice(0, 2));
     }
-    
-    // Load user favorites from localStorage
+
     const loadFavorites = () => {
       try {
         const storedFavorites = localStorage.getItem('user-favorite-recipes');
@@ -119,83 +114,73 @@ const Index = () => {
         console.error('Error loading favorites:', error);
       }
     };
-    
-    // Load most cooked recipes based on visit count
+
     const loadMostCooked = () => {
       try {
         const visitCounts = {};
         const completedCounts = {};
-        
-        // Get all localStorage keys
+
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          
-          // Track visit counts
+
           if (key && key.startsWith('recipe-visit-count-')) {
             const recipeId = key.replace('recipe-visit-count-', '');
             visitCounts[recipeId] = parseInt(localStorage.getItem(key) || '0');
           }
-          
-          // Track completion counts
+
           if (key && key.startsWith('recipe-completed-count-')) {
             const recipeId = key.replace('recipe-completed-count-', '');
             completedCounts[recipeId] = parseInt(localStorage.getItem(key) || '0');
           }
         }
-        
-        // Sort recipes by completion count first, then visit count
+
         const sortedRecipes = [...recipes].sort((a, b) => {
           const aCompleted = completedCounts[a.id] || 0;
           const bCompleted = completedCounts[b.id] || 0;
-          
+
           if (aCompleted !== bCompleted) {
             return bCompleted - aCompleted;
           }
-          
+
           const aVisits = visitCounts[a.id] || 0;
           const bVisits = visitCounts[b.id] || 0;
           return bVisits - aVisits;
         });
-        
+
         setMostCookedRecipes(sortedRecipes.slice(0, 4));
       } catch (error) {
         console.error('Error loading most cooked recipes:', error);
       }
     };
-    
-    // Load highest rated recipes
+
     const loadTopRated = () => {
       try {
         const ratings = {};
         const ratingCounts = {};
-        
-        // Get all localStorage keys
+
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          
-          // Track ratings
+
           if (key && key.startsWith('recipe-rating-')) {
             const recipeId = key.replace('recipe-rating-', '');
             ratings[recipeId] = parseFloat(localStorage.getItem(key) || '0');
-            
-            // Also get count of ratings
+
             const countKey = `recipe-rating-count-${recipeId}`;
             ratingCounts[recipeId] = parseInt(localStorage.getItem(countKey) || '1');
           }
         }
-        
-        // Sort recipes by rating (only include recipes with at least one rating)
+
         const ratedRecipes = recipes.filter(recipe => ratings[recipe.id] > 0);
         const sortedRecipes = [...ratedRecipes].sort((a, b) => {
           return (ratings[b.id] || 0) - (ratings[a.id] || 0);
         });
-        
+
         setTopRatedRecipes(sortedRecipes.slice(0, 4));
       } catch (error) {
         console.error('Error loading top-rated recipes:', error);
       }
     };
-    
+
     loadFavorites();
     loadMostCooked();
     loadTopRated();
@@ -207,30 +192,29 @@ const Index = () => {
       setIsLoading(false);
       return;
     }
-    
+
     setIsLoading(true);
-    
-    // Simulate search delay for better UX
+
     setTimeout(() => {
       const lowercaseQuery = query.toLowerCase();
-      
+
       const results = recipes.filter(recipe => {
         const matchesQuery = !query || 
           recipe.title.toLowerCase().includes(lowercaseQuery) ||
           recipe.description.toLowerCase().includes(lowercaseQuery);
-          
+
         const matchesFilters = filters.length === 0 || 
           filters.some(filter => 
             recipe.category === filter || 
             recipe.tags.includes(filter) ||
-            (filter === "Leicht" && recipe.difficulty === "leicht") ||
-            (filter === "Mittel" && recipe.difficulty === "normal") ||
-            (filter === "Schwer" && recipe.difficulty === "schwer")
+            (filter === "Leicht" && recipe.difficulty === "Leicht") ||
+            (filter === "Mittel" && recipe.difficulty === "Mittel") ||
+            (filter === "Schwer" && recipe.difficulty === "Schwer")
           );
-          
+
         return matchesQuery && matchesFilters;
       });
-      
+
       setSearchResults(results);
       setIsLoading(false);
     }, 500);
@@ -250,10 +234,8 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Modern Hero section with animated background - now with white text */}
       <section className="relative bg-cookbook-700 pt-32 pb-16">
         <div className="absolute inset-0 overflow-hidden">
-          {/* Animated gradient background */}
           <motion.div 
             className="absolute inset-0 bg-gradient-to-br from-cookbook-800 via-cookbook-700 to-cookbook-600"
             animate={{
@@ -267,12 +249,10 @@ const Index = () => {
             }}
           />
           
-          {/* Decorative elements */}
           {decorativeElements.map((elem, i) => (
             <DecorativeElement key={i} {...elem} />
           ))}
           
-          {/* Animated particles */}
           <div className="absolute inset-0">
             {Array.from({ length: 20 }).map((_, i) => (
               <motion.div
@@ -341,12 +321,15 @@ const Index = () => {
                   className="mx-auto max-w-2xl"
                 />
                 
-                {/* Removed redundant search suggestions container */}
+                <div className="mt-6 text-center">
+                  <Button onClick={() => setSearchResults(null)} variant="outline">
+                    Suche zurücksetzen
+                  </Button>
+                </div>
               </motion.div>
             </FadeIn>
           </div>
 
-          {/* Search results */}
           {(searchResults || isLoading) && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -386,18 +369,11 @@ const Index = () => {
                   </p>
                 </div>
               )}
-              
-              <div className="mt-6 text-center">
-                <Button onClick={() => setSearchResults(null)} variant="outline">
-                  Suche zurücksetzen
-                </Button>
-              </div>
             </motion.div>
           )}
         </div>
       </section>
       
-      {/* User's favorite recipes - new section */}
       {!searchResults && !isLoading && (
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
@@ -456,7 +432,6 @@ const Index = () => {
         </section>
       )}
       
-      {/* Most cooked recipes - new section */}
       {!searchResults && !isLoading && (
         <section className="py-16 bg-cookbook-50/50">
           <div className="container mx-auto px-4">
@@ -527,7 +502,6 @@ const Index = () => {
         </section>
       )}
       
-      {/* Featured recipes - updated with ratings */}
       {!searchResults && !isLoading && (
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
@@ -574,7 +548,6 @@ const Index = () => {
         </section>
       )}
       
-      {/* Top rated recipes - new section */}
       {!searchResults && !isLoading && (
         <section className="py-16 bg-cookbook-50/50">
           <div className="container mx-auto px-4">
@@ -640,7 +613,6 @@ const Index = () => {
         </section>
       )}
       
-      {/* Categories preview with improved layout */}
       {!searchResults && !isLoading && (
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
@@ -663,7 +635,6 @@ const Index = () => {
                     className="group relative block overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl border border-cookbook-100"
                   >
                     <div className="aspect-[16/9] relative overflow-hidden">
-                      {/* Display first recipe image from category */}
                       {categoryRecipes[category]?.[0]?.image && (
                         <>
                           <img 
@@ -713,4 +684,3 @@ const Index = () => {
 };
 
 export default Index;
-

@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -62,9 +61,9 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
           filters.some(filter => 
             recipe.category === filter || 
             recipe.tags.includes(filter) ||
-            (filter === "Leicht" && recipe.difficulty === "leicht") ||
-            (filter === "Mittel" && recipe.difficulty === "normal") ||
-            (filter === "Schwer" && recipe.difficulty === "schwer")
+            (filter === "Leicht" && recipe.difficulty === "Leicht") ||
+            (filter === "Mittel" && recipe.difficulty === "Mittel") ||
+            (filter === "Schwer" && recipe.difficulty === "Schwer")
           );
           
         return matchesQuery && matchesFilters;
@@ -278,4 +277,3 @@ export function SearchBar({ onSearch, onInputChange, className }: SearchBarProps
     </FadeIn>
   );
 }
-

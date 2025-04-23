@@ -11,7 +11,7 @@ export const pastries: Recipe[] = [
     prepTime: "15 Min (zzgl. 1 Std Gehzeit)",
     cookTime: "3 Std",
     totalTime: "~4 Std 15 Min",
-    difficulty: "leicht",
+    difficulty: "Leicht",
     category: "Brot & Gebäck",
     tags: ["Vollkorn", "Roggenschrot", "Weizenschrot", "Leinsamen", "Sesam", "Sonnenblumenkerne", "Gesund", "Vegan"],
     ingredients: [

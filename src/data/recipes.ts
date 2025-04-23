@@ -18,7 +18,7 @@ const recipes: Recipe[] = [
     prepTime: "15 Min (zzgl. 15 Min Kühlzeit)",
     cookTime: "25 Min",
     totalTime: "~55 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Snack",
     tags: ["Vegetarisch", "Haferflocken", "Blauschimmelkäse", "Birnen", "Gebäck"],
     ingredients: [
@@ -72,7 +72,7 @@ const recipes: Recipe[] = [
     portionSize: "1 Kastenform (ca. 20 cm)",
     prepTime: "20 Min",
     cookTime: "60 Min",
-    difficulty: "leicht",
+    difficulty: "Leicht",
     category: "Dessert",
     tags: ["Kuchen", "Eierlikör", "Schokolade", "Backen", "Süß"],
     ingredients: [
@@ -114,7 +114,7 @@ const recipes: Recipe[] = [
     portionSize: "ca. 12 Muffins",
     prepTime: "15 Min",
     cookTime: "40 Min",
-    difficulty: "leicht",
+    difficulty: "Leicht",
     category: "Dessert",
     tags: ["Muffins", "Schokolade", "Backen", "Süß"],
     ingredients: [
@@ -155,7 +155,7 @@ const recipes: Recipe[] = [
     portionSize: "1 Kastenform",
     prepTime: "20 Min",
     cookTime: "45 Min",
-    difficulty: "leicht",
+    difficulty: "Leicht",
     category: "Dessert",
     tags: ["Kuchen", "Schokolade", "Backen", "Süß"],
     ingredients: [
@@ -188,7 +188,7 @@ const recipes: Recipe[] = [
           "Mehl, Backpulver und Kakaopulver mischen, dann in zwei Portionen unter den Teig heben.",
           "Teig in die Form füllen, Oberfläche glatt streichen.",
           "Ca. 45 Min backen (Stäbchenprobe).",
-          "Kuchen abkühlen lassen.",
+          "Kuchen abkühlen lassen und aus der Form lösen.",
           "Mit Puderzucker bestäuben und nach Belieben mit geschmolzener Schokolade verzieren."
         ]
       }
@@ -203,7 +203,7 @@ const recipes: Recipe[] = [
     portionSize: "12 Stücke",
     prepTime: "30 Min",
     cookTime: "30–35 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Hauptgericht",
     tags: ["Quiche", "Vegetarisch", "Lauch", "Tomaten", "Walnüsse"],
     ingredients: [
@@ -251,7 +251,7 @@ const recipes: Recipe[] = [
     portionSize: "1 Springform (Ø 26 cm)",
     prepTime: "30 Min",
     cookTime: "45–50 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Dessert",
     tags: ["Kuchen", "Mandeln", "Spanisch", "Orange", "Zimt"],
     ingredients: [
@@ -297,7 +297,7 @@ const recipes: Recipe[] = [
     prepTime: "15 Min (zzgl. 1 Std Gehzeit)",
     cookTime: "3 Std",
     totalTime: "~4 Std 15 Min",
-    difficulty: "leicht",
+    difficulty: "Leicht",
     category: "Brot & Gebäck",
     tags: ["Vollkorn", "Roggenschrot", "Weizenschrot", "Leinsamen", "Sesam", "Sonnenblumenkerne", "Gesund", "Vegan"],
     ingredients: [
@@ -345,7 +345,7 @@ const recipes: Recipe[] = [
     prepTime: "30 Min",
     cookTime: "45 Min + 30 Min Aufgießen/Schmoren",
     totalTime: "~1 Std 45 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Hauptgericht",
     tags: ["Lamm", "Fleisch", "Senfsauce", "Gemüse", "Schmorgericht"],
     ingredients: [
@@ -423,7 +423,7 @@ const recipes: Recipe[] = [
     prepTime: "60 Min",
     cookTime: "30–35 Min",
     totalTime: "~95 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Hauptgericht",
     tags: ["Vegetarisch", "Italienisch", "Spinat", "Ricotta", "Pinienkerne", "Tarte"],
     ingredients: [
@@ -485,7 +485,7 @@ const recipes: Recipe[] = [
     prepTime: "45 Min",
     cookTime: "10 Min",
     totalTime: "~85 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Gebäck",
     tags: ["Weihnachten", "Plätzchen", "Walnüsse", "Orange", "Rum"],
     ingredients: [
@@ -541,7 +541,7 @@ const recipes: Recipe[] = [
     portionSize: "4 Portionen",
     prepTime: "30 Min",
     totalTime: "~3.5 Std",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Salat",
     tags: ["Italienisch", "Vegetarisch", "Pasta", "Rucola", "Tomaten"],
     ingredients: [
@@ -591,7 +591,7 @@ const recipes: Recipe[] = [
     image: "https://images.unsplash.com/photo-1662472709675-f0ef44b4b29e?q=80&w=2070&auto=format&fit=crop",
     portionSize: "4 Portionen",
     prepTime: "25 Min (inkl. 15 Min Quellzeit)",
-    difficulty: "leicht",
+    difficulty: "Leicht",
     category: "Salat",
     tags: ["Vegetarisch", "Orientalisch", "Bulgur", "Kräuter", "Frisch"],
     ingredients: [
@@ -640,7 +640,7 @@ const recipes: Recipe[] = [
     portionSize: "1 Kastenform",
     prepTime: "30 Min (plus 1,5 Std Gehzeit)",
     cookTime: "40 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Brot & Gebäck",
     tags: ["Süß", "Hefeteig", "Rosinen", "Mandeln", "Frühstück"],
     ingredients: [
@@ -693,7 +693,7 @@ const recipes: Recipe[] = [
     portionSize: "1 Backblech (ca. 20 Stücke)",
     prepTime: "40 Min",
     cookTime: "25 Min (plus Kühlzeit)",
-    difficulty: "mittel",
+    difficulty: "Mittel",
     category: "Dessert",
     tags: ["Blechkuchen", "Zitrone", "Streusel", "Creme", "Süß"],
     ingredients: [
@@ -760,7 +760,7 @@ const recipes: Recipe[] = [
     image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=2065&auto=format&fit=crop",
     portionSize: "1 Springform (Ø 26 cm)",
     prepTime: "45 Min (plus 4 Std Kühlzeit)",
-    difficulty: "mittel",
+    difficulty: "Mittel",
     category: "Dessert",
     tags: ["Torte", "Himbeeren", "Joghurt", "Sommerkuchen", "Fruchtig"],
     ingredients: [
@@ -848,7 +848,7 @@ const recipes: Recipe[] = [
     image: "https://images.unsplash.com/photo-1635321593217-40050ad13c74?q=80&w=2048&auto=format&fit=crop",
     portionSize: "4 Portionen",
     prepTime: "30 Min",
-    difficulty: "leicht",
+    difficulty: "Leicht",
     category: "Salat",
     tags: ["Vegetarisch", "Kartoffeln", "Ziegenkäse", "Walnüsse", "Lauwarm"],
     ingredients: [
@@ -902,7 +902,7 @@ const recipes: Recipe[] = [
     portionSize: "1 Springform (Ø 26 cm)",
     prepTime: "30 Min",
     cookTime: "50 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Dessert",
     tags: ["Kuchen", "Schokolade", "Kirschen", "Backen", "Süß"],
     ingredients: [
@@ -962,7 +962,7 @@ const recipes: Recipe[] = [
     portionSize: "4 Portionen",
     prepTime: "30 Min",
     cookTime: "45 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Hauptgericht",
     tags: ["Vegetarisch", "Auflauf", "Französisch", "Gemüse", "Mediterran"],
     ingredients: [
@@ -1023,7 +1023,7 @@ const recipes: Recipe[] = [
     portionSize: "ca. 20 Stück",
     prepTime: "40 Min",
     cookTime: "30 Min",
-    difficulty: "mittel",
+    difficulty: "Mittel",
     category: "Gebäck",
     tags: ["Kekse", "Nüsse", "Schokolade", "Backen", "Klassiker"],
     ingredients: [
@@ -1102,7 +1102,7 @@ const recipes: Recipe[] = [
     portionSize: "4 Portionen",
     prepTime: "30 Min (plus 1 Std Marinierzeit)",
     cookTime: "25 Min",
-    difficulty: "mittel",
+    difficulty: "Mittel",
     category: "Hauptgericht",
     tags: ["Geflügel", "Poularde", "Lauch", "Salat", "Leicht"],
     ingredients: [
@@ -1193,7 +1193,7 @@ const recipes: Recipe[] = [
     portionSize: "4 Portionen",
     prepTime: "45 Min",
     cookTime: "30 Min",
-    difficulty: "anspruchsvoll",
+    difficulty: "Anspruchsvoll",
     category: "Hauptgericht",
     tags: ["Rindfleisch", "Filet", "Festlich", "Schmorzwiebelsauce", "Pfefferkruste"],
     ingredients: [
@@ -1299,4 +1299,3 @@ const recipes: Recipe[] = [
 ];
 
 export default recipes;
-

@@ -10,7 +10,7 @@ export const mainDishes: Recipe[] = [
     portionSize: "2 Portionen",
     prepTime: "15 Min",
     cookTime: "40-45 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Hauptgericht",
     tags: ["Französisch", "Auflauf", "Pute", "Gemüse", "Mediterranean"],
     ingredients: [
@@ -50,7 +50,7 @@ export const mainDishes: Recipe[] = [
     portionSize: "4 Portionen",
     prepTime: "45 Min",
     cookTime: "15 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Hauptgericht",
     tags: ["Geflügel", "Salat", "Lauch", "Gourmet"],
     ingredients: [
@@ -109,7 +109,7 @@ export const mainDishes: Recipe[] = [
     portionSize: "4 Portionen",
     prepTime: "40 Min",
     cookTime: "15 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Hauptgericht",
     tags: ["Rindfleisch", "Steak", "Gourmet", "Pfeffer", "Zwiebeln"],
     ingredients: [

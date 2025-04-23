@@ -10,7 +10,7 @@ export const desserts: Recipe[] = [
     portionSize: "1 Blech",
     prepTime: "45 Min",
     cookTime: "15-20 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Dessert",
     tags: ["Kuchen", "Hefeteig", "Mandeln", "Backen"],
     ingredients: [
@@ -51,7 +51,7 @@ export const desserts: Recipe[] = [
     portionSize: "1 Lamm",
     prepTime: "30 Min",
     cookTime: "60 Min",
-    difficulty: "normal",
+    difficulty: "Normal",
     category: "Dessert",
     tags: ["Ostern", "Kuchen", "Mandeln", "Backen", "Festtag"],
     ingredients: [
