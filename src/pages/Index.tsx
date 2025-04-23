@@ -4,7 +4,6 @@ import { ArrowRight, Search, Clock, ChefHat, ChevronsRight, Heart, Star, BarChar
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/ui/recipe-card";
-import { SearchBar } from "@/components/search-bar";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Header } from "@/components/header";
 import recipes from "@/data/recipes";
