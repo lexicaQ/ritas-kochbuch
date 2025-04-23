@@ -27,7 +27,7 @@ export function LoadingSpinner({
     >
       <div
         className={cn(
-          "spinner-animation rounded-full border-solid border-cookbook-700 border-b-transparent",
+          "animate-spin rounded-full border-solid border-cookbook-700 border-b-transparent",
           sizeClasses[size]
         )}
       />

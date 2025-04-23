@@ -19,6 +19,35 @@ interface RecipeCardProps {
   isFavorite?: boolean;
 }
 
+// Helper function to get appropriate image based on recipe title
+const getRecipeImage = (title: string): string => {
+  if (title.includes("Vitalbrot")) {
+    return "/lovable-uploads/7894fac3-47c0-475f-8409-195944d7f5e5.png";
+  } else if (title.includes("Haferflocken") || title.includes("Kracker")) {
+    return "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
+  } else if (title.includes("Eierlikör")) {
+    return "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07";
+  } else if (title.includes("Stracciatella") || title.includes("Muffins")) {
+    return "https://images.unsplash.com/photo-1599731295690-c8507a674f40";
+  } else if (title.includes("Valeskas")) {
+    return "https://images.unsplash.com/photo-1472396961693-142e6e269027";
+  } else if (title.includes("Spinat") || title.includes("Crostata")) {
+    return "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39";
+  } else if (title.includes("Lammschulter")) {
+    return "https://images.unsplash.com/photo-1588690793273-3fab406b7a7b";
+  } else if (title.includes("Walnuß") || title.includes("Nuss")) {
+    return "https://images.unsplash.com/photo-1608383466356-7591301b1858";
+  } else if (title.includes("Hefebrot")) {
+    return "https://images.unsplash.com/photo-1549931319-a545dcf3bc73";
+  } else if (title.includes("Zitronen") || title.includes("Kuchen")) {
+    return "https://images.unsplash.com/photo-1463271418123-76d4a1277dcc";
+  } else if (title.includes("Kartoffelsalat") || title.includes("Ziegenkäse")) {
+    return "https://images.unsplash.com/photo-1604908177453-7462950a6a3b";
+  } else {
+    return image; // Fallback to the provided image
+  }
+};
+
 export function RecipeCard({ 
   id,
   title, 
@@ -32,6 +61,9 @@ export function RecipeCard({
   isFavorite: initialIsFavorite = false
 }: RecipeCardProps) {
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+  
+  // Use the helper function to get the appropriate image
+  const displayImage = getRecipeImage(title);
   
   // Update internal state when the prop changes
   useEffect(() => {
@@ -57,7 +89,7 @@ export function RecipeCard({
       <Link to={`/rezept/${id}`}>
         <div className="relative aspect-[4/3] overflow-hidden">
           <img 
-            src={image} 
+            src={displayImage} 
             alt={title} 
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />

@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+
 const extractAllIngredients = () => {
   const allIngredients = new Set<string>();
   recipes.forEach(recipe => {
@@ -27,6 +28,7 @@ const extractAllIngredients = () => {
   });
   return Array.from(allIngredients).sort();
 };
+
 const RecipeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -37,6 +39,7 @@ const RecipeList = () => {
   const [selectedDietType, setSelectedDietType] = useState<string[]>([]);
   const [selectedServings, setSelectedServings] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
   const difficulties = Array.from(new Set(recipes.map(recipe => recipe.difficulty)));
   const allTags = Array.from(new Set(recipes.flatMap(recipe => recipe.tags)));
@@ -44,12 +47,14 @@ const RecipeList = () => {
   const dietTypes = ["Vegetarisch", "Vegan", "Glutenfrei", "Laktosefrei", "Low Carb", "Paleo"];
   const servingsOptions = ["1-2", "3-4", "5-6", "7+"];
   const commonIngredients = extractAllIngredients().slice(0, 20);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 500);
     return () => clearTimeout(timer);
   }, []);
+
   const matchesTimeRange = (prepTime: string, range: string | null) => {
     if (!range) return true;
     const minutes = parseInt(prepTime.match(/\d+/)?.[0] || "0");
@@ -64,6 +69,7 @@ const RecipeList = () => {
         return true;
     }
   };
+
   const matchesServings = (portionSize: string | undefined, range: string | null) => {
     if (!range || !portionSize) return true;
     const portionMatch = portionSize.match(/\d+/);
@@ -77,6 +83,7 @@ const RecipeList = () => {
       return portion >= min && portion <= max;
     }
   };
+
   const matchesIngredients = (recipe: any) => {
     if (selectedIngredients.length === 0) return true;
     const recipeIngredientNames: string[] = [];
@@ -91,11 +98,13 @@ const RecipeList = () => {
     });
     return selectedIngredients.some(ingredient => recipeIngredientNames.some((recipeIng: string) => recipeIng.toLowerCase().includes(ingredient.toLowerCase())));
   };
+
   const matchesDietType = (recipe: any) => {
     if (selectedDietType.length === 0) return true;
     const recipeTags = recipe.tags || [];
     return selectedDietType.some(diet => recipeTags.some((tag: string) => tag.toLowerCase().includes(diet.toLowerCase())));
   };
+
   const filteredRecipes = recipes.filter(recipe => {
     const matchesSearch = searchTerm === "" || recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) || recipe.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(recipe.category);
@@ -105,27 +114,35 @@ const RecipeList = () => {
     const matchesServingsFilter = matchesServings(recipe.portionSize, selectedServings);
     return matchesSearch && matchesCategory && matchesDifficulty && matchesTags && matchesTimeFilter && matchesIngredients(recipe) && matchesDietType(recipe) && matchesServingsFilter;
   });
+
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev => prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]);
   };
+
   const toggleDifficulty = (difficulty: string) => {
     setSelectedDifficulties(prev => prev.includes(difficulty) ? prev.filter(d => d !== difficulty) : [...prev, difficulty]);
   };
+
   const toggleTag = (tag: string) => {
     setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
   };
+
   const toggleIngredient = (ingredient: string) => {
     setSelectedIngredients(prev => prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient]);
   };
+
   const toggleDietType = (diet: string) => {
     setSelectedDietType(prev => prev.includes(diet) ? prev.filter(d => d !== diet) : [...prev, diet]);
   };
+
   const setTimeRange = (time: string) => {
     setSelectedTime(prev => prev === time ? null : time);
   };
+
   const setServings = (servings: string) => {
     setSelectedServings(prev => prev === servings ? null : servings);
   };
+
   const resetFilters = () => {
     setSearchTerm("");
     setSelectedCategories([]);
@@ -136,21 +153,17 @@ const RecipeList = () => {
     setSelectedTime(null);
     setSelectedServings(null);
   };
+
   const totalFilters = selectedCategories.length + selectedDifficulties.length + selectedTags.length + selectedIngredients.length + selectedDietType.length + (selectedTime ? 1 : 0) + (selectedServings ? 1 : 0);
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {}
   };
+
   return <div className="min-h-screen bg-white">
       <Header />
       
-      <div className="relative bg-cookbook-700 pt-48 pb-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-slate-50"></div>
-          
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cookbook-600 rounded-full -translate-y-1/2 translate-x-1/2 opacity-40 blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-cookbook-600 rounded-full translate-y-1/2 -translate-x-1/2 opacity-30 blur-3xl"></div>
-        </div>
-        
+      <div className="relative bg-white pt-48 pb-20 overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <div>
             <h1 className="font-playfair text-4xl font-bold text-cookbook-700 text-center md:text-5xl">
@@ -374,4 +387,5 @@ const RecipeList = () => {
       </div>
     </div>;
 };
+
 export default RecipeList;
