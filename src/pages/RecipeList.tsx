@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Filter, Search, ChevronDown, X, Clock, ChefHat, Tag, Plus, User, Utensils, Leaf } from "lucide-react";
 
@@ -230,7 +231,7 @@ const RecipeList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-cookbook-50/20">
+    <div className="min-h-screen bg-white">
       <Header />
       
       <div className="relative bg-cookbook-700 pt-48 pb-20 overflow-hidden">
@@ -242,14 +243,14 @@ const RecipeList = () => {
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
-          <FadeIn>
-            <h1 className="font-playfair text-4xl font-bold text-white text-center md:text-5xl">
+          <div>
+            <h1 className="font-playfair text-4xl font-bold text-cookbook-700 text-center md:text-5xl">
               Alle Rezepte
             </h1>
-            <p className="mt-4 text-center text-white/80 max-w-2xl mx-auto">
+            <p className="mt-4 text-center text-cookbook-700/80 max-w-2xl mx-auto">
               Entdecke unsere vielfältige Sammlung an köstlichen Rezepten und finde deine nächste kulinarische Inspiration
             </p>
-          </FadeIn>
+          </div>
         </div>
       </div>
       
