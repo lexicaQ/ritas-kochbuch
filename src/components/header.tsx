@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,7 +15,14 @@ const Logo = ({
       <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
         <Utensils className="w-6 h-6 text-white" />
       </div>
-      <span className={cn("font-playfair font-bold text-lg md:text-xl transition-colors", isHomePage ? isScrolled ? "text-cookbook-700" : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "text-cookbook-700 font-extrabold")}>
+      <span className={cn(
+        "font-playfair font-bold text-lg md:text-xl transition-colors", 
+        isHomePage 
+          ? isScrolled 
+            ? "text-cookbook-700" 
+            : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" 
+          : "text-cookbook-700 font-extrabold"
+      )}>
         Ritas Kochbuch
       </span>
     </div>;
