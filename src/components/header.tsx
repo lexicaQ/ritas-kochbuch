@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Home, BookOpen, FolderOpenDot, Heart, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Separator } from "./ui/separator";
 
 const Logo = ({
   isScrolled
@@ -64,20 +65,29 @@ export function Header() {
   }];
 
   return <header className={cn("fixed left-0 top-0 z-40 w-full transition-all duration-300", isScrolled ? "bg-white shadow-md" : "bg-transparent")}>
-      <div className="w-full flex flex-col items-center pt-6 pb-1">
+      <div className="w-full flex flex-col items-center pt-4 pb-1">
         <Link to="/" aria-label="Ritas Kochbuch">
           <Logo isScrolled={isScrolled} />
         </Link>
 
-        <div className="container mx-auto px-4 mt-4">
-          <nav>
+        <div className="w-full mt-3">
+          <Separator className={cn(
+            "w-11/12 mx-auto opacity-50",
+            isHomePage 
+              ? isScrolled 
+                ? "bg-cookbook-700/20" 
+                : "bg-white" 
+              : "bg-cookbook-700/20"
+          )} />
+          
+          <nav className="container mx-auto px-4 mt-2">
             <ul className="flex space-x-4 md:space-x-8 items-center justify-center">
               {navigationItems.map(item => (
                 <li key={item.name}>
                   <Link 
                     to={item.path} 
                     className={cn(
-                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
+                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-2",
                       location.pathname === item.path 
                         ? isHomePage 
                           ? isScrolled 
