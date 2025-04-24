@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -65,13 +66,22 @@ export function Header() {
         <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
           <Logo isScrolled={isScrolled} />
         </Link>
-        <button onClick={() => setIsOpen(!isOpen)} className={cn("absolute right-4 md:hidden inline-flex items-center justify-center rounded-md p-2 transition-all duration-300", isScrolled ? "text-cookbook-800 hover:bg-cookbook-100" : "text-white hover:bg-white/20")} aria-label="Toggle menu">
+        <button 
+          onClick={() => setIsOpen(!isOpen)} 
+          className={cn(
+            "absolute right-4 top-8 md:hidden inline-flex items-center justify-center rounded-full p-2.5 transition-all duration-300",
+            isHomePage && !isScrolled 
+              ? "text-white hover:bg-white/20" 
+              : "text-cookbook-800 bg-cookbook-100 hover:bg-cookbook-200"
+          )} 
+          aria-label="Toggle menu"
+        >
           <motion.div initial={false} animate={{
-          rotate: isOpen ? 180 : 0
-        }} transition={{
-          duration: 0.3,
-          ease: "easeInOut"
-        }}>
+            rotate: isOpen ? 180 : 0
+          }} transition={{
+            duration: 0.3,
+            ease: "easeInOut"
+          }}>
             {isOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6" />}
           </motion.div>
         </button>
@@ -99,41 +109,34 @@ export function Header() {
 
       <AnimatePresence>
         {isOpen && <>
-            <motion.div initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} exit={{
-          opacity: 0
-        }} transition={{
-          duration: 0.3
-        }} className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" onClick={() => setIsOpen(false)} />
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            transition={{ duration: 0.3 }} 
+            className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" 
+            onClick={() => setIsOpen(false)} 
+          />
             
-            <motion.div initial={{
-          x: "100%"
-        }} animate={{
-          x: 0
-        }} exit={{
-          x: "100%"
-        }} transition={{
-          type: "spring",
-          damping: 25
-        }} className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col">
-              <div className="h-full bg-white px-4 pb-6 pt-24">
-                <div className="absolute top-4 right-4">
-                  <button 
-                    onClick={() => setIsOpen(false)} 
-                    className="p-2 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" 
-                    aria-label="Close menu"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div className="text-center mb-6 border-b border-cookbook-200 pb-4 text-cookbook-700">
-                  Ritas Kochbuch
-                </div>
+          <motion.div 
+            initial={{ x: "100%" }} 
+            animate={{ x: 0 }} 
+            exit={{ x: "100%" }} 
+            transition={{ type: "spring", damping: 25 }} 
+            className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col"
+          >
+            <div className="h-full bg-white pb-6 pt-24">
+              <div className="absolute top-8 right-4">
+                <button 
+                  onClick={() => setIsOpen(false)} 
+                  className="p-2.5 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" 
+                  aria-label="Close menu"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
                 
+              <div className="px-4">
                 {navigationItems.map(item => <Link 
                   key={item.name} 
                   to={item.path} 
@@ -149,8 +152,9 @@ export function Header() {
                   <span>{item.name}</span>
                 </Link>)}
               </div>
-            </motion.div>
-          </>}
+            </div>
+          </motion.div>
+        </>}
       </AnimatePresence>
     </header>;
 }
