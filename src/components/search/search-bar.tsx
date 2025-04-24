@@ -15,6 +15,9 @@ interface SearchBarProps {
   autoFocus?: boolean;
   placeholder?: string;
   maxResults?: number;
+  value?: string;
+  onChange?: (value: string) => void;
+  disableSuggestions?: boolean;
 }
 
 export const SearchBar = ({
@@ -23,14 +26,23 @@ export const SearchBar = ({
   autoFocus = false,
   placeholder = "Rezepte suchen...",
   maxResults = 6,
+  value,
+  onChange,
+  disableSuggestions = false,
 }: SearchBarProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(value || "");
   const [isActive, setIsActive] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (value !== undefined && value !== searchTerm) {
+      setSearchTerm(value);
+    }
+  }, [value]);
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
@@ -130,13 +142,20 @@ export const SearchBar = ({
   }, [searchTerm, maxResults]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const newValue = e.target.value;
+    setSearchTerm(newValue);
     setIsActive(true);
+    if (onChange) {
+      onChange(newValue);
+    }
   };
   
   const handleClear = () => {
     setSearchTerm("");
     setIsActive(false);
+    if (onChange) {
+      onChange("");
+    }
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -165,7 +184,7 @@ export const SearchBar = ({
 
   const variantClasses = {
     default: "w-full max-w-md",
-    large: "w-full max-w-2xl",
+    large: "w-full",
     minimal: "w-full max-w-sm"
   };
   
@@ -174,7 +193,7 @@ export const SearchBar = ({
       <form onSubmit={handleSubmit}>
         <div className="relative">
           <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-cookbook-700">
-            <Search size={20} />
+            <Search size={variant === "large" ? 24 : 20} />
           </div>
           
           <Input
@@ -185,10 +204,10 @@ export const SearchBar = ({
             onChange={handleInputChange}
             onClick={() => setIsActive(true)}
             className={cn(
-              "pl-10 pr-9 border-2 border-cookbook-800/70 bg-white/80 backdrop-blur-sm",
+              "pl-12 pr-9 border-2 border-cookbook-800/70 bg-white/80 backdrop-blur-sm",
               "focus:border-cookbook-800 focus:ring-4 focus:ring-cookbook-800/20",
               "transition-all duration-300 ease-in-out",
-              variant === "large" ? "h-12 text-lg rounded-2xl" : "h-10 rounded-xl",
+              variant === "large" ? "h-14 text-lg rounded-2xl" : "h-10 rounded-xl",
               variant === "minimal" ? "rounded-full bg-background/80" : "",
               "shadow-[0_4px_8px_-2px_rgba(0,0,0,0.25)]"
             )}
@@ -200,14 +219,14 @@ export const SearchBar = ({
               onClick={handleClear}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-cookbook-700 hover:text-cookbook-800"
             >
-              <X className="h-4 w-4" />
+              <X className={cn("w-4 h-4", variant === "large" && "w-5 h-5")} />
             </button>
           )}
         </div>
       </form>
       
       <AnimatePresence>
-        {isActive && searchResults.length > 0 && (
+        {!disableSuggestions && isActive && searchResults.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
