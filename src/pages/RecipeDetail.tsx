@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -236,7 +237,7 @@ const RecipeDetail = () => {
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
       
-      <div className="container mx-auto mt-20 px-4 pt-8">
+      <div className="container mx-auto px-4 pt-32 md:pt-40">
         <div className="mb-6 flex items-center justify-between">
           <Link to="/rezepte">
             <Button variant="ghost" className="group flex items-center gap-2">
