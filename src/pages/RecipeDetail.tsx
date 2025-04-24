@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -242,7 +241,7 @@ const RecipeDetail = () => {
     <div className="min-h-screen bg-cookbook-50/20">
       <Header />
       
-      <div className="container mx-auto px-4 pt-32 md:pt-40">
+      <div className="container mx-auto px-4 pt-40 md:pt-48">
         <div className="mb-6 flex items-center justify-between">
           <Button 
             variant="ghost" 
