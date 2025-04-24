@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
+
 const Logo = ({
   isScrolled
 }: {
@@ -23,6 +24,7 @@ const Logo = ({
       
     </div>;
 };
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -58,6 +60,7 @@ export function Header() {
     path: "/favoriten",
     icon: Heart
   }];
+
   return <header className={cn("fixed left-0 top-0 z-40 w-full transition-all duration-300", isScrolled ? "bg-white shadow-md" : "bg-transparent")}>
       <div className="w-full flex justify-center pt-6 pb-1">
         <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
@@ -122,10 +125,6 @@ export function Header() {
                   <button onClick={() => setIsOpen(false)} className="p-2 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" aria-label="Close menu">
                     <X className="w-5 h-5" />
                   </button>
-                </div>
-
-                <div className="text-center mb-6 border-b border-cookbook-200 pb-4 text-cookbook-700">
-                  Ritas Kochbuch
                 </div>
                 
                 {navigationItems.map(item => <Link key={item.name} to={item.path} className={cn("flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors", location.pathname === item.path ? "bg-cookbook-100 text-cookbook-800" : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800")} onClick={() => setIsOpen(false)}>
