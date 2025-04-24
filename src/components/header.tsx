@@ -144,12 +144,6 @@ export function Header() {
 
               <div className="px-4 mt-4">
                 <div className="text-center pb-4 border-t border-cookbook-100">
-                  <span className={cn(
-                    "inline-block mt-4 font-playfair text-xl",
-                    isHomePage ? "text-cookbook-700" : "text-cookbook-700"
-                  )}>
-                    Ritas Kochbuch
-                  </span>
                 </div>
                 
                 {navigationItems.map(item => <Link 
