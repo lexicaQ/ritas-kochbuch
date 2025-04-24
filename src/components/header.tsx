@@ -135,8 +135,17 @@ export function Header() {
                   <X className="w-5 h-5" />
                 </button>
               </div>
+
+              <div className="px-4 mt-4">
+                <div className="text-center pb-4 border-t border-cookbook-100">
+                  <span className={cn(
+                    "inline-block mt-4 font-playfair text-xl",
+                    isHomePage ? "text-cookbook-700" : "text-cookbook-700"
+                  )}>
+                    Ritas Kochbuch
+                  </span>
+                </div>
                 
-              <div className="px-4">
                 {navigationItems.map(item => <Link 
                   key={item.name} 
                   to={item.path} 
