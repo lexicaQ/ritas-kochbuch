@@ -204,7 +204,7 @@ export const SearchBar = ({
             onChange={handleInputChange}
             onClick={() => setIsActive(true)}
             className={cn(
-              "pl-12 pr-9 border-2 border-cookbook-800/70 bg-white/80 backdrop-blur-sm w-full",
+              "pl-12 pr-9 border-2 border-cookbook-800/70 bg-white/80 backdrop-blur-sm",
               "focus:border-cookbook-800 focus:ring-4 focus:ring-cookbook-800/20",
               "transition-all duration-300 ease-in-out",
               variant === "large" ? "h-14 text-lg rounded-2xl" : "h-10 rounded-xl",

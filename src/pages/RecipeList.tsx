@@ -133,10 +133,8 @@ const RecipeList = () => {
   const filteredRecipes = recipes.filter(recipe => {
     const matchesSearch = searchTerm === "" || 
       recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      recipe.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      recipe.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      recipe.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-
+      recipe.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
     const matchesCategory = selectedCategories.length === 0 || 
       selectedCategories.includes(recipe.category);
     
@@ -220,6 +218,19 @@ const RecipeList = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      
+      <div className="relative bg-white pt-48 pb-20 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div>
+            <h1 className="font-playfair text-4xl font-bold text-cookbook-700 text-center md:text-5xl">
+              Alle Rezepte
+            </h1>
+            <p className="mt-4 text-center text-cookbook-700/80 max-w-2xl mx-auto">
+              Entdecke unsere vielfältige Sammlung an köstlichen Rezepten und finde deine nächste kulinarische Inspiration
+            </p>
+          </div>
+        </div>
+      </div>
       
       <div className="container mx-auto px-4 py-12">
         <div className="sticky top-24 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
@@ -542,7 +553,7 @@ const RecipeList = () => {
           <motion.div 
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1 }} 
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-6"
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
             {filteredRecipes.map((recipe, index) => (
               <FadeIn key={recipe.id} delay={index * 0.05}>
