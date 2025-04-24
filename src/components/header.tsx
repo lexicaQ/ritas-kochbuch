@@ -11,9 +11,6 @@ const Logo = ({
 }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-
-  // Determine the line color based on the current route
-  const lineColor = !isHomePage && (location.pathname === "/rezepte" || location.pathname === "/kategorien" || location.pathname === "/favoriten") ? "bg-cookbook-700" : isScrolled ? "bg-cookbook-700" : "bg-white";
   return <div className="flex flex-col items-center gap-1">
       <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
         <Utensils className="w-6 h-6 text-white" />
@@ -21,7 +18,6 @@ const Logo = ({
       <span className={cn("font-playfair font-bold text-lg md:text-xl transition-colors", isHomePage ? isScrolled ? "text-cookbook-700" : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "text-cookbook-700 font-extrabold")}>
         Ritas Kochbuch
       </span>
-      
     </div>;
 };
 
@@ -30,6 +26,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -40,9 +37,11 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
   const navigationItems = [{
     name: "Home",
     path: "/",
@@ -122,12 +121,30 @@ export function Header() {
         }} className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col">
               <div className="h-full bg-white px-4 pb-6 pt-24">
                 <div className="absolute top-4 right-4">
-                  <button onClick={() => setIsOpen(false)} className="p-2 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" aria-label="Close menu">
+                  <button 
+                    onClick={() => setIsOpen(false)} 
+                    className="p-2 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" 
+                    aria-label="Close menu"
+                  >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
+
+                <div className="text-center mb-6 border-b border-cookbook-200 pb-4 text-cookbook-700">
+                  Ritas Kochbuch
+                </div>
                 
-                {navigationItems.map(item => <Link key={item.name} to={item.path} className={cn("flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors", location.pathname === item.path ? "bg-cookbook-100 text-cookbook-800" : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800")} onClick={() => setIsOpen(false)}>
+                {navigationItems.map(item => <Link 
+                  key={item.name} 
+                  to={item.path} 
+                  className={cn(
+                    "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors", 
+                    location.pathname === item.path 
+                      ? "bg-cookbook-100 text-cookbook-800" 
+                      : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800"
+                  )} 
+                  onClick={() => setIsOpen(false)}
+                >
                   <item.icon size={20} />
                   <span>{item.name}</span>
                 </Link>)}
