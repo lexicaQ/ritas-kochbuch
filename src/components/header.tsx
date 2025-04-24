@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
+import { motion } from "framer-motion";
+import { Home, BookOpen, FolderOpenDot, Heart, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Logo = ({
@@ -30,7 +31,6 @@ const Logo = ({
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -44,10 +44,6 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
 
   const navigationItems = [{
     name: "Home",
@@ -68,102 +64,59 @@ export function Header() {
   }];
 
   return <header className={cn("fixed left-0 top-0 z-40 w-full transition-all duration-300", isScrolled ? "bg-white shadow-md" : "bg-transparent")}>
-      <div className="w-full flex justify-center pt-6 pb-1">
-        <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
+      <div className="w-full flex flex-col items-center pt-6 pb-1">
+        <Link to="/" aria-label="Ritas Kochbuch">
           <Logo isScrolled={isScrolled} />
         </Link>
-        <button 
-          onClick={() => setIsOpen(!isOpen)} 
-          className={cn(
-            "absolute right-4 top-8 md:hidden inline-flex items-center justify-center rounded-full p-2.5 transition-all duration-300",
-            isHomePage && !isScrolled 
-              ? "text-white hover:bg-white/20" 
-              : "text-cookbook-800 bg-cookbook-100 hover:bg-cookbook-200"
-          )} 
-          aria-label="Toggle menu"
-        >
-          <motion.div initial={false} animate={{
-            rotate: isOpen ? 180 : 0
-          }} transition={{
-            duration: 0.3,
-            ease: "easeInOut"
-          }}>
-            {isOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6" />}
-          </motion.div>
-        </button>
-      </div>
-      
-      <div className="container mx-auto px-4">
-        <div className="flex h-14 items-center justify-center border-t border-cookbook-100/50">
-          <nav className="hidden md:block">
-            <ul className="flex space-x-8 items-center justify-center">
-              {navigationItems.map(item => <li key={item.name}>
-                  <Link to={item.path} className={cn("group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4", location.pathname === item.path ? isHomePage ? isScrolled ? "text-cookbook-700" : "text-white" : "text-cookbook-700" : isHomePage ? isScrolled ? "text-cookbook-800/80 hover:text-cookbook-700" : "text-white hover:text-white" : "text-cookbook-800/80 hover:text-cookbook-700")}>
+
+        <div className="container mx-auto px-4 mt-4">
+          <nav>
+            <ul className="flex space-x-4 md:space-x-8 items-center justify-center">
+              {navigationItems.map(item => (
+                <li key={item.name}>
+                  <Link 
+                    to={item.path} 
+                    className={cn(
+                      "group relative flex items-center text-sm font-medium tracking-wider transition-colors px-1 py-4",
+                      location.pathname === item.path 
+                        ? isHomePage 
+                          ? isScrolled 
+                            ? "text-cookbook-700" 
+                            : "text-white" 
+                          : "text-cookbook-700" 
+                        : isHomePage 
+                          ? isScrolled 
+                            ? "text-cookbook-800/80 hover:text-cookbook-700" 
+                            : "text-white hover:text-white" 
+                          : "text-cookbook-800/80 hover:text-cookbook-700"
+                    )}
+                  >
                     <span className="flex items-center gap-1">
                       <item.icon size={18} className="opacity-80" />
-                      {item.name}
+                      <span className="hidden md:inline">{item.name}</span>
                     </span>
-                    {location.pathname === item.path && <motion.div layoutId="navigation-underline" className={cn("absolute -bottom-1 left-0 h-0.5 w-full rounded", isHomePage ? isScrolled ? "bg-cookbook-700" : "bg-white" : "bg-cookbook-700")} transition={{
-                  duration: 0.3
-                }} />}
+                    {location.pathname === item.path && (
+                      <motion.div 
+                        layoutId="navigation-underline" 
+                        className={cn(
+                          "absolute -bottom-1 left-0 h-0.5 w-full rounded",
+                          isHomePage 
+                            ? isScrolled 
+                              ? "bg-cookbook-700" 
+                              : "bg-white" 
+                            : "bg-cookbook-700"
+                        )} 
+                        transition={{
+                          duration: 0.3
+                        }} 
+                      />
+                    )}
                   </Link>
-                </li>)}
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
       </div>
-
-      <AnimatePresence>
-        {isOpen && <>
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
-            transition={{ duration: 0.3 }} 
-            className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" 
-            onClick={() => setIsOpen(false)} 
-          />
-            
-          <motion.div 
-            initial={{ x: "100%" }} 
-            animate={{ x: 0 }} 
-            exit={{ x: "100%" }} 
-            transition={{ type: "spring", damping: 25 }} 
-            className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col"
-          >
-            <div className="h-full bg-white pb-6 pt-24">
-              <div className="absolute top-8 right-4">
-                <button 
-                  onClick={() => setIsOpen(false)} 
-                  className="p-2.5 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" 
-                  aria-label="Close menu"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="px-4 mt-4">
-                <div className="text-center pb-4 border-t border-cookbook-100">
-                </div>
-                
-                {navigationItems.map(item => <Link 
-                  key={item.name} 
-                  to={item.path} 
-                  className={cn(
-                    "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors", 
-                    location.pathname === item.path 
-                      ? "bg-cookbook-100 text-cookbook-800" 
-                      : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800"
-                  )} 
-                  onClick={() => setIsOpen(false)}
-                >
-                  <item.icon size={20} />
-                  <span>{item.name}</span>
-                </Link>)}
-              </div>
-            </div>
-          </motion.div>
-        </>}
-      </AnimatePresence>
     </header>;
 }
