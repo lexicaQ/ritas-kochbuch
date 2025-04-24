@@ -118,7 +118,7 @@ export function Header() {
                   >
                     <span className="flex items-center gap-1">
                       <item.icon size={18} className="opacity-80" />
-                      <span className="hidden md:inline">{item.name}</span>
+                      <span className="md:inline text-xs">{item.name}</span>
                     </span>
                     {location.pathname === item.path && (
                       <motion.div 

@@ -18,7 +18,7 @@ export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onTogg
   
   // Load initial state from localStorage
   useEffect(() => {
-    const userFavorites = localStorage.getItem('userFavorites');
+    const userFavorites = localStorage.getItem('user-favorite-recipes');
     if (userFavorites) {
       try {
         const favoriteIds = JSON.parse(userFavorites);
@@ -34,7 +34,7 @@ export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onTogg
     e.stopPropagation();
     
     // Get current favorites
-    const userFavorites = localStorage.getItem('userFavorites');
+    const userFavorites = localStorage.getItem('user-favorite-recipes');
     let favoriteIds: string[] = [];
     
     if (userFavorites) {
@@ -56,7 +56,7 @@ export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onTogg
       favoriteIds = favoriteIds.filter(id => id !== recipeId);
     }
     
-    localStorage.setItem('userFavorites', JSON.stringify(favoriteIds));
+    localStorage.setItem('user-favorite-recipes', JSON.stringify(favoriteIds));
     
     // Call onToggle callback if provided
     if (onToggle) onToggle();
@@ -74,11 +74,12 @@ export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onTogg
       variant="outline"
       size="icon"
       className={cn(
-        "rounded-full transition-colors bg-white/80 backdrop-blur-sm hover:bg-white",
+        "rounded-full transition-colors bg-white/80 backdrop-blur-sm hover:bg-white z-10",
         isFavorite && "bg-cookbook-50 text-cookbook-700",
         className
       )}
       onClick={handleToggle}
+      type="button"
     >
       <Heart
         size={20}

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -246,7 +247,7 @@ const RecipeDetail = () => {
           <Button 
             variant="ghost" 
             className="group flex items-center gap-2" 
-            onClick={handleBackToRecipes}
+            onClick={() => navigate('/rezepte')}
           >
             <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
             <span>Alle Rezepte</span>
