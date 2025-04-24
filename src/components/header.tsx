@@ -2,11 +2,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, BookOpen, FolderOpenDot, Heart, Utensils, Menu, X } from "lucide-react";
+import { Home, BookOpen, FolderOpenDot, Heart, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 const Logo = ({
   isScrolled
@@ -34,7 +32,6 @@ const Logo = ({
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -83,9 +80,8 @@ export function Header() {
               : "bg-cookbook-700/20"
           )} />
           
-          {/* Desktop Navigation */}
-          <nav className="container mx-auto px-4 mt-2 hidden md:block">
-            <ul className="flex space-x-8 items-center justify-center">
+          <nav className="container mx-auto px-4 mt-2">
+            <ul className="flex space-x-4 md:space-x-8 items-center justify-center">
               {navigationItems.map(item => (
                 <li key={item.name}>
                   <Link 
@@ -107,7 +103,7 @@ export function Header() {
                   >
                     <span className="flex items-center gap-1">
                       <item.icon size={18} className="opacity-80" />
-                      <span>{item.name}</span>
+                      <span className="hidden md:inline">{item.name}</span>
                     </span>
                     {location.pathname === item.path && (
                       <motion.div 
@@ -130,48 +126,6 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          
-          {/* Mobile Navigation */}
-          <div className="md:hidden flex justify-center mt-2">
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                  <Menu className={cn(
-                    "h-5 w-5 transition-opacity",
-                    isHomePage && !isScrolled ? "text-white" : "text-cookbook-700"
-                  )} />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="top" className="pt-14 pb-6">
-                <div className="flex justify-end">
-                  <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                    <X className="h-5 w-5" />
-                  </Button>
-                </div>
-                <nav className="py-4">
-                  <ul className="flex flex-col space-y-4">
-                    {navigationItems.map((item) => (
-                      <li key={item.name} className="w-full">
-                        <Link
-                          to={item.path}
-                          className={cn(
-                            "flex items-center gap-3 px-2 py-3 rounded-md text-base font-medium",
-                            location.pathname === item.path
-                              ? "bg-cookbook-100 text-cookbook-700"
-                              : "text-cookbook-800 hover:bg-cookbook-50"
-                          )}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          <item.icon size={20} />
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
         </div>
       </div>
     </header>;
