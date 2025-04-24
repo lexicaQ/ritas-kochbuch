@@ -1,8 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart, Home, BookOpen, FolderOpenDot, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
+
 const Logo = ({
   isScrolled
 }: {
@@ -10,9 +12,6 @@ const Logo = ({
 }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-
-  // Determine the line color based on the current route
-  const lineColor = !isHomePage && (location.pathname === "/rezepte" || location.pathname === "/kategorien" || location.pathname === "/favoriten") ? "bg-cookbook-700" : isScrolled ? "bg-cookbook-700" : "bg-white";
   return <div className="flex flex-col items-center gap-1">
       <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
         <Utensils className="w-6 h-6 text-white" />
@@ -20,14 +19,15 @@ const Logo = ({
       <span className={cn("font-playfair font-bold text-lg md:text-xl transition-colors", isHomePage ? isScrolled ? "text-cookbook-700" : "text-white font-extrabold drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "text-cookbook-700 font-extrabold")}>
         Ritas Kochbuch
       </span>
-      
     </div>;
 };
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -38,9 +38,11 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
   const navigationItems = [{
     name: "Home",
     path: "/",
@@ -58,18 +60,28 @@ export function Header() {
     path: "/favoriten",
     icon: Heart
   }];
+
   return <header className={cn("fixed left-0 top-0 z-40 w-full transition-all duration-300", isScrolled ? "bg-white shadow-md" : "bg-transparent")}>
       <div className="w-full flex justify-center pt-6 pb-1">
         <Link to="/" aria-label="Ritas Kochbuch" className="relative z-50">
           <Logo isScrolled={isScrolled} />
         </Link>
-        <button onClick={() => setIsOpen(!isOpen)} className={cn("absolute right-4 md:hidden inline-flex items-center justify-center rounded-md p-2 transition-all duration-300", isScrolled ? "text-cookbook-800 hover:bg-cookbook-100" : "text-white hover:bg-white/20")} aria-label="Toggle menu">
+        <button 
+          onClick={() => setIsOpen(!isOpen)} 
+          className={cn(
+            "absolute right-4 top-8 md:hidden inline-flex items-center justify-center rounded-full p-2.5 transition-all duration-300",
+            isHomePage && !isScrolled 
+              ? "text-white hover:bg-white/20" 
+              : "text-cookbook-800 bg-cookbook-100 hover:bg-cookbook-200"
+          )} 
+          aria-label="Toggle menu"
+        >
           <motion.div initial={false} animate={{
-          rotate: isOpen ? 180 : 0
-        }} transition={{
-          duration: 0.3,
-          ease: "easeInOut"
-        }}>
+            rotate: isOpen ? 180 : 0
+          }} transition={{
+            duration: 0.3,
+            ease: "easeInOut"
+          }}>
             {isOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6" />}
           </motion.div>
         </button>
@@ -95,6 +107,63 @@ export function Header() {
         </div>
       </div>
 
-      
+      <AnimatePresence>
+        {isOpen && <>
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            transition={{ duration: 0.3 }} 
+            className="fixed inset-0 bg-cookbook-900/40 backdrop-blur-sm z-40 md:hidden" 
+            onClick={() => setIsOpen(false)} 
+          />
+            
+          <motion.div 
+            initial={{ x: "100%" }} 
+            animate={{ x: 0 }} 
+            exit={{ x: "100%" }} 
+            transition={{ type: "spring", damping: 25 }} 
+            className="fixed top-0 right-0 bottom-0 w-full md:hidden z-40 flex flex-col"
+          >
+            <div className="h-full bg-white pb-6 pt-24">
+              <div className="absolute top-8 right-4">
+                <button 
+                  onClick={() => setIsOpen(false)} 
+                  className="p-2.5 rounded-full bg-cookbook-700 text-white hover:bg-cookbook-800 transition-colors" 
+                  aria-label="Close menu"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="px-4 mt-4">
+                <div className="text-center pb-4 border-t border-cookbook-100">
+                  <span className={cn(
+                    "inline-block mt-4 font-playfair text-xl",
+                    isHomePage ? "text-cookbook-700" : "text-cookbook-700"
+                  )}>
+                    Ritas Kochbuch
+                  </span>
+                </div>
+                
+                {navigationItems.map(item => <Link 
+                  key={item.name} 
+                  to={item.path} 
+                  className={cn(
+                    "flex items-center space-x-3 rounded-lg px-4 py-3 my-1 text-base font-medium transition-colors", 
+                    location.pathname === item.path 
+                      ? "bg-cookbook-100 text-cookbook-800" 
+                      : "text-cookbook-700 hover:bg-cookbook-50 hover:text-cookbook-800"
+                  )} 
+                  onClick={() => setIsOpen(false)}
+                >
+                  <item.icon size={20} />
+                  <span>{item.name}</span>
+                </Link>)}
+              </div>
+            </div>
+          </motion.div>
+        </>}
+      </AnimatePresence>
     </header>;
 }
