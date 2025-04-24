@@ -13,7 +13,9 @@ const Logo = ({
 }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  return <div className="flex flex-col items-center gap-1">
+  
+  return (
+    <div className="flex flex-col items-center gap-1">
       <div className="rounded-full bg-cookbook-700 h-12 w-12 flex items-center justify-center shadow-lg border-2 border-white transition-colors">
         <Utensils className="w-6 h-6 text-white" />
       </div>
@@ -27,7 +29,8 @@ const Logo = ({
       )}>
         Ritas Kochbuch
       </span>
-    </div>;
+    </div>
+  );
 };
 
 export function Header() {
@@ -39,32 +42,44 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
+    
     window.addEventListener('scroll', handleScroll);
+    // Ensure initial state is set correctly
     handleScroll();
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const navigationItems = [{
-    name: "Home",
-    path: "/",
-    icon: Home
-  }, {
-    name: "Alle Rezepte",
-    path: "/rezepte",
-    icon: BookOpen
-  }, {
-    name: "Kategorien",
-    path: "/kategorien",
-    icon: FolderOpenDot
-  }, {
-    name: "Favoriten",
-    path: "/favoriten",
-    icon: Heart
-  }];
+  const navigationItems = [
+    {
+      name: "Home",
+      path: "/",
+      icon: Home
+    }, 
+    {
+      name: "Alle Rezepte",
+      path: "/rezepte",
+      icon: BookOpen
+    }, 
+    {
+      name: "Kategorien",
+      path: "/kategorien",
+      icon: FolderOpenDot
+    }, 
+    {
+      name: "Favoriten",
+      path: "/favoriten",
+      icon: Heart
+    }
+  ];
 
-  return <header className={cn("fixed left-0 top-0 z-40 w-full transition-all duration-300", isScrolled ? "bg-white shadow-md" : "bg-transparent")}>
+  return (
+    <header className={cn(
+      "fixed left-0 top-0 z-40 w-full transition-all duration-300", 
+      isScrolled ? "bg-white shadow-md" : "bg-transparent"
+    )}>
       <div className="w-full flex flex-col items-center pt-4 pb-1">
         <Link to="/" aria-label="Ritas Kochbuch">
           <Logo isScrolled={isScrolled} />
@@ -128,5 +143,6 @@ export function Header() {
           </nav>
         </div>
       </div>
-    </header>;
+    </header>
+  );
 }
