@@ -1,8 +1,7 @@
-
 import { useState, useEffect, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Tag, Check, BarChart, PlusCircle, Trash2, Pencil, Star, Clock, ChefHat } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -25,6 +24,7 @@ import { RecipeSteps } from "@/components/recipe-detail/recipe-steps";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [recipe, setRecipe] = useState(recipes.find(r => r.id === id));
   const [isFavorite, setIsFavorite] = useState(false);
   const startTimeRef = useRef(new Date());
@@ -42,6 +42,10 @@ const RecipeDetail = () => {
   const [newNote, setNewNote] = useState("");
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   
+  const handleBackToRecipes = () => {
+    navigate('/rezepte');
+  };
+
   useEffect(() => {
     setRecipe(recipes.find(r => r.id === id));
     window.scrollTo(0, 0);
@@ -239,12 +243,14 @@ const RecipeDetail = () => {
       
       <div className="container mx-auto px-4 pt-32 md:pt-40">
         <div className="mb-6 flex items-center justify-between">
-          <Link to="/rezepte">
-            <Button variant="ghost" className="group flex items-center gap-2">
-              <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-              <span>Alle Rezepte</span>
-            </Button>
-          </Link>
+          <Button 
+            variant="ghost" 
+            className="group flex items-center gap-2" 
+            onClick={handleBackToRecipes}
+          >
+            <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+            <span>Alle Rezepte</span>
+          </Button>
           
           <div className="flex items-center gap-2">
             <RecipeRatingDisplay recipeId={recipe.id} showCount size="md" className="mr-2" />
