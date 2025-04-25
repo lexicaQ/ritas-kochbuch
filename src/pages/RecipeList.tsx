@@ -233,8 +233,8 @@ const RecipeList = () => {
       </div>
       
       <div className="container mx-auto px-4 py-12">
-        <div className="sticky top-24 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
-          <div className="flex gap-4 items-stretch">
+        <div className="sticky top-24 z-30 -mt-8 bg-white rounded-lg shadow-lg border border-cookbook-100 p-4">
+          <div className="flex gap-2 items-stretch">
             <SearchBar 
               variant="large"
               placeholder="Nach Rezepten suchen..."

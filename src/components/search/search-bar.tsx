@@ -193,7 +193,7 @@ export const SearchBar = ({
       <form onSubmit={handleSubmit}>
         <div className="relative">
           <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-cookbook-700">
-            <Search size={variant === "large" ? 24 : 20} />
+            <Search size={variant === "large" ? 20 : 18} />
           </div>
           
           <Input
@@ -204,12 +204,12 @@ export const SearchBar = ({
             onChange={handleInputChange}
             onClick={() => setIsActive(true)}
             className={cn(
-              "pl-12 pr-9 border-2 border-cookbook-800/70 bg-white/80 backdrop-blur-sm",
-              "focus:border-cookbook-800 focus:ring-4 focus:ring-cookbook-800/20",
+              "pl-12 pr-9 border border-cookbook-800/70 bg-white/80 backdrop-blur-sm",
+              "focus:border-cookbook-800 focus:ring-2 focus:ring-cookbook-800/20",
               "transition-all duration-300 ease-in-out",
-              variant === "large" ? "h-14 text-lg rounded-2xl" : "h-10 rounded-xl",
+              variant === "large" ? "h-10 text-base rounded-md" : "h-10 rounded-xl",
               variant === "minimal" ? "rounded-full bg-background/80" : "",
-              "shadow-[0_4px_8px_-2px_rgba(0,0,0,0.25)]"
+              "shadow-sm"
             )}
           />
           
