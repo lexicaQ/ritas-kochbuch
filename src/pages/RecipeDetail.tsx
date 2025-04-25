@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CheckboxItem, CheckboxStepItem } from "@/components/ui/checkbox-item";
-import { Header } from "@/components/header";
+import Header from "@/components/header";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { RecipeSuccess } from "@/components/ui/recipe-success";
 import { RecipeNotes } from "@/components/ui/recipe-notes";

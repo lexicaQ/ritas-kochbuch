@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Header } from "@/components/header";
+import Header from "@/components/header";
 import { FadeIn } from "@/components/ui/fade-in";
 import { RecipeCard } from "@/components/ui/recipe-card";
 import { Separator } from "@/components/ui/separator";

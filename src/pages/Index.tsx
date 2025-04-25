@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ChefHat, ChevronsRight, Heart, Star, Flame } from "lucide-react";
@@ -5,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/ui/recipe-card";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Header } from "@/components/header";
+import Header from "@/components/header";
 import recipes from "@/data/recipes";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
