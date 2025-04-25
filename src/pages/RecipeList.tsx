@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Filter, Search, ChevronDown, X, Clock, ChefHat, Tag, User, Utensils, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/ui/recipe-card";
 import { FadeIn } from "@/components/ui/fade-in";
-import Header from "@/components/header";
+import { Header } from "@/components/header";
 import recipes from "@/data/recipes";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
@@ -234,8 +233,8 @@ const RecipeList = () => {
       </div>
       
       <div className="container mx-auto px-4 py-12">
-        <div className="sticky top-24 z-30 -mt-8 bg-white rounded-lg shadow-lg border border-cookbook-100 p-4">
-          <div className="flex gap-2 items-stretch">
+        <div className="sticky top-24 z-30 -mt-8 bg-white rounded-2xl shadow-lg border border-cookbook-100 p-4">
+          <div className="flex gap-4 items-stretch">
             <SearchBar 
               variant="large"
               placeholder="Nach Rezepten suchen..."

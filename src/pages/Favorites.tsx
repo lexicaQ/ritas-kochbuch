@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Heart } from "lucide-react";
 
-import Header from "@/components/header";
+import { Header } from "@/components/header";
 import { FadeIn } from "@/components/ui/fade-in";
 import { RecipeCard } from "@/components/ui/recipe-card";
 import recipes from "@/data/recipes";
