@@ -8,7 +8,7 @@ export interface Recipe {
   prepTime: string;
   cookTime?: string;
   totalTime?: string;
-  difficulty: "Leicht" | "Normal" | "Schwer" | "Mittel" | "Anspruchsvoll";
+  difficulty: "Leicht" | "Normal" | "Schwer" | "Mittel" | "Anspruchsvoll" | "Einfach";
   category: string;
   tags: string[];
   ingredients: {
@@ -24,4 +24,6 @@ export interface Recipe {
   }[];
   tips?: string[];
   isFavorite?: boolean;
+  calories?: string;
+  utensils?: string[];
 }
