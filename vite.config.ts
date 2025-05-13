@@ -18,4 +18,10 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // Add optimizations for production builds
+  build: {
+    sourcemap: true,
+    minify: 'terser',
+    chunkSizeWarningLimit: 1000,
+  },
 }));
