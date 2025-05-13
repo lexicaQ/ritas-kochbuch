@@ -35,28 +35,38 @@ export function CookieConsent() {
   const [showPreferences, setShowPreferences] = useState(false);
 
   useEffect(() => {
+    // Check if the user has already set cookie preferences
     const consent = localStorage.getItem('cookieConsent');
     if (!consent) {
       setShowBanner(true);
     } else {
-      const savedPreferences = JSON.parse(consent);
-      setPreferences(savedPreferences);
-      applyTrackingPreferences(savedPreferences);
+      try {
+        const savedPreferences = JSON.parse(consent);
+        setPreferences(savedPreferences);
+        applyTrackingPreferences(savedPreferences);
+      } catch (error) {
+        console.error("Error parsing cookie consent:", error);
+        setShowBanner(true);
+      }
     }
   }, []);
 
   const applyTrackingPreferences = (prefs: CookiePreferences) => {
     if (prefs.analytics) {
       console.log('Analytics tracking enabled');
+      // Hier könnte Analytics-Code eingefügt werden
     }
     if (prefs.marketing) {
       console.log('Marketing cookies enabled');
+      // Hier könnte Marketing-Code eingefügt werden
     }
     if (prefs.functional) {
       console.log('Functional cookies enabled');
+      // Hier könnte Functional-Code eingefügt werden
     }
     if (prefs.personalization) {
       console.log('Personalization enabled');
+      // Hier könnte Personalization-Code eingefügt werden
     }
   };
 

@@ -129,6 +129,8 @@ const Index = () => {
   const [topRatedRecipes, setTopRatedRecipes] = useState<typeof recipes>([]);
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
+  
+  // Zeige pro Kategorie bis zu 4 Rezepte an (verbessert von 1 Rezept pro Kategorie)
   const categoryRecipes = categories.reduce((acc, category) => {
     acc[category] = recipes.filter(r => r.category === category).slice(0, 4);
     return acc;
@@ -136,11 +138,11 @@ const Index = () => {
 
   useEffect(() => {
     if (categories.length > 0) {
-      setVisibleCategories(categories.slice(0, 2));
+      setVisibleCategories(categories.slice(0, 4)); // Erhöht von 2 auf 4 sichtbare Kategorien
     }
     const loadFavorites = () => {
       try {
-        const storedFavorites = localStorage.getItem('user-favorite-recipes');
+        const storedFavorites = localStorage.getItem('userFavorites');
         if (storedFavorites) {
           const favoriteIds = JSON.parse(storedFavorites) as string[];
           const userFavorites = recipes.filter(recipe => favoriteIds.includes(recipe.id));
@@ -150,6 +152,7 @@ const Index = () => {
         console.error('Error loading favorites:', error);
       }
     };
+    
     const loadMostCooked = () => {
       try {
         const visitCounts = {};
@@ -180,6 +183,7 @@ const Index = () => {
         console.error('Error loading most cooked recipes:', error);
       }
     };
+    
     const loadTopRated = () => {
       try {
         const ratings = {};
@@ -202,6 +206,7 @@ const Index = () => {
         console.error('Error loading top-rated recipes:', error);
       }
     };
+    
     loadFavorites();
     loadMostCooked();
     loadTopRated();
@@ -349,7 +354,7 @@ const Index = () => {
               {isLoading ? <div className="py-12 flex justify-center">
                   <LoadingSpinner size="lg" />
                 </div> : searchResults && searchResults.length > 0 ? <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {searchResults.map(recipe => <RecipeCard key={recipe.id} id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />)}
+                  {searchResults.map(recipe => <RecipeCard key={recipe.id} id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />)}
                 </div> : <div className="rounded-lg bg-cookbook-50/50 p-6 text-center">
                   <p className="text-lg font-medium text-gray-700">
                     Keine Rezepte gefunden. Versuche es mit anderen Suchbegriffen.
@@ -387,7 +392,7 @@ const Index = () => {
             
             {favoriteRecipes.length > 0 ? <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {favoriteRecipes.slice(0, 4).map((recipe, index) => <FadeIn key={recipe.id} delay={index * 0.1}>
-                    <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} isFavorite={true} />
+                    <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} isFavorite={true} />
                   </FadeIn>)}
               </div> : <EmptySectionPlaceholder icon={Heart} title="Noch keine Favoriten" description="Markiere Rezepte als Favorit, um sie hier zu sehen" />}
           </div>
@@ -428,7 +433,7 @@ const Index = () => {
             const visitCount = localStorage.getItem(`recipe-visit-count-${recipe.id}`) || '0';
             return <FadeIn key={recipe.id} delay={index * 0.1}>
                       <div className="relative">
-                        <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />
+                        <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />
                         {parseInt(completedCount) > 0 && <div className="absolute top-3 right-3 bg-cookbook-700 text-white text-xs px-2 py-1 rounded-full">
                             {completedCount}x gekocht
                           </div>}
@@ -445,7 +450,8 @@ const Index = () => {
               <FadeIn>
                 <div className="flex items-center gap-3">
                   <div className="h-8 w-2 bg-cookbook-700 rounded-full"></div>
-                  <h2 className="font-playfair text-3xl font-bold text-cookbook-800">
+                  <h2 className="font-playfair text-3xl font-bold text-cookbook-800 flex items-center gap-2">
+                    <Star size={24} className="text-amber-400 fill-amber-400" />
                     Beliebteste Rezepte
                   </h2>
                 </div>
@@ -466,7 +472,7 @@ const Index = () => {
             
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {featuredRecipes.map((recipe, index) => <FadeIn key={recipe.id} delay={index * 0.1}>
-                  <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />
+                  <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />
                 </FadeIn>)}
             </div>
           </div>
@@ -503,7 +509,7 @@ const Index = () => {
             const rating = localStorage.getItem(`recipe-rating-${recipe.id}`) || '0';
             return <FadeIn key={recipe.id} delay={index * 0.1}>
                       <div className="relative">
-                        <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />
+                        <RecipeCard id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />
                         <div className="absolute top-3 right-3 bg-cookbook-700/90 backdrop-blur-sm text-white px-2 py-1 rounded-full flex items-center gap-1">
                           <Star size={14} className="fill-amber-400 text-amber-400" />
                           <span>{parseFloat(rating).toFixed(1)}</span>
@@ -530,10 +536,16 @@ const Index = () => {
               {categories.map((category, index) => <FadeIn key={category} delay={index * 0.1}>
                   <Link to={`/kategorien`} className="group relative block overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl border border-cookbook-100">
                     <div className="aspect-[16/9] relative overflow-hidden">
-                      {categoryRecipes[category]?.[0]?.image && <>
+                      {categoryRecipes[category]?.[0]?.image ? 
+                        <>
                           <img src={categoryRecipes[category][0].image} alt={category} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                           <div className="absolute inset-0 bg-gradient-to-t from-cookbook-900/60 to-cookbook-900/10 group-hover:from-cookbook-900/40 transition-colors"></div>
-                        </>}
+                        </> :
+                        <>
+                          <img src={`https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} alt={category} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-cookbook-900/60 to-cookbook-900/10 group-hover:from-cookbook-900/40 transition-colors"></div>
+                        </>
+                      }
                       
                       <div className="absolute inset-0 flex items-center justify-center">
                         <h3 className="font-playfair text-2xl font-bold text-white bg-cookbook-800/70 px-4 py-2 rounded-lg backdrop-blur-sm shadow-lg transform transition-transform group-hover:scale-105">
@@ -555,6 +567,18 @@ const Index = () => {
                   }}>
                           <ArrowRight size={16} className="text-cookbook-700" />
                         </motion.div>
+                      </div>
+                      
+                      <div className="mt-2 grid grid-cols-4 gap-1">
+                        {categoryRecipes[category].slice(0, 4).map((recipe, recipeIndex) => (
+                          <div key={recipeIndex} className="aspect-square rounded-md overflow-hidden">
+                            <img 
+                              src={recipe.image || `https://images.unsplash.com/photo-${1556911220 + recipeIndex + index*4}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`}
+                              alt=""
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </Link>

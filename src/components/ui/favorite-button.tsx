@@ -18,7 +18,7 @@ export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onTogg
   
   // Load initial state from localStorage
   useEffect(() => {
-    const userFavorites = localStorage.getItem('user-favorite-recipes');
+    const userFavorites = localStorage.getItem('userFavorites');
     if (userFavorites) {
       try {
         const favoriteIds = JSON.parse(userFavorites);
@@ -34,7 +34,7 @@ export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onTogg
     e.stopPropagation();
     
     // Get current favorites
-    const userFavorites = localStorage.getItem('user-favorite-recipes');
+    const userFavorites = localStorage.getItem('userFavorites');
     let favoriteIds: string[] = [];
     
     if (userFavorites) {
@@ -56,7 +56,7 @@ export function FavoriteButton({ isFavorite: initialIsFavorite, recipeId, onTogg
       favoriteIds = favoriteIds.filter(id => id !== recipeId);
     }
     
-    localStorage.setItem('user-favorite-recipes', JSON.stringify(favoriteIds));
+    localStorage.setItem('userFavorites', JSON.stringify(favoriteIds));
     
     // Call onToggle callback if provided
     if (onToggle) onToggle();

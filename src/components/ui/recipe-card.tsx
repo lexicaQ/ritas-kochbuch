@@ -45,7 +45,7 @@ export function RecipeCard({
     
     // Save to localStorage
     try {
-      const favorites = JSON.parse(localStorage.getItem('user-favorite-recipes') || '[]');
+      const favorites = JSON.parse(localStorage.getItem('userFavorites') || '[]');
       if (!isFavorite) {
         // Add to favorites if not already there
         if (!favorites.includes(id)) {
@@ -58,7 +58,7 @@ export function RecipeCard({
           favorites.splice(index, 1);
         }
       }
-      localStorage.setItem('user-favorite-recipes', JSON.stringify(favorites));
+      localStorage.setItem('userFavorites', JSON.stringify(favorites));
     } catch (error) {
       console.error("Error updating favorites:", error);
     }
@@ -86,7 +86,7 @@ export function RecipeCard({
       }}>
         <div className="relative aspect-[4/3] overflow-hidden">
           <img 
-            src={image} 
+            src={image || "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1000&auto=format&fit=crop"} 
             alt={title} 
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />

@@ -57,7 +57,7 @@ const Categories = () => {
                       id={recipe.id}
                       title={recipe.title}
                       description={recipe.description}
-                      image={recipe.image}
+                      image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`}
                       duration={recipe.prepTime}
                       difficulty={recipe.difficulty}
                       category={recipe.category}

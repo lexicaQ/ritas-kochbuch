@@ -56,7 +56,7 @@ const RecipeDetail = () => {
         const visitCount = localStorage.getItem(`recipe-visit-count-${id}`) || '0';
         localStorage.setItem(`recipe-visit-count-${id}`, (parseInt(visitCount) + 1).toString());
         
-        const favorites = JSON.parse(localStorage.getItem('user-favorite-recipes') || '[]');
+        const favorites = JSON.parse(localStorage.getItem('userFavorites') || '[]');
         setIsFavorite(favorites.includes(id));
       } catch (error) {
         console.error("Error tracking recipe visit:", error);
@@ -172,7 +172,7 @@ const RecipeDetail = () => {
     setIsFavorite(!isFavorite);
     
     try {
-      const favorites = JSON.parse(localStorage.getItem('user-favorite-recipes') || '[]');
+      const favorites = JSON.parse(localStorage.getItem('userFavorites') || '[]');
       if (!isFavorite) {
         if (!favorites.includes(recipe.id)) {
           favorites.push(recipe.id);
@@ -183,7 +183,7 @@ const RecipeDetail = () => {
           favorites.splice(index, 1);
         }
       }
-      localStorage.setItem('user-favorite-recipes', JSON.stringify(favorites));
+      localStorage.setItem('userFavorites', JSON.stringify(favorites));
     } catch (error) {
       console.error("Error updating favorites:", error);
     }
@@ -269,7 +269,10 @@ const RecipeDetail = () => {
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <RecipeHeader recipe={recipe} />
+          <RecipeHeader recipe={{
+            ...recipe,
+            image: recipe.image || `https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1000&auto=format&fit=crop`
+          }} />
           
           <ProgressSection 
             stepsProgress={progress} 
