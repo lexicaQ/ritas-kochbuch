@@ -24,6 +24,4 @@ export interface Recipe {
   }[];
   tips?: string[];
   isFavorite?: boolean;
-  calories?: string;
-  utensils?: string[];
 }
