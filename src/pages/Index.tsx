@@ -354,7 +354,17 @@ const Index = () => {
               {isLoading ? <div className="py-12 flex justify-center">
                   <LoadingSpinner size="lg" />
                 </div> : searchResults && searchResults.length > 0 ? <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {searchResults.map(recipe => <RecipeCard key={recipe.id} id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />)}
+                  {searchResults.map((recipe, recipeIndex) => <RecipeCard 
+                    key={recipe.id} 
+                    id={recipe.id} 
+                    title={recipe.title} 
+                    description={recipe.description} 
+                    image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + recipeIndex}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} 
+                    duration={recipe.prepTime} 
+                    difficulty={recipe.difficulty} 
+                    category={recipe.category} 
+                    tags={recipe.tags} 
+                  />)}
                 </div> : <div className="rounded-lg bg-cookbook-50/50 p-6 text-center">
                   <p className="text-lg font-medium text-gray-700">
                     Keine Rezepte gefunden. Versuche es mit anderen Suchbegriffen.
