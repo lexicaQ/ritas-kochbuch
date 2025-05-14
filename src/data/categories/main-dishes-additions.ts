@@ -18,7 +18,7 @@ export const mainDishRecipesAdditions: Recipe[] = [
         group: "Gyros",
         items: [
           { name: "Schweinelachssteaks", amount: "500 g" },
-          { name: "Gewürzmischung „Hello Paprika"", amount: "6 g" },
+          { name: "Gewürzmischung 'Hello Paprika'", amount: "6 g" },
           { name: "Knoblauchzehen", amount: "2" }
         ]
       },
@@ -249,7 +249,7 @@ export const mainDishRecipesAdditions: Recipe[] = [
         items: [
           { name: "Weizenmehl", amount: "100 g" },
           { name: "Milch", amount: "200 ml" },
-          { name: "Gewürzmischung „Hello Curry"", amount: "8 g" },
+          { name: "Gewürzmischung 'Hello Curry'", amount: "8 g" },
           { name: "Salz, Pfeffer", amount: "" },
           { name: "Öl zum Braten", amount: "1 EL" }
         ]
