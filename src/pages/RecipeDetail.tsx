@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Utensils } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -287,6 +287,25 @@ const RecipeDetail = () => {
               completedIngredients={completedIngredients}
               onToggleIngredient={toggleIngredient}
             />
+
+            {/* Display utensils if available */}
+            {recipe.utensils && recipe.utensils.length > 0 && (
+              <div className="mt-8 rounded-xl bg-white p-6 shadow-sm">
+                <h3 className="flex items-center gap-2 font-playfair text-xl font-bold text-cookbook-800">
+                  <Utensils className="h-5 w-5 text-cookbook-700" />
+                  Benötigte Utensilien
+                </h3>
+                
+                <ul className="mt-4 space-y-2">
+                  {recipe.utensils.map((utensil, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span className="mt-0.5 h-2 w-2 flex-shrink-0 rounded-full bg-cookbook-600"></span>
+                      <span className="text-gray-700">{utensil}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </FadeIn>
           
           <FadeIn className="md:col-span-8" delay={0.2}>

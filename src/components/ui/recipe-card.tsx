@@ -18,6 +18,7 @@ interface RecipeCardProps {
   tags: string[];
   className?: string;
   isFavorite?: boolean;
+  calories?: string;
 }
 
 export function RecipeCard({ 
@@ -30,7 +31,8 @@ export function RecipeCard({
   category,
   tags,
   className,
-  isFavorite: initialIsFavorite = false
+  isFavorite: initialIsFavorite = false,
+  calories
 }: RecipeCardProps) {
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
   
@@ -123,6 +125,11 @@ export function RecipeCard({
               <ChefHat size={14} />
               <span>{difficulty}</span>
             </div>
+            {calories && (
+              <div className="flex items-center gap-1 text-cookbook-700 bg-cookbook-100/60 px-2 py-1 rounded-full">
+                <span>{calories}</span>
+              </div>
+            )}
           </div>
           
           {tags.length > 0 && (

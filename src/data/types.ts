@@ -11,6 +11,7 @@ export interface Recipe {
   difficulty: "Leicht" | "Normal" | "Schwer" | "Mittel" | "Anspruchsvoll";
   category: string;
   tags: string[];
+  calories?: string;
   ingredients: {
     group?: string;
     items: {
@@ -23,5 +24,6 @@ export interface Recipe {
     items: string[];
   }[];
   tips?: string[];
+  utensils?: string[];
   isFavorite?: boolean;
 }
