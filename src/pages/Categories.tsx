@@ -9,20 +9,6 @@ import recipes from "@/data/recipes";
 import { cn } from "@/lib/utils";
 
 const Categories = () => {
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
-
-  useEffect(() => {
-    // Load favorites from localStorage
-    try {
-      const storedFavorites = localStorage.getItem('userFavorites');
-      if (storedFavorites) {
-        setFavoriteIds(JSON.parse(storedFavorites));
-      }
-    } catch (error) {
-      console.error("Error loading favorites:", error);
-    }
-  }, []);
-
   const categorizedRecipes = recipes.reduce((acc, recipe) => {
     if (!acc[recipe.category]) {
       acc[recipe.category] = [];
@@ -76,7 +62,6 @@ const Categories = () => {
                       difficulty={recipe.difficulty}
                       category={recipe.category}
                       tags={recipe.tags}
-                      isFavorite={favoriteIds.includes(recipe.id)}
                     />
                   </FadeIn>
                 ))}
