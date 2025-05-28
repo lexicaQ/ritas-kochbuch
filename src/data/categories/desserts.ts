@@ -6,7 +6,7 @@ export const desserts: Recipe[] = [
     id: "hefe-blechkuchen",
     title: "Hefe-Blechkuchen",
     description: "Ein klassischer Hefekuchen vom Blech mit Mandeln und Zuckerguss - perfekt zum Nachmittagskaffee.",
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=2089&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2070&auto=format&fit=crop",
     portionSize: "1 Blech",
     prepTime: "45 Min",
     cookTime: "15-20 Min",
@@ -97,133 +97,6 @@ export const desserts: Recipe[] = [
     ],
     tips: [
       "Damit das Lamm beim Aufgehen nicht die Form sprengt, zwei Zahnstocher als \"Stützen\" in den Teig bohren und Form zur Hälfte mit Kartoffelschalen füllen."
-    ]
-  },
-  {
-    id: "geschichtete-fruchtcreme",
-    title: "Geschichtete Fruchtcreme mit Erdbeersoße",
-    description: "Ein buntes Schichtdessert mit verschiedenen Früchten, cremigem Quark und fruchtiger Erdbeersoße.",
-    image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?q=80&w=1964&auto=format&fit=crop",
-    portionSize: "4 Portionen",
-    prepTime: "30 Min",
-    totalTime: "3 Std 30 Min (inkl. Kühlzeit)",
-    difficulty: "Leicht",
-    category: "Dessert",
-    tags: ["Früchte", "Quark", "Schichtdessert", "Vegetarisch", "Gesund"],
-    ingredients: [
-      {
-        group: "Fruchtlagen",
-        items: [
-          { name: "Kiwis", amount: "2" },
-          { name: "Heidelbeeren", amount: "150 g" },
-          { name: "sehr reife Birnen", amount: "4" },
-          { name: "Bananen", amount: "2" },
-          { name: "Orangen", amount: "2" }
-        ]
-      },
-      {
-        group: "Quarkcreme",
-        items: [
-          { name: "Magerquark", amount: "150 g" },
-          { name: "Zimt", amount: "1 TL" },
-          { name: "Honig", amount: "1 EL" }
-        ]
-      },
-      {
-        group: "Erdbeer-Soße",
-        items: [
-          { name: "Erdbeeren", amount: "200 g" }
-        ]
-      },
-      {
-        group: "Deko",
-        items: [
-          { name: "Minzblättchen", amount: "4" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        group: "Heidelbeer-Schicht",
-        items: [
-          "Heidelbeeren mit einem Pürierstab fein mixen.",
-          "Auf 4 Gläser verteilen, dabei den Boden zu 1 cm hoch bedecken."
-        ]
-      },
-      {
-        group: "Quark-Creme",
-        items: [
-          "Quark, Honig und Zimt in einer Schüssel glatt verrühren.",
-          "Vorsichtig auf das Heidelbeermus geben und leicht andrücken."
-        ]
-      },
-      {
-        group: "Banana-Orange-Schicht",
-        items: [
-          "Bananen schälen und in grobe Stücke schneiden.",
-          "Orangen schälen (weiße Haut entfernen), Fruchtfleisch in Stücke teilen.",
-          "Gemeinsam pürieren und als nächste Schicht auf die Quarkcreme geben."
-        ]
-      },
-      {
-        group: "Kühlen",
-        items: [
-          "Gläser abdecken und mindestens 3 Std in den Kühlschrank stellen, damit alles schön fest wird."
-        ]
-      },
-      {
-        group: "Erdbeer-Topping",
-        items: [
-          "Erdbeeren pürieren.",
-          "Vor dem Servieren Erdbeersoße oben auf die gekühlten Desserts geben."
-        ]
-      },
-      {
-        group: "Anrichten",
-        items: [
-          "Mit frischen Minzblättchen garnieren und sofort genießen."
-        ]
-      }
-    ]
-  },
-  {
-    id: "tiramisu-klassisch",
-    title: "Klassisches Tiramisu",
-    description: "Das original italienische Tiramisu mit Mascarpone, Kaffee und Kakao.",
-    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=2020&auto=format&fit=crop",
-    portionSize: "8 Portionen",
-    prepTime: "30 Min",
-    totalTime: "4 Std (inkl. Kühlzeit)",
-    difficulty: "Normal",
-    category: "Dessert",
-    tags: ["Italienisch", "Kaffee", "Mascarpone", "Klassiker"],
-    ingredients: [
-      {
-        items: [
-          { name: "Löffelbiskuits", amount: "200 g" },
-          { name: "starker Espresso", amount: "300 ml" },
-          { name: "Amaretto", amount: "3 EL" },
-          { name: "Eigelb", amount: "6" },
-          { name: "Zucker", amount: "150 g" },
-          { name: "Mascarpone", amount: "500 g" },
-          { name: "Sahne", amount: "250 ml" },
-          { name: "Kakaopulver", amount: "zum Bestäuben" }
-        ]
-      }
-    ],
-    steps: [
-      {
-        items: [
-          "Espresso mit Amaretto mischen und abkühlen lassen.",
-          "Eigelb mit Zucker schaumig schlagen.",
-          "Mascarpone unterrühren.",
-          "Sahne steif schlagen und unterheben.",
-          "Löffelbiskuits kurz in Kaffee tauchen und in Form schichten.",
-          "Mit Creme bedecken, Vorgang wiederholen.",
-          "4 Stunden kühlen.",
-          "Vor dem Servieren mit Kakao bestäuben."
-        ]
-      }
     ]
   }
 ];
