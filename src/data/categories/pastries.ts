@@ -1,3 +1,4 @@
+
 import { Recipe } from "../types";
 
 export const pastries: Recipe[] = [
@@ -5,7 +6,7 @@ export const pastries: Recipe[] = [
     id: "vitalbrot",
     title: "Vitalbrot mit Rübenkraut",
     description: "Ein kerniges Vollkornbrot mit Roggenschrot, Weizenschrot, Leinsamen und Sonnenblumenkernen. Perfekt für eine gesunde Ernährung.",
-    image: "https://images.unsplash.com/photo-1600423400430-34eb4ea425dc?q=80&w=2071&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2070&auto=format&fit=crop",
     portionSize: "1 Kastenform",
     prepTime: "15 Min (zzgl. 1 Std Gehzeit)",
     cookTime: "3 Std",

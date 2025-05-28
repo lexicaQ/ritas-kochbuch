@@ -6,7 +6,7 @@ export const desserts: Recipe[] = [
     id: "hefe-blechkuchen",
     title: "Hefe-Blechkuchen",
     description: "Ein klassischer Hefekuchen vom Blech mit Mandeln und Zuckerguss - perfekt zum Nachmittagskaffee.",
-    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=2070&auto=format&fit=crop",
     portionSize: "1 Blech",
     prepTime: "45 Min",
     cookTime: "15-20 Min",
