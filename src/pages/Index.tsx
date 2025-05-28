@@ -11,7 +11,6 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { SearchBar } from "@/components/search/search-bar";
-
 interface DecorativeElementProps {
   x: string;
   y: string;
@@ -22,7 +21,6 @@ interface DecorativeElementProps {
   duration: number;
   type: 'circle' | 'square' | 'triangle' | 'dot';
 }
-
 const decorativeElements: DecorativeElementProps[] = [{
   x: '10%',
   y: '20%',
@@ -69,7 +67,6 @@ const decorativeElements: DecorativeElementProps[] = [{
   duration: 22,
   type: 'circle'
 }];
-
 const DecorativeElement = ({
   x,
   y,
@@ -119,7 +116,6 @@ const DecorativeElement = ({
       {element}
     </motion.div>;
 };
-
 const Index = () => {
   const [searchResults, setSearchResults] = useState<typeof recipes | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -129,13 +125,12 @@ const Index = () => {
   const [topRatedRecipes, setTopRatedRecipes] = useState<typeof recipes>([]);
   const featuredRecipes = recipes.filter(recipe => recipe.isFavorite).slice(0, 4);
   const categories = Array.from(new Set(recipes.map(recipe => recipe.category)));
-  
+
   // Zeige pro Kategorie bis zu 4 Rezepte an (verbessert von 1 Rezept pro Kategorie)
   const categoryRecipes = categories.reduce((acc, category) => {
     acc[category] = recipes.filter(r => r.category === category).slice(0, 4);
     return acc;
   }, {} as Record<string, typeof recipes>);
-
   useEffect(() => {
     if (categories.length > 0) {
       setVisibleCategories(categories.slice(0, 4)); // Erhöht von 2 auf 4 sichtbare Kategorien
@@ -152,7 +147,6 @@ const Index = () => {
         console.error('Error loading favorites:', error);
       }
     };
-    
     const loadMostCooked = () => {
       try {
         const visitCounts = {};
@@ -183,7 +177,6 @@ const Index = () => {
         console.error('Error loading most cooked recipes:', error);
       }
     };
-    
     const loadTopRated = () => {
       try {
         const ratings = {};
@@ -206,12 +199,10 @@ const Index = () => {
         console.error('Error loading top-rated recipes:', error);
       }
     };
-    
     loadFavorites();
     loadMostCooked();
     loadTopRated();
   }, []);
-
   const handleSearch = (query: string, filters: string[]) => {
     if (!query && filters.length === 0) {
       setSearchResults(null);
@@ -230,7 +221,6 @@ const Index = () => {
       setIsLoading(false);
     }, 500);
   };
-
   const EmptySectionPlaceholder = ({
     icon: Icon,
     title,
@@ -242,7 +232,6 @@ const Index = () => {
       <h3 className="text-xl font-medium text-cookbook-800 mb-2">{title}</h3>
       <p className="text-cookbook-600">{description}</p>
     </div>;
-
   return <div className="min-h-screen bg-white">
       <Header />
       
@@ -354,17 +343,7 @@ const Index = () => {
               {isLoading ? <div className="py-12 flex justify-center">
                   <LoadingSpinner size="lg" />
                 </div> : searchResults && searchResults.length > 0 ? <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {searchResults.map((recipe, recipeIndex) => <RecipeCard 
-                    key={recipe.id} 
-                    id={recipe.id} 
-                    title={recipe.title} 
-                    description={recipe.description} 
-                    image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + recipeIndex}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} 
-                    duration={recipe.prepTime} 
-                    difficulty={recipe.difficulty} 
-                    category={recipe.category} 
-                    tags={recipe.tags} 
-                  />)}
+                  {searchResults.map((recipe, recipeIndex) => <RecipeCard key={recipe.id} id={recipe.id} title={recipe.title} description={recipe.description} image={recipe.image || `https://images.unsplash.com/photo-${1556911220 + recipeIndex}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} duration={recipe.prepTime} difficulty={recipe.difficulty} category={recipe.category} tags={recipe.tags} />)}
                 </div> : <div className="rounded-lg bg-cookbook-50/50 p-6 text-center">
                   <p className="text-lg font-medium text-gray-700">
                     Keine Rezepte gefunden. Versuche es mit anderen Suchbegriffen.
@@ -385,9 +364,7 @@ const Index = () => {
                     Deine Favoriten
                   </h2>
                 </div>
-                <p className="mt-2 text-gray-600 ml-5">
-                  Rezepte, die du als Favorit markiert hast
-                </p>
+                <p className="mt-2 text-gray-600 ml-5">Rezepte, die du als Favorit markiert hast.</p>
               </FadeIn>
               
               {favoriteRecipes.length > 0 && <FadeIn direction="left">
@@ -546,16 +523,13 @@ const Index = () => {
               {categories.map((category, index) => <FadeIn key={category} delay={index * 0.1}>
                   <Link to={`/kategorien`} className="group relative block overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl border border-cookbook-100">
                     <div className="aspect-[16/9] relative overflow-hidden">
-                      {categoryRecipes[category]?.[0]?.image ? 
-                        <>
+                      {categoryRecipes[category]?.[0]?.image ? <>
                           <img src={categoryRecipes[category][0].image} alt={category} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                           <div className="absolute inset-0 bg-gradient-to-t from-cookbook-900/60 to-cookbook-900/10 group-hover:from-cookbook-900/40 transition-colors"></div>
-                        </> :
-                        <>
+                        </> : <>
                           <img src={`https://images.unsplash.com/photo-${1556911220 + index}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} alt={category} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                           <div className="absolute inset-0 bg-gradient-to-t from-cookbook-900/60 to-cookbook-900/10 group-hover:from-cookbook-900/40 transition-colors"></div>
-                        </>
-                      }
+                        </>}
                       
                       <div className="absolute inset-0 flex items-center justify-center">
                         <h3 className="font-playfair text-2xl font-bold text-white bg-cookbook-800/70 px-4 py-2 rounded-lg backdrop-blur-sm shadow-lg transform transition-transform group-hover:scale-105">
@@ -580,15 +554,9 @@ const Index = () => {
                       </div>
                       
                       <div className="mt-2 grid grid-cols-4 gap-1">
-                        {categoryRecipes[category].slice(0, 4).map((recipe, recipeIndex) => (
-                          <div key={recipeIndex} className="aspect-square rounded-md overflow-hidden">
-                            <img 
-                              src={recipe.image || `https://images.unsplash.com/photo-${1556911220 + recipeIndex + index*4}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`}
-                              alt=""
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ))}
+                        {categoryRecipes[category].slice(0, 4).map((recipe, recipeIndex) => <div key={recipeIndex} className="aspect-square rounded-md overflow-hidden">
+                            <img src={recipe.image || `https://images.unsplash.com/photo-${1556911220 + recipeIndex + index * 4}-bff31c812dba?q=80&w=1000&auto=format&fit=crop`} alt="" className="w-full h-full object-cover" />
+                          </div>)}
                       </div>
                     </div>
                   </Link>
