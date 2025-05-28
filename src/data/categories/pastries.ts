@@ -99,7 +99,7 @@ export const pastries: Recipe[] = [
     id: "eierlikor-kuchen",
     title: "Eierlikör-Kuchen",
     description: "Saftiger Kuchen mit cremigem Eierlikör-Geschmack - perfekt für besondere Anlässe.",
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=2089&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?q=80&w=2069&auto=format&fit=crop",
     portionSize: "12 Stücke",
     prepTime: "25 Min",
     cookTime: "50 Min",
