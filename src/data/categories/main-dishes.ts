@@ -1,162 +1,228 @@
+
 import { Recipe } from "../types";
 
 export const mainDishes: Recipe[] = [
   {
-    id: "provenzalischer-auflauf",
-    title: "Provenzalischer Auflauf",
-    description: "Ein mediterraner Auflauf mit zartem Putenfleisch, Tomaten, Zucchini und Kräutern der Provence.",
-    image: "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=2070&auto=format&fit=crop",
-    portionSize: "2 Portionen",
-    prepTime: "15 Min",
-    cookTime: "40-45 Min",
+    id: "pasta-bolognese",
+    title: "Pasta Bolognese",
+    description: "Klassische italienische Bolognese mit Hackfleisch, Tomaten und frischen Kräutern.",
+    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=2832&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "20 Min",
+    cookTime: "45 Min",
     difficulty: "Normal",
-    category: "Hauptgericht",
-    tags: ["Französisch", "Auflauf", "Pute", "Gemüse", "Mediterranean"],
+    category: "Hauptgerichte",
+    tags: ["Pasta", "Italienisch", "Hackfleisch", "Tomaten"],
     ingredients: [
       {
         items: [
-          { name: "Putenfilets, in Scheiben", amount: "300 g" },
-          { name: "Olivenöl", amount: "4 EL" },
-          { name: "Tomaten, in Scheiben", amount: "400 g" },
-          { name: "Zucchini, in Scheiben", amount: "500 g" },
-          { name: "Knoblauchzehen, fein zerdrückt", amount: "3-4" },
-          { name: "Basilikum, gehackt", amount: "1 Topf" },
-          { name: "Rosmarin, fein gezupft", amount: "1 Stiel" },
-          { name: "Salz" },
-          { name: "Pfeffer" },
-          { name: "Crème fraîche", amount: "300 g" },
-          { name: "Eier", amount: "2" }
+          { name: "Spaghetti", amount: "400 g" },
+          { name: "Hackfleisch (gemischt)", amount: "500 g" },
+          { name: "Zwiebel", amount: "1" },
+          { name: "Karotten", amount: "2" },
+          { name: "Staudensellerie", amount: "2 Stangen" },
+          { name: "Knoblauch", amount: "3 Zehen" },
+          { name: "Tomatenmark", amount: "2 EL" },
+          { name: "gehackte Tomaten", amount: "800 g" },
+          { name: "Rotwein", amount: "200 ml" },
+          { name: "Fleischbrühe", amount: "400 ml" },
+          { name: "Parmesan", amount: "100 g" },
+          { name: "Olivenöl", amount: "3 EL" },
+          { name: "Salz, Pfeffer" },
+          { name: "frisches Basilikum" }
         ]
       }
     ],
     steps: [
       {
         items: [
-          "Öl in einer Pfanne erhitzen. Putenscheiben 1-2 Min pro Seite scharf anbraten, herausnehmen.",
-          "Tomaten und Zucchini schneiden. Knoblauch, Basilikum und Rosmarin mit etwas Öl, Salz und Pfeffer verrühren.",
-          "Auflaufform fetten. Tomaten und Zucchini abwechselnd einschichten, mit Knoblauch-Kräuter-Öl würzen. Putenscheiben untermischen.",
-          "Crème fraîche mit Eiern verquirlen und über den Auflauf gießen. Form mit Alufolie abdecken.",
-          "Im vorgeheizten Ofen (200 °C) 40-45 Min garen. Vor dem Servieren mit frischem Basilikum und etwas Rosmarin garnieren."
+          "Zwiebel, Karotten, Sellerie und Knoblauch fein würfeln.",
+          "Olivenöl in einem großen Topf erhitzen, Gemüse 5 Min andünsten.",
+          "Hackfleisch zugeben und krümelig anbraten.",
+          "Tomatenmark einrühren, kurz anschwitzen.",
+          "Mit Rotwein ablöschen, einkochen lassen.",
+          "Tomaten und Brühe zugeben, 30-40 Min köcheln lassen.",
+          "Pasta nach Packungsanweisung kochen.",
+          "Sauce abschmecken, mit Pasta servieren.",
+          "Mit Parmesan und Basilikum garnieren."
         ]
       }
     ]
   },
   {
-    id: "poulardenbrust-salat",
-    title: "Poulardenbrust mit Salat & mariniertem Lauch",
-    description: "Eine raffinierte Kombination aus gefüllter Poulardenbrust, mariniertem Lauch und einem frischen Rucolasalat mit Kartoffeldressing.",
-    image: "https://images.unsplash.com/photo-1518492104633-130d0cc84637?q=80&w=2070&auto=format&fit=crop",
+    id: "gyros-mit-griechischem-salat",
+    title: "Gyros mit griechischem Salat",
+    description: "Saftiges Gyros mit knusprigen Ofenkartoffeln, einem frischen griechischen Salat und selbstgemachtem Zaziki mit Dill.",
+    image: "https://images.unsplash.com/photo-1599020792689-9ba56c6f8f67?q=80&w=2069&auto=format&fit=crop",
     portionSize: "4 Portionen",
-    prepTime: "45 Min",
-    cookTime: "15 Min",
-    difficulty: "Normal",
-    category: "Hauptgericht",
-    tags: ["Geflügel", "Salat", "Lauch", "Gourmet"],
+    prepTime: "40-50 Min",
+    difficulty: "Mittel",
+    category: "Hauptgerichte",
+    tags: ["Griechisch", "Fleisch", "Schweinefleisch", "Salat", "Kartoffeln"],
     ingredients: [
       {
-        group: "Geflügel & Füllung",
+        group: "Gyros",
         items: [
-          { name: "Poulardenbrüste", amount: "4" },
-          { name: "getrocknete Tomaten in Öl, grob gehackt", amount: "4" },
-          { name: "grüne Oliven, entsteint und gehackt", amount: "4" },
-          { name: "Basilikumblätter, gehackt", amount: "4" },
-          { name: "Zahnstocher zum Fixieren" }
+          { name: "Schweinelachssteaks", amount: "500 g" },
+          { name: "Gewürzmischung Hello Paprika", amount: "6 g" },
+          { name: "Knoblauchzehen", amount: "2" }
         ]
       },
       {
-        group: "Salat & Lauch",
+        group: "Ofenkartoffeln",
         items: [
-          { name: "Rucola oder Feldsalat", amount: "200 g" },
-          { name: "Lauchstange", amount: "1" },
-          { name: "frischer Thymian", amount: "1 Sträußchen" },
-          { name: "Essig" },
-          { name: "Olivenöl" },
-          { name: "Salz" },
-          { name: "Pfeffer" }
+          { name: "Drillinge (kleine Kartoffeln)", amount: "800 g" },
+          { name: "Öl (z. B. Olivenöl)", amount: "6 EL" },
+          { name: "Salz, Pfeffer", amount: "" }
         ]
       },
       {
-        group: "Kartoffeldressing",
+        group: "Zaziki",
         items: [
-          { name: "mehlig kochende Kartoffeln", amount: "150 g" },
-          { name: "Gemüsebrühe", amount: "150 ml" },
-          { name: "Sherryessig", amount: "4 EL" },
-          { name: "Olivenöl", amount: "5 EL" },
-          { name: "Salz" },
-          { name: "Pfeffer" }
+          { name: "Sahnejoghurt", amount: "150 g" },
+          { name: "Gurke", amount: "1/2" },
+          { name: "Knoblauchzehe", amount: "1" },
+          { name: "fein gehackter Dill", amount: "2 EL" },
+          { name: "Salz, Pfeffer", amount: "" }
+        ]
+      },
+      {
+        group: "Griechischer Salat",
+        items: [
+          { name: "rote Zwiebel", amount: "1" },
+          { name: "Tomate (ca. 200 g)", amount: "1" },
+          { name: "Hirtenkäse", amount: "100 g" },
+          { name: "Olivenöl", amount: "2 EL" },
+          { name: "Weißweinessig", amount: "1 EL" },
+          { name: "Salz, Pfeffer", amount: "" },
+          { name: "Petersilie zum Bestreuen", amount: "" }
+        ]
+      }
+    ],
+    steps: [
+      {
+        group: "Kartoffeln backen",
+        items: [
+          "Ofen auf 220 °C (Ober-/Unterhitze) vorheizen.",
+          "Kartoffeln ungeschält halbieren, mit 3 EL Öl, Salz und Pfeffer vermengen.",
+          "Auf Backpapier verteilen, 25–30 Min goldbraun backen."
+        ]
+      },
+      {
+        group: "Gyros marinieren",
+        items: [
+          "Fleisch in ca. 1 cm breite Streifen schneiden.",
+          "Knoblauch pressen und mit Gewürzmischung, Salz und Pfeffer verrühren.",
+          "Fleisch darin 5 Min marinieren lassen."
+        ]
+      },
+      {
+        group: "Zaziki zubereiten",
+        items: [
+          "Gurkenhälfte grob reiben, in einem Sieb abtropfen lassen.",
+          "Joghurt, gepressten Knoblauch und Dill verrühren. Mit Salz/Pfeffer abschmecken."
+        ]
+      },
+      {
+        group: "Salat anrichten",
+        items: [
+          "Zwiebel in feine Streifen, Tomate in Spalten schneiden.",
+          "Alles in einer Schüssel mit Öl und Essig mischen.",
+          "Hirtenkäse hineinbröseln, mit Petersilie bestreuen."
+        ]
+      },
+      {
+        group: "Gyros anbraten",
+        items: [
+          "1 EL Öl in Pfanne erhitzen, Fleisch darin 4–6 Min unter Rühren scharf anbraten, bis es innen nicht mehr rosa ist."
+        ]
+      },
+      {
+        group: "Servieren",
+        items: [
+          "Auf Tellern Kartoffeln, Salat und Gyros nebeneinander anrichten.",
+          "Zaziki dazu reichen – fertig!"
+        ]
+      }
+    ],
+    tips: [
+      "Für ein intensiveres Aroma kannst du das Fleisch bereits am Vortag marinieren.",
+      "Vegetarische Alternative: Ersetze das Fleisch durch gewürzte Pilze oder Halloumi.",
+      "Für eine schärfere Variante kannst du der Marinade etwas Chili hinzufügen."
+    ]
+  },
+  {
+    id: "schnitzel-wiener-art",
+    title: "Schnitzel Wiener Art",
+    description: "Knuspriges paniertes Schnitzel nach Wiener Art mit goldbrauner Panade.",
+    image: "https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=2031&auto=format&fit=crop",
+    portionSize: "4 Portionen",
+    prepTime: "25 Min",
+    cookTime: "15 Min",
+    difficulty: "Normal",
+    category: "Hauptgerichte",
+    tags: ["Österreichisch", "Fleisch", "Paniert", "Klassiker"],
+    ingredients: [
+      {
+        items: [
+          { name: "Kalbsschnitzel", amount: "4 Stück (à 150g)" },
+          { name: "Mehl", amount: "100 g" },
+          { name: "Eier", amount: "3" },
+          { name: "Semmelbrösel", amount: "200 g" },
+          { name: "Butterschmalz", amount: "200 g" },
+          { name: "Salz, Pfeffer" },
+          { name: "Zitrone", amount: "1" }
         ]
       }
     ],
     steps: [
       {
         items: [
-          "Fleisch oberflächlich einschneiden. Tomaten, Oliven und Basilikum mischen. Mischung in die Tasche der Brust füllen. Mit Zahnstocher verschließen.",
-          "Lauchringe in einer Pfanne mit etwas Butter und Salz kurz anbraten. Mit Essig und Öl ablöschen, Thymian zufügen, beiseitestellen.",
-          "Rucola waschen und trocken schleudern. Mit Essig und Öl leicht marinieren.",
-          "Brüste mit Salz und Pfeffer würzen. In einer Pfanne mit Öl und Thymian Hautseite zuerst anbraten. Bei mittlerer Hitze etwa 10 Min garen.",
-          "Kartoffeln schälen, weich kochen, zerdrücken. Brühe, Essig und Öl unterrühren, würzen.",
-          "Lauch auf Tellern verteilen, Rucola daneben anrichten. Brüste in Scheiben schneiden, daraufsetzen und mit Kartoffeldressing beträufeln."
+          "Schnitzel flach klopfen und würzen.",
+          "Drei Teller vorbereiten: Mehl, verquirlte Eier, Semmelbrösel.",
+          "Schnitzel nacheinander in Mehl, Ei und Bröseln wenden.",
+          "Butterschmalz in der Pfanne erhitzen.",
+          "Schnitzel von beiden Seiten goldbraun braten.",
+          "Mit Zitronenspalten servieren."
         ]
       }
     ]
   },
   {
-    id: "rinderfilet-pfefferkruste",
-    title: "Rinderfilet mit Schmorzwiebel-Sauce & Pfefferkruste",
-    description: "Zartes Rinderfilet mit einer würzigen Pfefferkruste, dazu geschmorte Zwiebeln und bunte Paprika.",
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop",
+    id: "lachs-mit-dillsosse",
+    title: "Lachs mit Dillsoße",
+    description: "Zarter Lachs mit cremiger Dillsoße und Kartoffeln.",
+    image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=1887&auto=format&fit=crop",
     portionSize: "4 Portionen",
-    prepTime: "40 Min",
-    cookTime: "15 Min",
+    prepTime: "20 Min",
+    cookTime: "25 Min",
     difficulty: "Normal",
-    category: "Hauptgericht",
-    tags: ["Rindfleisch", "Steak", "Gourmet", "Pfeffer", "Zwiebeln"],
+    category: "Hauptgerichte",
+    tags: ["Fisch", "Lachs", "Dill", "Gesund"],
     ingredients: [
       {
-        group: "Filet & Paprika",
         items: [
-          { name: "Rinderfilet-Steaks", amount: "4 (je 120 g)" },
-          { name: "Rosmarinzweig", amount: "1" },
-          { name: "rote Paprikaschoten, gewürfelt", amount: "2" },
-          { name: "gelbe Paprikaschoten, gewürfelt", amount: "2" },
-          { name: "Schalotten, fein gehackt", amount: "2" },
-          { name: "Olivenöl" },
-          { name: "Salz" },
-          { name: "Pfeffer" }
-        ]
-      },
-      {
-        group: "Schmorzwiebelsauce",
-        items: [
-          { name: "rote Zwiebeln, in Würfeln", amount: "400 g" },
-          { name: "Butter", amount: "80 g" },
-          { name: "Honig", amount: "2 EL" },
-          { name: "dunkler Kalbsfond", amount: "200 ml" },
-          { name: "Sherry", amount: "4 cl" },
-          { name: "Cayennepfeffer", amount: "1 Prise" },
-          { name: "Thymian" },
-          { name: "Salz" }
-        ]
-      },
-      {
-        group: "Pfeffer-Kruste",
-        items: [
-          { name: "Butter, weich", amount: "100 g" },
-          { name: "grüner Pfeffer (aus dem Glas), fein zerstampft", amount: "1 EL" },
-          { name: "rosa Pfeffer, zerstampft", amount: "1 EL" },
-          { name: "Toastbrot, zu Bröseln zerstoßen", amount: "2 Scheiben" },
-          { name: "Salz" }
+          { name: "Lachsfilet", amount: "600 g" },
+          { name: "Kartoffeln", amount: "800 g" },
+          { name: "Sahne", amount: "200 ml" },
+          { name: "Dill", amount: "1 Bund" },
+          { name: "Zitrone", amount: "1" },
+          { name: "Butter", amount: "50 g" },
+          { name: "Mehl", amount: "2 EL" },
+          { name: "Fischfond", amount: "300 ml" },
+          { name: "Salz, Pfeffer" }
         ]
       }
     ],
     steps: [
       {
         items: [
-          "Weiche Butter mit Salz schaumig schlagen. Pfeffer und Toast-Brösel einarbeiten. Kruste zu einer Rolle formen, kalt stellen.",
-          "Zwiebeln in Butter anschwitzen, Honig zugeben. Mit Sherry ablöschen, Kalbsfond angießen. Mit Gewürzen abschmecken.",
-          "Paprikawürfel und Schalotten in Öl weich dünsten, würzen.",
-          "Filets würzen, mit Rosmarin scharf anbraten. Im Ofen bei 180 °C 6-8 Min garen.",
-          "Paprika auf Teller verteilen, Filets in Scheiben darauf anrichten. Sauce angießen, Pfefferkruste darauflegen."
+          "Kartoffeln kochen.",
+          "Lachs würzen und in Butter braten.",
+          "Mehl anschwitzen, mit Fischfond ablöschen.",
+          "Sahne und gehackten Dill einrühren.",
+          "Mit Zitronensaft, Salz und Pfeffer abschmecken.",
+          "Lachs mit Dillsoße und Kartoffeln servieren."
         ]
       }
     ]
